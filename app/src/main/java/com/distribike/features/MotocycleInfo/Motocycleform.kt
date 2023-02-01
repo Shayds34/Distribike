@@ -87,7 +87,7 @@ fun Motocycleform() {
 
 
 
-                Spacer(modifier = Modifier.padding(2.dp))
+                Spacer(modifier = Modifier.padding(0.dp))
 
 
                 Image(
@@ -107,7 +107,7 @@ fun Motocycleform() {
 
 
 
-                Spacer(modifier = Modifier.padding(14.dp))
+                Spacer(modifier = Modifier.padding(8.dp))
 
 
 
@@ -138,7 +138,7 @@ fun Motocycleform() {
                     fontSize = 22.sp
                 )
 
-                Spacer(modifier = Modifier.padding(4.dp))
+                Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
                     value = utilisateur,
@@ -166,7 +166,7 @@ fun Motocycleform() {
                     fontSize = 22.sp
                 )
 
-                Spacer(modifier = Modifier.padding(4.dp))
+                Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
                     value = codeprep,
@@ -193,7 +193,7 @@ fun Motocycleform() {
                     fontSize = 22.sp
                 )
 
-                Spacer(modifier = Modifier.padding(4.dp))
+                Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
                     value = modele,
@@ -220,7 +220,9 @@ fun Motocycleform() {
                     fontSize = 22.sp
                 )
 
-                Spacer(modifier = Modifier.padding(4.dp))
+
+
+                Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
                     value = chassis,
@@ -232,6 +234,23 @@ fun Motocycleform() {
                         .padding(horizontal = 150.dp),
                     textStyle = TextStyle.Default.copy(fontSize = 28.sp)
                 )
+
+                Button(
+                    onClick = {},
+                    colors = ButtonDefaults.buttonColors(containerColor = RedDark),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 340.dp),
+                ) {
+                    Text(
+                        text = "Scan",
+                        fontSize = 16.sp
+
+                    )
+                }
+
+
+
 
                 Spacer(modifier = Modifier.padding(8.dp))
 
@@ -247,7 +266,7 @@ fun Motocycleform() {
                     fontSize = 22.sp
                 )
 
-                Spacer(modifier = Modifier.padding(4.dp))
+                Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
                     value = nomconcess,
@@ -274,7 +293,7 @@ fun Motocycleform() {
                     fontSize = 22.sp
                 )
 
-                Spacer(modifier = Modifier.padding(4.dp))
+                Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
                     value = codeconcess,
@@ -301,7 +320,7 @@ fun Motocycleform() {
                     fontSize = 22.sp
                 )
 
-                Spacer(modifier = Modifier.padding(4.dp))
+                Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
                     value = position,
@@ -321,7 +340,7 @@ fun Motocycleform() {
 
 
 
-                Spacer(modifier = Modifier.padding(20.dp))
+                Spacer(modifier = Modifier.padding(8.dp))
                 Button(
                     onClick = {},
                     colors = ButtonDefaults.buttonColors(containerColor = Green),
@@ -336,7 +355,9 @@ fun Motocycleform() {
 
                     )
                 }
-                Spacer(modifier = Modifier.padding(20.dp))
+
+
+
             }
         }
     }
