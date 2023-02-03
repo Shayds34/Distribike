@@ -1,4 +1,4 @@
-package com.distribike.features.form.viewmodel
+package com.distribike.features.subfeatures.form.scanner.main.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

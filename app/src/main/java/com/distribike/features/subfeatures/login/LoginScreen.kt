@@ -1,4 +1,4 @@
-package com.distribike.features.login
+package com.distribike.features.subfeatures.login
 
 import android.media.Image
 import androidx.compose.foundation.BorderStroke

@@ -1,0 +1,334 @@
+{
+  "sections": [
+    {
+      "title": "Général",
+      "tasks": [
+        {
+          "id": 0,
+          "title": "Vérification des pièces à monter d'après la liste du manuel de montage.",
+          "description": ""
+        },
+        {
+          "id": 1,
+          "title": "Nettoyage et centrage des disques de frein avant & arrière.",
+          "description": ""
+        },
+        {
+          "id": 2,
+          "title": "Trousse à outiles complète et à sa place.(Voir instructions du manuel de montage)",
+          "description": ""
+        },
+        {
+          "id": 3,
+          "title": "Pochette avec livret de garantie + manuel utilisateur FR + Fiche PDI.",
+          "description": ""
+        },
+        {
+          "id": 4,
+          "title": "Selle et/ou poignée passager installés.",
+          "description": ""
+        },
+        {
+          "id": 5,
+          "title": "Confirmer qu'il ne reste pas de pièces de montage.",
+          "description": ""
+        },
+        {
+          "id": 6,
+          "title": "Ajout de l'essence.",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Batterie",
+      "tasks": [
+        {
+          "id": 0,
+          "title": "Charge batterie (attention au type de chargeur: lithium et plomb).",
+          "description": ""
+        },
+        {
+          "id": 1,
+          "title": "Mise en place correcte de la connectique et caoutchoucs isolants.",
+          "description": ""
+        },
+        {
+          "id": 2,
+          "title": "Serrage de ma batterie au couple.",
+          "description": ""
+        },
+        {
+          "id": 3,
+          "title": "Tension de la batterie.",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Roues & Pneus",
+      "tasks": [
+        {
+          "id": 0,
+          "title": "Roues rayonnées | Vérifier la tension des rayons.",
+          "description": ""
+        },
+        {
+          "id": 1,
+          "title": "Pneus | Vérifier pression et état.",
+          "description": ""
+        },
+        {
+          "id": 2,
+          "title": "Vérification montage sens pneumatique sur jante AV + AR tout véhicules.",
+          "description": ""
+        },
+        {
+          "id": 3,
+          "title": "Serrage axe roue AV au couple + Bride + Marquage.",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Frein(s)",
+      "tasks": [
+        {
+          "id": 0,
+          "title": "Hydraulique: Niveau du fluide | Ajouter du fluide DOT4 si nécessaire.",
+          "description": ""
+        },
+        {
+          "id": 1,
+          "title": "Hydraulique: Actionner levier, pédale | Purger si spongieux .",
+          "description": ""
+        },
+        {
+          "id": 2,
+          "title": "Mécanique: Garde levier et/ou pédale | Ajuster si nécessaire.",
+          "description": ""
+        },
+        {
+          "id": 3,
+          "title": "Serrage étriers au couple | Marquage.",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Suspensions",
+      "tasks": [
+        {
+          "id": 0,
+          "title": "Fonctionnement et absence de fuite.",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Transmission secondaire",
+      "tasks": [
+        {
+          "id": 0,
+          "title": "Niveau d'huile de pont | Vérifier, ajouter si nécessaire.",
+          "description": ""
+        },
+        {
+          "id": 1,
+          "title": "Chaîne secondaire.",
+          "description": ""
+        },
+        {
+          "id": 2,
+          "title": "Serrage au couple de la roue arrière | Marquage.",
+          "description": ""
+        },
+        {
+          "id": 3,
+          "title": "Centrage de la roue arrière.",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Système de refroidissement",
+      "tasks": [
+        {
+          "id": 0,
+          "title": "Niveau liquide refroidis | Vérifier, ajouter si nécessaire.",
+          "description": ""
+        },
+        {
+          "id": 1,
+          "title": "Contrôler le serrage vis de vidange circuit refroidissement | Marquage.",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Moteur",
+      "tasks": [
+        {
+          "id": 0,
+          "title": "Niveau d'huile moteur | Vérifier, ajouter si nécessaire.",
+          "description": ""
+        },
+        {
+          "id": 1,
+          "title": "Contrôler le serrage vis de vidange.",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Système d'alimentation",
+      "tasks": [
+        {
+          "id": 0,
+          "title": "Commande des gaz | Vérifier le jeu libre, le passage du câble.(Reste au ralenti dans toutes les positions du guidon)",
+          "description": ""
+        },
+        {
+          "id": 1,
+          "title": "Réservoir et canalisations | Vérifier s'il y a des fuites.",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Système d'alimentation",
+      "tasks": [
+        {
+          "id": 0,
+          "title": "Commande des gaz | Vérifier le jeu libre, le passage du câble.(Reste au ralenti dans toutes les positions du guidon)",
+          "description": ""
+        },
+        {
+          "id": 1,
+          "title": "Réservoir et canalisations | Vérifier s'il y a des fuites.",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Embrayage",
+      "tasks": [
+        {
+          "id": 0,
+          "title": "Fonctionnement.",
+          "description": ""
+        },
+        {
+          "id": 1,
+          "title": "Hydraulique: Niveau du fluide | Mise à niveau si nécessaire.",
+          "description": ""
+        },
+        {
+          "id": 2,
+          "title": "Hydraulique: Réglage levier | Purger si nécessaire.",
+          "description": ""
+        },
+        {
+          "id": 3,
+          "title": "Mécanique: Garde levier et test | Réglage levier.",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Autres",
+      "tasks": [
+        {
+          "id": 0,
+          "title": "Présence des étiquettes d'avertissement.",
+          "description": ""
+        },
+        {
+          "id": 1,
+          "title": "Rétroviseurs | Serrage pivot et réglage.",
+          "description": ""
+        },
+        {
+          "id": 2,
+          "title": "Désactivation des télécommandes.",
+          "description": ""
+        },
+        {
+          "id": 3,
+          "title": "Contrôle général de l'aspect véhicule.(ajustement carénages, rayures)",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Système électrique",
+      "tasks": [
+        {
+          "id": 0,
+          "title": "Contacteur principal.",
+          "description": ""
+        },
+        {
+          "id": 1,
+          "title": "Phare avant I plein phare et code réglage faisceau.",
+          "description": ""
+        },
+        {
+          "id": 2,
+          "title": "Feu arrière.",
+          "description": ""
+        },
+        {
+          "id": 3,
+          "title": "Feu stop: Contacteur avant/arrière | Régler si nécessaire.",
+          "description": ""
+        },
+        {
+          "id": 4,
+          "title": "Feux clignotants et témoins.",
+          "description": ""
+        },
+        {
+          "id": 5,
+          "title": "Avertisseur sonore.",
+          "description": ""
+        },
+        {
+          "id": 6,
+          "title": "Démarreur.",
+          "description": ""
+        },
+        {
+          "id": 7,
+          "title": "Contacteur d'arrêt moteur.",
+          "description": ""
+        },
+        {
+          "id": 8,
+          "title": "Contacteur d'arrêt de béquille latérale.",
+          "description": ""
+        },
+        {
+          "id": 9,
+          "title": "Eclairage instruments, témoins avertissement (Point-Mort, ABS, PGM, HISS, etc)",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Direction",
+      "tasks": [
+        {
+          "id": 0,
+          "title": "Rotation direction régulière et douce.",
+          "description": ""
+        },
+        {
+          "id": 1,
+          "title": "Verrou de direction | Vérifier le fonctionnement.",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

@@ -10,6 +10,7 @@
         android:required="true" />
 
     <application
+        android:name=".DistribikeApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -17,28 +18,37 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Distribike"
-        android:name=".DistribikeApplication"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".features.main.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.Distribike">
 
         </activity>
         <activity
-            android:name="com.distribike.features.form.CameraActivity"
+            android:name="com.distribike.features.subfeatures.form.scanner.main.CameraActivity"
             android:exported="true"
             android:theme="@style/Theme.Distribike">
 
         </activity>
-        <activity android:name="com.distribike.MotocycleInfoActivity"
-                  android:exported="true"
-                  android:theme="@style/Theme.Distribike">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+        <activity
+            android:name="com.distribike.features.subfeatures.form.main.FormActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Distribike">
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="com.distribike.MotocycleInfoActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Distribike">
+
         </activity>
     </application>
 

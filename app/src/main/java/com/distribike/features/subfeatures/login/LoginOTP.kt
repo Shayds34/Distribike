@@ -1,4 +1,4 @@
-package com.distribike.features.login
+package com.distribike.features.subfeatures.login
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
