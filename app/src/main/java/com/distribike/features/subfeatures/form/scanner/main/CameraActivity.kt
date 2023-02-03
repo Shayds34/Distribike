@@ -1,4 +1,4 @@
-package com.distribike.features.form
+package com.distribike.features.subfeatures.form.scanner.main
 
 import android.Manifest
 import android.content.Context
@@ -35,8 +35,8 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
-import com.distribike.features.form.component.BarcodeConfirmationDialog
-import com.distribike.features.form.viewmodel.CameraViewModel
+import com.distribike.features.subfeatures.form.scanner.main.viewmodel.CameraViewModel
+import com.distribike.features.subfeatures.form.scanner.main.component.BarcodeConfirmationDialog
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.common.util.concurrent.ListenableFuture

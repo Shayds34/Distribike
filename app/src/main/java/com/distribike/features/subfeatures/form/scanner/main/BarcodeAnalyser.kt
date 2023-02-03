@@ -1,4 +1,4 @@
-package com.distribike.features.form
+package com.distribike.features.subfeatures.form.scanner.main
 
 import android.annotation.SuppressLint
 import android.util.Log

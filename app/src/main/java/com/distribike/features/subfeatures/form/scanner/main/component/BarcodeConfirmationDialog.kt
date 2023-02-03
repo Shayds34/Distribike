@@ -1,4 +1,4 @@
-package com.distribike.features.form.component
+package com.distribike.features.subfeatures.form.scanner.main.component
 
 import android.content.Context
 import androidx.compose.foundation.background
@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.distribike.R
-import com.distribike.features.form.viewmodel.CameraViewModel
+import com.distribike.features.subfeatures.form.scanner.main.viewmodel.CameraViewModel
 
 @Composable
 fun BarcodeConfirmationDialog(
