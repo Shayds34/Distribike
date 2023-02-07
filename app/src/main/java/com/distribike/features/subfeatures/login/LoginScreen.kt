@@ -1,10 +1,6 @@
 package com.distribike.features.subfeatures.login
 
-import android.media.Image
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -15,10 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -26,11 +20,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.*
 import com.distribike.R
-import com.distribike.ui.theme.RedDark
+import com.distribike.features.main.viewmodel.LoginViewModel
 import com.distribike.ui.theme.Green
-import androidx.compose.foundation.layout.width
+import com.distribike.ui.theme.RedDark
 
 @Preview
 @Composable
@@ -62,15 +57,15 @@ fun LoginLottie(modifier: Modifier = Modifier) {
     )
 
     LottieAnimation(
-        composition = composition,
-        progress = progress,
-        modifier = modifier
+        composition = composition, progress = progress, modifier = modifier
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen() {
+    val viewModel = hiltViewModel<LoginViewModel>()
+
     val configuration = LocalConfiguration.current
 
     val screenWidth = configuration.screenWidthDp.dp
@@ -85,7 +80,9 @@ fun LoginScreen() {
     }
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -111,20 +108,10 @@ fun LoginScreen() {
                 Image(
                     painter = painterResource(R.drawable.logodistribike2),
                     contentDescription = null,
-
-                    modifier = Modifier
-                        .size(600.dp,120.dp)
-
-
-
-
-                            )
-
-
+                    modifier = Modifier.size(600.dp, 120.dp)
+                )
 
                 Spacer(modifier = Modifier.padding(40.dp))
-
-
 
                 Text(
                     modifier = Modifier
@@ -132,8 +119,7 @@ fun LoginScreen() {
                         .padding(horizontal = 20.dp),
                     text = "Connexion PDI",
                     style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 2.sp
+                        fontWeight = FontWeight.Bold, letterSpacing = 2.sp
                     ),
                     fontSize = 40.sp
                 )
@@ -146,8 +132,7 @@ fun LoginScreen() {
                         .padding(horizontal = 20.dp),
                     text = "Nom d'utilisateur:",
                     style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 2.sp
+                        fontWeight = FontWeight.Bold, letterSpacing = 2.sp
                     ),
                     fontSize = 24.sp
                 )
@@ -171,18 +156,16 @@ fun LoginScreen() {
                         .padding(horizontal = 20.dp),
                     text = "Mot de passe:",
                     style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 2.sp
+                        fontWeight = FontWeight.Bold, letterSpacing = 2.sp
                     ),
                     fontSize = 24.sp
                 )
 
                 Spacer(modifier = Modifier.padding(10.dp))
 
-                BasicTextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 250.dp),
+                BasicTextField(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 250.dp),
                     value = password,
                     onValueChange = {
                         if (it.length <= 4) {
@@ -201,9 +184,7 @@ fun LoginScreen() {
                                     modifier = Modifier
                                         .width(45.dp)
                                         .border(
-                                            2.dp,
-                                            Color.Gray,
-                                            RoundedCornerShape(8.dp)
+                                            2.dp, Color.Gray, RoundedCornerShape(8.dp)
                                         ),
                                     text = char,
                                     style = MaterialTheme.typography.headlineLarge,
@@ -212,21 +193,21 @@ fun LoginScreen() {
                                 )
                             }
                         }
-                    }
-                )
+                    })
 
                 Spacer(modifier = Modifier.padding(60.dp))
                 Button(
-                    onClick = {},
+                    onClick = {
+                        viewModel.onValidateClicked()
+                    },
                     colors = ButtonDefaults.buttonColors(containerColor = Green),
-                modifier = Modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 120.dp)
                         .height(80.dp)
                 ) {
                     Text(
-                        text = "Se connecter",
-                        fontSize = 30.sp
+                        text = "Se connecter", fontSize = 30.sp
                     )
                 }
                 Spacer(modifier = Modifier.padding(20.dp))

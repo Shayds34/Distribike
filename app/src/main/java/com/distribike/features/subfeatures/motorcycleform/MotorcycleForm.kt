@@ -1,70 +1,61 @@
-package com.distribike.features.MotocycleInfo
+package com.distribike.features.subfeatures.motorcycleform
 
-
-import android.media.Image
-import androidx.compose.animation.expandVertically
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.*
 import com.distribike.R
+import com.distribike.features.subfeatures.motorcycleform.viewmodel.MotorcycleFormViewModel
 import com.distribike.ui.theme.RedDark
 import com.distribike.ui.theme.Green
-import androidx.compose.foundation.layout.width
-import com.distribike.ui.theme.Red
+import dagger.hilt.android.lifecycle.HiltViewModel
 
 @Preview
 @Composable
-fun MotocycleformPreview() {
-    Motocycleform()
+fun MotorcycleFormPreview() {
+    MotorcycleForm()
 }
-
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Motocycleform() {
-    val configuration = LocalConfiguration.current
+fun MotorcycleForm() {
+    val viewModel = hiltViewModel<MotorcycleFormViewModel>()
 
+    val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
 
-    var utilisateur by remember {
+    var username by remember {
         mutableStateOf("")
     }
 
-    var codeprep by remember {
+    var codePrep by remember {
         mutableStateOf("")
     }
-    var modele by remember {
+    var model by remember {
         mutableStateOf("")
     }
     var chassis by remember {
         mutableStateOf("")
     }
-    var nomconcess by remember {
+    var nomConcession by remember {
         mutableStateOf("")
     }
-    var codeconcess by remember {
+    var codeConcession by remember {
         mutableStateOf("")
     }
     var position by remember {
@@ -72,7 +63,9 @@ fun Motocycleform() {
     }
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -85,31 +78,15 @@ fun Motocycleform() {
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-
-
                 Spacer(modifier = Modifier.padding(0.dp))
-
 
                 Image(
                     painter = painterResource(R.drawable.honda1),
                     contentDescription = null,
-
-
-                    modifier = Modifier
-                        .size(160.dp,120.dp)
-
-
-
-
-
-
+                    modifier = Modifier.size(160.dp, 120.dp)
                 )
 
-
-
                 Spacer(modifier = Modifier.padding(8.dp))
-
-
 
                 Text(
                     modifier = Modifier
@@ -117,9 +94,7 @@ fun Motocycleform() {
                         .padding(horizontal = 150.dp),
                     text = "Information à remplir",
                     style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        color = Green,
-                        letterSpacing = 2.sp
+                        fontWeight = FontWeight.Bold, color = Green, letterSpacing = 2.sp
                     ),
                     fontSize = 40.sp
                 )
@@ -132,8 +107,7 @@ fun Motocycleform() {
                         .padding(horizontal = 150.dp),
                     text = "Nom Prénom:",
                     style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 1.sp
+                        fontWeight = FontWeight.Bold, letterSpacing = 1.sp
                     ),
                     fontSize = 22.sp
                 )
@@ -141,15 +115,13 @@ fun Motocycleform() {
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
-                    value = utilisateur,
-                    onValueChange = { utilisateur = it },
+                    value = username,
+                    onValueChange = { username = it },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 150.dp),
-
                     textStyle = TextStyle.Default.copy(fontSize = 28.sp)
-
                 )
 
                 Spacer(modifier = Modifier.padding(8.dp))
@@ -160,8 +132,7 @@ fun Motocycleform() {
                         .padding(horizontal = 150.dp),
                     text = "Code Prep:",
                     style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 1.sp
+                        fontWeight = FontWeight.Bold, letterSpacing = 1.sp
                     ),
                     fontSize = 22.sp
                 )
@@ -169,12 +140,11 @@ fun Motocycleform() {
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
-                    value = codeprep,
-                    onValueChange = { codeprep = it },
+                    value = codePrep,
+                    onValueChange = { codePrep = it },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
-
                         .padding(horizontal = 150.dp),
                     textStyle = TextStyle.Default.copy(fontSize = 28.sp)
                 )
@@ -187,8 +157,7 @@ fun Motocycleform() {
                         .padding(horizontal = 150.dp),
                     text = "Modèle:",
                     style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 1.sp
+                        fontWeight = FontWeight.Bold, letterSpacing = 1.sp
                     ),
                     fontSize = 22.sp
                 )
@@ -196,12 +165,11 @@ fun Motocycleform() {
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
-                    value = modele,
-                    onValueChange = { modele = it },
+                    value = model,
+                    onValueChange = { model = it },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
-
                         .padding(horizontal = 150.dp),
                     textStyle = TextStyle.Default.copy(fontSize = 28.sp)
                 )
@@ -214,13 +182,10 @@ fun Motocycleform() {
                         .padding(horizontal = 150.dp),
                     text = "NIV Châssis:",
                     style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 1.sp
+                        fontWeight = FontWeight.Bold, letterSpacing = 1.sp
                     ),
                     fontSize = 22.sp
                 )
-
-
 
                 Spacer(modifier = Modifier.padding(2.dp))
 
@@ -230,27 +195,23 @@ fun Motocycleform() {
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
-
                         .padding(horizontal = 150.dp),
                     textStyle = TextStyle.Default.copy(fontSize = 28.sp)
                 )
 
                 Button(
-                    onClick = {},
+                    onClick = {
+                        // TODO("SCAN")
+                    },
                     colors = ButtonDefaults.buttonColors(containerColor = RedDark),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 340.dp),
                 ) {
                     Text(
-                        text = "Scan",
-                        fontSize = 16.sp
-
+                        text = "Scan", fontSize = 16.sp
                     )
                 }
-
-
-
 
                 Spacer(modifier = Modifier.padding(8.dp))
 
@@ -260,8 +221,7 @@ fun Motocycleform() {
                         .padding(horizontal = 150.dp),
                     text = "Nom concessionnaire:",
                     style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 1.sp
+                        fontWeight = FontWeight.Bold, letterSpacing = 1.sp
                     ),
                     fontSize = 22.sp
                 )
@@ -269,12 +229,11 @@ fun Motocycleform() {
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
-                    value = nomconcess,
-                    onValueChange = { nomconcess = it },
+                    value = nomConcession,
+                    onValueChange = { nomConcession = it },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
-
                         .padding(horizontal = 150.dp),
                     textStyle = TextStyle.Default.copy(fontSize = 28.sp)
                 )
@@ -287,8 +246,7 @@ fun Motocycleform() {
                         .padding(horizontal = 150.dp),
                     text = "Code concessionnaire:",
                     style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 1.sp
+                        fontWeight = FontWeight.Bold, letterSpacing = 1.sp
                     ),
                     fontSize = 22.sp
                 )
@@ -296,12 +254,11 @@ fun Motocycleform() {
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
-                    value = codeconcess,
-                    onValueChange = { codeconcess = it },
+                    value = codeConcession,
+                    onValueChange = { codeConcession = it },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
-
                         .padding(horizontal = 150.dp),
                     textStyle = TextStyle.Default.copy(fontSize = 28.sp)
                 )
@@ -314,8 +271,7 @@ fun Motocycleform() {
                         .padding(horizontal = 150.dp),
                     text = "N° de position:",
                     style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 1.sp
+                        fontWeight = FontWeight.Bold, letterSpacing = 1.sp
                     ),
                     fontSize = 22.sp
                 )
@@ -328,36 +284,26 @@ fun Motocycleform() {
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
-
                         .padding(horizontal = 150.dp),
                     textStyle = TextStyle.Default.copy(fontSize = 28.sp)
                 )
 
-
-
-
-
-
-
-
                 Spacer(modifier = Modifier.padding(8.dp))
+
                 Button(
-                    onClick = {},
+                    onClick = {
+                        viewModel.onValidateClicked()
+                    },
                     colors = ButtonDefaults.buttonColors(containerColor = Green),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 240.dp)
+                        .padding(horizontal = 24.dp)
                         .height(60.dp)
                 ) {
                     Text(
-                        text = "Valider",
-                        fontSize = 28.sp
-
+                        text = "Valider", fontSize = 28.sp
                     )
                 }
-
-
-
             }
         }
     }
