@@ -14,7 +14,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.Observer
 import com.distribike.features.subfeatures.form.main.viewmodel.FormViewModel
 import com.distribike.ui.theme.RedDark
 import com.xsims.stepper_compose.Step
@@ -33,7 +32,7 @@ class FormActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.viewState.observe(this, Observer { data ->
+        viewModel.viewState.observe(this) { data ->
             setContent {
                 Column {
                     Spacer(modifier = Modifier.padding(12.dp))
@@ -71,6 +70,6 @@ class FormActivity : ComponentActivity() {
                 }
 
             }
-        })
+        }
     }
 }

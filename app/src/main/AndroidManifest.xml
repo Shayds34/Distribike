@@ -20,13 +20,17 @@
         android:theme="@style/Theme.Distribike"
         tools:targetApi="31">
         <activity
-            android:name=".features.main.LoginActivity"
+            android:name="com.distribike.features.main.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.Distribike">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity
-            android:name="com.distribike.features.subfeatures.form.scanner.main.CameraActivity"
+            android:name="com.distribike.features.subfeatures.motorcycleform.MotorcycleFormActivity"
             android:exported="true"
             android:theme="@style/Theme.Distribike">
 
@@ -36,16 +40,9 @@
             android:exported="true"
             android:theme="@style/Theme.Distribike">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
         </activity>
-
         <activity
-            android:name="com.distribike.MotocycleInfoActivity"
+            android:name="com.distribike.features.subfeatures.form.scanner.main.CameraActivity"
             android:exported="true"
             android:theme="@style/Theme.Distribike">
 
