@@ -192,9 +192,6 @@ fun TabletMotorcycleForm() {
                     fontSize = 22.sp
                 )
 
-
-
-
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
