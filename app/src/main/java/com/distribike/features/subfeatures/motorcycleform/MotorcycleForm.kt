@@ -3,19 +3,26 @@ package com.distribike.features.subfeatures.motorcycleform
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.toSize
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.*
 import com.distribike.R
@@ -73,6 +80,17 @@ fun TabletMotorcycleForm() {
     var position by remember {
         mutableStateOf("")
     }
+
+    var expanded by remember { mutableStateOf(false) }
+    val suggestions = listOf("ADV350","ADV750","CB500F","CB500X","CB650R","CB750","CBR1000","CBR500R","CBR650R","CMX1100","CMX500","CRF1100","CRF300L","GL1800","NC750X","NSS125","NSS750","NT1100","ST125","WW125")
+    var selectedText by remember { mutableStateOf("") }
+
+    var textfieldSize by remember { mutableStateOf(Size.Zero)}
+
+    val icon = if (expanded)
+        Icons.Filled.ArrowDropUp //it requires androidx.compose.material:material-icons-extended
+    else
+        Icons.Filled.ArrowDropDown
 
     Column(
         modifier = Modifier
@@ -174,17 +192,49 @@ fun TabletMotorcycleForm() {
                     fontSize = 22.sp
                 )
 
+
+
+
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
                     value = model,
                     onValueChange = { model = it },
                     singleLine = true,
+
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 150.dp),
-                    textStyle = TextStyle.Default.copy(fontSize = 28.sp)
+                        .padding(horizontal = 150.dp)
+                        .onGloballyPositioned { coordinates ->
+                            //This value is used to assign to the DropDown the same width
+                            textfieldSize = coordinates.size.toSize()
+                        },
+                    label = {Text("")},
+
+                    textStyle = TextStyle.Default.copy(fontSize = 28.sp),
+                            trailingIcon = {
+                        Icon(icon,"contentDescription",
+                            Modifier.clickable { expanded = !expanded })
+                    }
                 )
+
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false },
+                    modifier = Modifier
+                        .width(with(LocalDensity.current){textfieldSize.width.toDp()})
+                ) {
+                    suggestions.forEach { label ->
+                        DropdownMenuItem(onClick = {
+                            model = label
+                            expanded = false
+                        },
+                            text ={
+                                Text(text=label)
+                            }
+                        )
+                    }
+                }
 
                 Spacer(modifier = Modifier.padding(8.dp))
 
@@ -221,7 +271,7 @@ fun TabletMotorcycleForm() {
                         .padding(horizontal = 340.dp),
                 ) {
                     Text(
-                        text = "Scaner", fontSize = 16.sp
+                        text = "Scanner", fontSize = 16.sp
                     )
                 }
 
@@ -309,7 +359,7 @@ fun TabletMotorcycleForm() {
                     colors = ButtonDefaults.buttonColors(containerColor = Green),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 24.dp)
+                        .padding(horizontal = 150.dp)
                         .height(60.dp)
                 ) {
                     Text(
