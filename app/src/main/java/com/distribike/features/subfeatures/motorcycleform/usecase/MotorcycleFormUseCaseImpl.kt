@@ -2,7 +2,7 @@ package com.distribike.features.subfeatures.motorcycleform.usecase
 
 import com.distribike.features.subfeatures.motorcycleform.repository.MotorcycleFormRepository
 import com.distribike.features.subfeatures.motorcycleform.usecase.mapper.MotorcycleFormUseCaseMapper
-import com.distribike.features.subfeatures.motorcycleform.usecase.model.MotorcycleSectionsUseCaseModel
+import com.distribike.features.subfeatures.motorcycleform.usecase.model.ClientsUseCaseModel
 import com.distribike.modules.DispatchersName
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -21,9 +21,15 @@ class MotorcycleFormUseCaseImpl @Inject constructor(
     /**
      * Retrieve a list of tasks to display.
      */
-    override suspend fun getTasks(): MotorcycleSectionsUseCaseModel =
+    override suspend fun getClients(): ClientsUseCaseModel =
         withContext(dispatcher) {
-            val tasks = repository.getTasks()
-            mapper.mapToUseCaseModel(tasks)
+            val clients = repository.getClients()
+            mapper.mapToUseCaseModel(clients)
+        }
+
+    override suspend fun getClientWithCode(code: String): String? =
+        withContext(dispatcher) {
+            val clients = repository.getClients()
+            mapper.mapToClientName(code, clients)
         }
 }

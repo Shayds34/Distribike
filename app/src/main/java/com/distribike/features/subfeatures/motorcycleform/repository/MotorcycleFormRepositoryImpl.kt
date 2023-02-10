@@ -1,9 +1,8 @@
 package com.distribike.features.subfeatures.motorcycleform.repository
 
 import android.content.Context
-import com.distribike.features.subfeatures.motorcycleform.repository.model.Section
-import com.distribike.features.subfeatures.motorcycleform.repository.model.MotorcycleectionsRepositoryModel
-import com.distribike.features.subfeatures.motorcycleform.repository.model.Task
+import com.distribike.features.subfeatures.motorcycleform.repository.model.ClientRepositoryModel
+import com.distribike.features.subfeatures.motorcycleform.repository.model.ClientsRepositoryModel
 import com.distribike.modules.DispatchersName
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
@@ -23,45 +22,24 @@ class MotorcycleFormRepositoryImpl @Inject constructor(
     /**
      * Retrieve a list of tasks to display.
      */
-    override suspend fun getTasks(): MotorcycleectionsRepositoryModel =
+    override suspend fun getClients(): ClientsRepositoryModel =
         withContext(dispatcher) {
-            val sections = mutableListOf<Section>()
-            val inputStream = context.assets.open("tasks.json")
+            val clients = mutableListOf<ClientRepositoryModel>()
+            val inputStream = context.assets.open("clients.json")
             val jsonString = inputStream.bufferedReader().use { it.readText() }
             val jsonObject = JSONObject(jsonString)
-            val sectionsJson = jsonObject.getJSONArray("sections")
-            for (section in 0 until sectionsJson.length()) {
-                val sectionJson = sectionsJson.getJSONObject(section)
-                val tasksJson = sectionJson.getJSONArray("tasks")
-                val tasks = mutableListOf<Task>()
-                for (task in 0 until tasksJson.length()) {
-                    val taskJson = tasksJson.getJSONObject(task)
-                    tasks.add(
-                        Task(
-                            id = taskJson.getInt("id"),
-                            title = taskJson.getString("title"),
-                            description = taskJson.getString("description"),
-                            additionalInfo = taskJson.getNullableString("additional_info"),
-                            additionalInfo2 = taskJson.getNullableString("additional_info_2")
-                        )
-                    )
-                }
-                sections.add(
-                    Section(
-                        title = sectionJson.getString("title"),
-                        tasks = tasks
+            val clientsJson = jsonObject.getJSONArray("clients")
+            for (client in 0 until clientsJson.length()) {
+                val clientJson = clientsJson.getJSONObject(client)
+                clients.add(
+                    ClientRepositoryModel(
+                        code = clientJson.getString("NCUSTPROD"),
+                        name = clientJson.getString("XCUST")
                     )
                 )
             }
 
-            MotorcycleectionsRepositoryModel(sections = sections)
+            ClientsRepositoryModel(clients = clients)
         }
-
-    private fun JSONObject.getNullableString(name: String): String? {
-        if (has(name) && !isNull(name)) {
-            return getString(name)
-        }
-        return null
-    }
-
 }
+

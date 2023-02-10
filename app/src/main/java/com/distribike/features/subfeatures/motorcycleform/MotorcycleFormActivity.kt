@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
 import com.distribike.features.subfeatures.form.main.FormActivity
 import com.distribike.features.subfeatures.motorcycleform.viewmodel.MotorcycleFormViewModel
 import com.distribike.ui.theme.DistribikeTheme

@@ -1,11 +1,16 @@
 package com.distribike.features.subfeatures.motorcycleform.usecase
 
-import com.distribike.features.subfeatures.motorcycleform.usecase.model.MotorcycleSectionsUseCaseModel
+import com.distribike.features.subfeatures.motorcycleform.usecase.model.ClientsUseCaseModel
 
 interface MotorcycleFormUseCase {
 
     /**
-     * Retrieve a list of tasks to display
+     * Retrieve a list of clients
      */
-    suspend fun getTasks(): MotorcycleSectionsUseCaseModel
+    suspend fun getClients(): ClientsUseCaseModel
+
+    /**
+     * Retrieve client name by its code
+     */
+    suspend fun getClientWithCode(code: String): String?
 }

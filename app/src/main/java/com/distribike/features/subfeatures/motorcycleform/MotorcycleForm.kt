@@ -65,18 +65,25 @@ fun TabletMotorcycleForm() {
     var codePrep by remember {
         mutableStateOf("")
     }
+
     var model by remember {
         mutableStateOf("")
     }
+
     var chassis by remember {
         mutableStateOf("")
     }
+
     var nomConcession by remember {
         mutableStateOf("")
     }
+
+    val concessionName = viewModel.concessionState.collectAsState()
+
     var codeConcession by remember {
         mutableStateOf("")
     }
+
     var position by remember {
         mutableStateOf("")
     }
@@ -278,7 +285,7 @@ fun TabletMotorcycleForm() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 150.dp),
-                    text = "Nom concessionnaire:",
+                    text = "Code concessionnaire:",
                     style = TextStyle(
                         fontWeight = FontWeight.Bold, letterSpacing = 1.sp
                     ),
@@ -288,8 +295,11 @@ fun TabletMotorcycleForm() {
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
-                    value = nomConcession,
-                    onValueChange = { nomConcession = it },
+                    value = codeConcession,
+                    onValueChange = {
+                        codeConcession = it
+                        viewModel.onConcessionCodeEntered(it)
+                                    },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -303,7 +313,7 @@ fun TabletMotorcycleForm() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 150.dp),
-                    text = "Code concessionnaire:",
+                    text = "Nom concessionnaire:",
                     style = TextStyle(
                         fontWeight = FontWeight.Bold, letterSpacing = 1.sp
                     ),
@@ -313,8 +323,8 @@ fun TabletMotorcycleForm() {
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
-                    value = codeConcession,
-                    onValueChange = { codeConcession = it },
+                    value = concessionName.value.ifEmpty { nomConcession },
+                    onValueChange = { nomConcession = it },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
