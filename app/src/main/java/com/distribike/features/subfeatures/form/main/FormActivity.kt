@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
@@ -14,10 +13,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.distribike.features.subfeatures.form.main.component.Step
+import com.distribike.features.subfeatures.form.main.component.Stepper
 import com.distribike.features.subfeatures.form.main.viewmodel.FormViewModel
-import com.distribike.ui.theme.RedDark
-import com.xsims.stepper_compose.Step
-import com.xsims.stepper_compose.Stepper
+import com.distribike.features.subfeatures.login.WorkerLottie
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,36 +34,36 @@ class FormActivity : ComponentActivity() {
         viewModel.viewState.observe(this) { data ->
             setContent {
                 Column {
-                    Spacer(modifier = Modifier.padding(12.dp))
+                    Spacer(modifier = Modifier.padding(20.dp))
 
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 20.dp),
+                            .padding(horizontal = 40.dp),
                         text = data.sections[0].title,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             letterSpacing = 2.sp
                         ),
-                        fontSize = 38.sp
+                        fontSize = 44.sp
                     )
 
-                    Spacer(modifier = Modifier.padding(8.dp))
+                    Spacer(modifier = Modifier.padding(16.dp))
 
                     Stepper(
                         steps = List(
                             data.sections[0].tasks.size
                         ) { index ->
                             Step(
-                                title = data.sections[0].tasks[index].title,
-                                subtitle = data.sections[0].tasks[index].title,
+                                title = data.sections[0].tasks[index].title
                             ) {
-                                Box(
-                                    modifier = Modifier
-                                        .height(250.dp)
-                                        .fillMaxWidth()
-                                        .background(color = RedDark)
-                                )
+                                Row {
+                                    WorkerLottie(
+                                        modifier = Modifier
+                                            .size(200.dp)
+                                            .padding(horizontal = 1.dp)
+                                    )
+                                }
                             }
                         })
                 }
