@@ -1,102 +1,91 @@
 package com.distribike.features.subfeatures.PDF
 
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.Manifest
-import android.content.SharedPreferences
+import android.app.Activity
+import android.content.ContentValues
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.graphics.pdf.PdfDocument
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
+import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Password
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.distribike.R
 import com.distribike.ui.theme.*
 import java.io.File
 import java.io.FileOutputStream
+import java.net.URL
 
-class MainActivity : ComponentActivity() {
+@Suppress("DEPRECATION")
+class PDFActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ExportPdf {
-                // on below line we are specifying background
-                // color for our application
-                Surface(
-                    // on below line we are specifying
-                    // modifier and color for our app
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
+            Surface(
+                // on below line we are specifying
+                // modifier and color for our app
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colors.background
+            ) {
 
-                    // on below line we are specifying theme as scaffold.
-                    Scaffold(
+                // on below line we are specifying theme as scaffold.
+                Scaffold(
 
-                        // in scaffold we are specifying top bar.
-                        topBar = {
+                    // in scaffold we are specifying top bar.
+                    topBar = {
 
-                            // inside top bar we are specifying background color.
-                            TopAppBar(backgroundColor = Green,
+                        // inside top bar we are specifying background color.
+                        TopAppBar(backgroundColor = Green,
 
-                                // along with that we are specifying
-                                // title for our top bar.
-                                title = {
+                            // along with that we are specifying
+                            // title for our top bar.
+                            title = {
 
-                                    // in the top bar we are specifying tile as a text
-                                    Text(
+                                // in the top bar we are specifying tile as a text
+                                Text(
 
-                                        // on below line we are specifying
-                                        // text to display in top app bar.
-                                        text = "PDF Generator",
+                                    // on below line we are specifying
+                                    // text to display in top app bar.
+                                    text = "PDF Generator",
 
-                                        // on below line we are specifying
-                                        // modifier to fill max width.
-                                        modifier = Modifier.fillMaxWidth(),
+                                    // on below line we are specifying
+                                    // modifier to fill max width.
+                                    modifier = Modifier.fillMaxWidth(),
 
-                                        // on below line we are
-                                        // specifying text alignment.
-                                        textAlign = TextAlign.Center,
+                                    // on below line we are
+                                    // specifying text alignment.
+                                    textAlign = TextAlign.Center,
 
-                                        // on below line we are
-                                        // specifying color for our text.
-                                        color = Color.White
-                                    )
-                                }
-                            )
-                        }
-                    ) {
-                        // on below line we are calling pdf generator
-                        // method for generating a pdf file.
-                        pdfGenerator()
+                                    // on below line we are
+                                    // specifying color for our text.
+                                    color = Color.White
+                                )
+                            }
+                        )
                     }
+                ) {
+                    // on below line we are calling pdf generator
+                    // method for generating a pdf file.
+                    PDFGenerator()
                 }
             }
         }
@@ -104,6 +93,7 @@ class MainActivity : ComponentActivity() {
 
     // on below line we are calling on
     // request permission result method.
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -139,7 +129,7 @@ class MainActivity : ComponentActivity() {
 // on below line we are creating a
 // pdf generator composable function for ui.
 @Composable
-fun pdfGenerator() {
+fun PDFGenerator() {
 
     // on below line we are creating a variable for
     // our context and activity and initializing it.
@@ -257,7 +247,7 @@ fun generatePDF(context: Context) {
     var title: Paint = Paint()
 
     // on below line we are initializing our bitmap and scaled bitmap.
-    bmp = BitmapFactory.decodeResource(context.resources, R.drawable.android)
+    bmp = BitmapFactory.decodeResource(context.resources, R.drawable.honda1)
     scaledbmp = Bitmap.createScaledBitmap(bmp, 140, 140, false)
 
 

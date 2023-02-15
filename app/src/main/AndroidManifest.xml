@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-feature
         android:name="android.hardware.camera.any"
@@ -12,21 +14,16 @@
     <application
         android:name=".DistribikeApplication"
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
+        android:requestLegacyExternalStorage="true"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Distribike"
-        tools:targetApi="31">
+        tools:targetApi="29">
         <activity
             android:name="com.distribike.features.main.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.Distribike">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
         <activity
@@ -47,6 +44,17 @@
             android:theme="@style/Theme.Distribike">
 
         </activity>
-    </application>
+        <activity
+            android:name="com.distribike.features.subfeatures.PDF.PDFActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Distribike">
 
-</manifest>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+    </activity>
+</application>
+
+    </manifest>
