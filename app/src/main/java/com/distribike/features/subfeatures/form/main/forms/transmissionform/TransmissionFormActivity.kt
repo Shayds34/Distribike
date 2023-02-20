@@ -1,4 +1,4 @@
-package com.distribike.features.subfeatures.form.main.forms.batteryform
+package com.distribike.features.subfeatures.form.main.forms.transmissionform
 
 import android.content.Context
 import android.content.Intent
@@ -9,8 +9,9 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -19,20 +20,20 @@ import androidx.compose.ui.unit.sp
 import com.distribike.features.subfeatures.form.main.component.Step
 import com.distribike.features.subfeatures.form.main.component.StepState
 import com.distribike.features.subfeatures.form.main.component.Stepper
-import com.distribike.features.subfeatures.form.main.forms.batteryform.viewmodel.BatteryFormViewModel
-import com.distribike.features.subfeatures.form.main.forms.breaksform.WheelsFormActivity
+import com.distribike.features.subfeatures.form.main.forms.coolingform.CoolingFormActivity
+import com.distribike.features.subfeatures.form.main.forms.suspensionsform.viewmodel.SuspensionsFormViewModel
 import com.distribike.features.subfeatures.form.main.model.FormModelUi
 import com.distribike.features.subfeatures.login.WorkerLottie
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class BatteryFormActivity : ComponentActivity() {
+class TransmissionFormActivity : ComponentActivity() {
 
     companion object {
-        fun newInstance(context: Context) = Intent(context, BatteryFormActivity::class.java)
+        fun newInstance(context: Context) = Intent(context, TransmissionFormActivity::class.java)
     }
 
-    private val viewModel: BatteryFormViewModel by viewModels()
+    private val viewModel: SuspensionsFormViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +49,7 @@ class BatteryFormActivity : ComponentActivity() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 40.dp),
-                        text = data.value.sections[1].title,
+                        text = data.value.sections[5].title,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             letterSpacing = 2.sp
@@ -58,10 +59,10 @@ class BatteryFormActivity : ComponentActivity() {
 
                     val currentStep = remember { mutableStateOf(0) }
                     val steps = List(
-                        data.value.sections[1].tasks.size
+                        data.value.sections[5].tasks.size
                     ) { index ->
                         Step(
-                            title = data.value.sections[1].tasks[index].title
+                            title = data.value.sections[5].tasks[index].title
                         ) {
                             Row {
                                 WorkerLottie(
@@ -140,7 +141,7 @@ class BatteryFormActivity : ComponentActivity() {
                                 enabled = viewModel.shouldEnableNextButton.observeAsState(false).value,
                                 onClick = {
                                     finish()
-                                    startActivity(WheelsFormActivity.newInstance(context = applicationContext))
+                                    startActivity(CoolingFormActivity.newInstance(context = applicationContext))
                                 }) {
                                 Text(
                                     text = "Section suivante".uppercase(),

@@ -56,7 +56,7 @@
 
         </activity>
         <activity
-            android:name="com.distribike.features.subfeatures.form.main.forms.batteryform.BatteryFormActivity"
+            android:name="com.distribike.features.subfeatures.form.main.forms.wheelsform.BatteryFormActivity"
             android:exported="true"
             android:theme="@style/Theme.Distribike">
 

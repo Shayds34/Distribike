@@ -1,4 +1,4 @@
-package com.distribike.features.subfeatures.form.main.forms.batteryform
+package com.distribike.features.subfeatures.form.main.forms.poweringform
 
 import android.content.Context
 import android.content.Intent
@@ -19,20 +19,20 @@ import androidx.compose.ui.unit.sp
 import com.distribike.features.subfeatures.form.main.component.Step
 import com.distribike.features.subfeatures.form.main.component.StepState
 import com.distribike.features.subfeatures.form.main.component.Stepper
-import com.distribike.features.subfeatures.form.main.forms.batteryform.viewmodel.BatteryFormViewModel
-import com.distribike.features.subfeatures.form.main.forms.breaksform.WheelsFormActivity
+import com.distribike.features.subfeatures.form.main.forms.clutchform.ClutchFormActivity
+import com.distribike.features.subfeatures.form.main.forms.poweringform.viewmodel.PoweringFormViewModel
 import com.distribike.features.subfeatures.form.main.model.FormModelUi
 import com.distribike.features.subfeatures.login.WorkerLottie
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class BatteryFormActivity : ComponentActivity() {
+class PoweringFormActivity : ComponentActivity() {
 
     companion object {
-        fun newInstance(context: Context) = Intent(context, BatteryFormActivity::class.java)
+        fun newInstance(context: Context) = Intent(context, PoweringFormActivity::class.java)
     }
 
-    private val viewModel: BatteryFormViewModel by viewModels()
+    private val viewModel: PoweringFormViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +48,7 @@ class BatteryFormActivity : ComponentActivity() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 40.dp),
-                        text = data.value.sections[1].title,
+                        text = data.value.sections[8].title,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             letterSpacing = 2.sp
@@ -58,10 +58,10 @@ class BatteryFormActivity : ComponentActivity() {
 
                     val currentStep = remember { mutableStateOf(0) }
                     val steps = List(
-                        data.value.sections[1].tasks.size
+                        data.value.sections[8].tasks.size
                     ) { index ->
                         Step(
-                            title = data.value.sections[1].tasks[index].title
+                            title = data.value.sections[8].tasks[index].title
                         ) {
                             Row {
                                 WorkerLottie(
@@ -140,7 +140,7 @@ class BatteryFormActivity : ComponentActivity() {
                                 enabled = viewModel.shouldEnableNextButton.observeAsState(false).value,
                                 onClick = {
                                     finish()
-                                    startActivity(WheelsFormActivity.newInstance(context = applicationContext))
+                                    startActivity(ClutchFormActivity.newInstance(context = applicationContext))
                                 }) {
                                 Text(
                                     text = "Section suivante".uppercase(),

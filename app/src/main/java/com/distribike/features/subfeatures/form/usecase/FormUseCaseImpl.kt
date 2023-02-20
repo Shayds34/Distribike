@@ -92,4 +92,158 @@ class FormUseCaseImpl @Inject constructor(
             additionalInfo2 = additionalInfo2
         )
     }
+
+    override suspend fun saveWheelsStepState(
+        state: StepState,
+        currentStep: Int,
+        additionalInfo: String?,
+        additionalInfo2: String?
+    ) {
+        entity.saveWheelsAndTiresCurrentStepState(
+            stepStateEntityModel = mapper.mapState(state = state),
+            currentStep = currentStep,
+            additionalInfo = additionalInfo,
+            additionalInfo2 = additionalInfo2
+        )
+    }
+
+    override suspend fun saveBreaksStepState(
+        state: StepState,
+        currentStep: Int,
+        additionalInfo: String?,
+        additionalInfo2: String?
+    ) {
+        entity.saveBreaksCurrentStepState(
+            stepStateEntityModel = mapper.mapState(state = state),
+            currentStep = currentStep,
+            additionalInfo = additionalInfo,
+            additionalInfo2 = additionalInfo2
+        )
+    }
+
+    override suspend fun saveSuspensionsStepState(
+        state: StepState,
+        currentStep: Int,
+        additionalInfo: String?,
+        additionalInfo2: String?
+    ) {
+        entity.saveSuspensionCurrentStepState(
+            stepStateEntityModel = mapper.mapState(state = state),
+            currentStep = currentStep,
+            additionalInfo = additionalInfo,
+            additionalInfo2 = additionalInfo2
+        )
+    }
+
+    override suspend fun saveTransmissionStepState(
+        state: StepState,
+        currentStep: Int,
+        additionalInfo: String?,
+        additionalInfo2: String?
+    ) {
+        entity.saveTransmissionCurrentStepState(
+            stepStateEntityModel = mapper.mapState(state = state),
+            currentStep = currentStep,
+            additionalInfo = additionalInfo,
+            additionalInfo2 = additionalInfo2
+        )
+    }
+
+    override suspend fun saveCoolingSystemStepState(
+        state: StepState,
+        currentStep: Int,
+        additionalInfo: String?,
+        additionalInfo2: String?
+    ) {
+        entity.saveCoolingSystemCurrentStepState(
+            stepStateEntityModel = mapper.mapState(state = state),
+            currentStep = currentStep,
+            additionalInfo = additionalInfo,
+            additionalInfo2 = additionalInfo2
+        )
+    }
+
+    override suspend fun saveEngineStepState(
+        state: StepState,
+        currentStep: Int,
+        additionalInfo: String?,
+        additionalInfo2: String?
+    ) {
+        entity.saveEngineCurrentStepState(
+            stepStateEntityModel = mapper.mapState(state = state),
+            currentStep = currentStep,
+            additionalInfo = additionalInfo,
+            additionalInfo2 = additionalInfo2
+        )
+    }
+
+    override suspend fun savePoweringStepState(
+        state: StepState,
+        currentStep: Int,
+        additionalInfo: String?,
+        additionalInfo2: String?
+    ) {
+        entity.savePoweringCurrentStepState(
+            stepStateEntityModel = mapper.mapState(state = state),
+            currentStep = currentStep,
+            additionalInfo = additionalInfo,
+            additionalInfo2 = additionalInfo2
+        )
+    }
+
+    override suspend fun saveClutchStepState(
+        state: StepState,
+        currentStep: Int,
+        additionalInfo: String?,
+        additionalInfo2: String?
+    ) {
+        entity.saveClutchCurrentStepState(
+            stepStateEntityModel = mapper.mapState(state = state),
+            currentStep = currentStep,
+            additionalInfo = additionalInfo,
+            additionalInfo2 = additionalInfo2
+        )
+    }
+
+    override suspend fun saveOthersStepState(
+        state: StepState,
+        currentStep: Int,
+        additionalInfo: String?,
+        additionalInfo2: String?
+    ) {
+        entity.saveOthersCurrentStepState(
+            stepStateEntityModel = mapper.mapState(state = state),
+            currentStep = currentStep,
+            additionalInfo = additionalInfo,
+            additionalInfo2 = additionalInfo2
+        )
+    }
+
+    override suspend fun saveElectricSystemStepState(
+        state: StepState,
+        currentStep: Int,
+        additionalInfo: String?,
+        additionalInfo2: String?
+    ) {
+        entity.saveElectricSystemCurrentStepState(
+            stepStateEntityModel = mapper.mapState(state = state),
+            currentStep = currentStep,
+            additionalInfo = additionalInfo,
+            additionalInfo2 = additionalInfo2
+        )
+    }
+
+    override suspend fun saveSteeringStepState(
+        state: StepState,
+        currentStep: Int,
+        additionalInfo: String?,
+        additionalInfo2: String?
+    ) {
+        entity.saveSteeringCurrentStepState(
+            stepStateEntityModel = mapper.mapState(state = state),
+            currentStep = currentStep,
+            additionalInfo = additionalInfo,
+            additionalInfo2 = additionalInfo2
+        )
+    }
 }
