@@ -21,6 +21,7 @@ import com.distribike.features.subfeatures.form.main.component.Step
 import com.distribike.features.subfeatures.form.main.component.StepState
 import com.distribike.features.subfeatures.form.main.component.Stepper
 import com.distribike.features.subfeatures.form.main.forms.electricform.viewmodel.ElectricSystemFormViewModel
+import com.distribike.features.subfeatures.form.main.forms.steeringform.SteeringFormActivity
 import com.distribike.features.subfeatures.form.main.model.FormModelUi
 import com.distribike.features.subfeatures.login.WorkerLottie
 import com.distribike.features.subfeatures.pdf.PDFActivity
@@ -141,7 +142,7 @@ class ElectricSystemFormActivity : ComponentActivity() {
                                 enabled = viewModel.shouldEnableNextButton.observeAsState(false).value,
                                 onClick = {
                                     finish()
-                                    startActivity(PDFActivity.newInstance(context = applicationContext))
+                                    startActivity(SteeringFormActivity.newInstance(context = applicationContext))
                                 }) {
                                 Text(
                                     text = "Section suivante".uppercase(),

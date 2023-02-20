@@ -48,7 +48,7 @@ class WheelsFormViewModel @Inject constructor(
         additionalInfo2: String? = null
     ) {
         viewModelScope.launch(dispatcher) {
-            useCase.saveBatteryStepState(
+            useCase.saveWheelsStepState(
                 state = state,
                 currentStep = currentStep,
                 additionalInfo = additionalInfo,
