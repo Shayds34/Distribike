@@ -20,7 +20,7 @@ import com.distribike.features.subfeatures.form.main.component.Step
 import com.distribike.features.subfeatures.form.main.component.StepState
 import com.distribike.features.subfeatures.form.main.component.Stepper
 import com.distribike.features.subfeatures.form.main.forms.batteryform.viewmodel.BatteryFormViewModel
-import com.distribike.features.subfeatures.form.main.forms.breaksform.WheelsFormActivity
+import com.distribike.features.subfeatures.form.main.forms.wheelsform.WheelsFormActivity
 import com.distribike.features.subfeatures.form.main.model.FormModelUi
 import com.distribike.features.subfeatures.login.WorkerLottie
 import dagger.hilt.android.AndroidEntryPoint

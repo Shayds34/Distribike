@@ -56,11 +56,24 @@
 
         </activity>
         <activity
-            android:name="com.distribike.features.subfeatures.form.main.forms.wheelsform.BatteryFormActivity"
+            android:name="com.distribike.features.subfeatures.form.main.forms.batteryform.BatteryFormActivity"
             android:exported="true"
             android:theme="@style/Theme.Distribike">
 
         </activity>
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.breaksform.BreaksFormActivity" />
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.clutchform.ClutchFormActivity" />
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.coolingform.CoolingFormActivity" />
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.electricform.ElectricSystemFormActivity" />
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.engineform.EngineFormActivity" />
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.othersform.OthersFormActivity" />
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.poweringform.PoweringFormActivity" />
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.steeringform.SteeringFormActivity" />
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.transmissionform.TransmissionFormActivity" />
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.wheelsform.WheelsFormActivity" />
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.suspensionsform.SuspensionsFormActivity" />
+
+
     </application>
 
 </manifest>
