@@ -1,9 +1,8 @@
-package com.distribike.features.subfeatures.PDF
+package com.distribike.features.subfeatures.pdf
 
 
 import android.Manifest
 import android.app.Activity
-import android.content.ContentValues
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.*
@@ -11,7 +10,6 @@ import android.graphics.pdf.PdfDocument
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -32,7 +30,6 @@ import com.distribike.R
 import com.distribike.ui.theme.*
 import java.io.File
 import java.io.FileOutputStream
-import java.net.URL
 
 @Suppress("DEPRECATION")
 class PDFActivity : ComponentActivity() {

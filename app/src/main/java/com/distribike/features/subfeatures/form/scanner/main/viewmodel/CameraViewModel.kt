@@ -16,6 +16,9 @@ class CameraViewModel @Inject constructor(
     @Named(DispatchersName.UI_VIEWMODEL) private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
+    private val _chassisState = MutableStateFlow("")
+    val chassisState = _chassisState.asStateFlow()
+
     private val _dialogState = MutableStateFlow("")
     val dialogState = _dialogState.asStateFlow()
 
@@ -27,7 +30,7 @@ class CameraViewModel @Inject constructor(
 
     fun onConfirmationClicked(barcodeValue: String) {
         viewModelScope.launch(dispatcher) {
-            // TODO pass to the previous screen
+            _chassisState.value = barcodeValue
         }
     }
 

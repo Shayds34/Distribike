@@ -21,6 +21,9 @@ class MotorcycleFormViewModel @Inject constructor(
     @Named(DispatchersName.UI_VIEWMODEL) val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
+    private val _scanState = MutableLiveData(false)
+    val scanState = _scanState.asLiveData()
+
     private val _validateState = MutableLiveData(false)
     val validateState = _validateState.asLiveData()
 
@@ -49,6 +52,12 @@ class MotorcycleFormViewModel @Inject constructor(
     fun onValidateClicked() {
         viewModelScope.launch(dispatcher) {
             _validateState.offer(true)
+        }
+    }
+
+    fun onScanClicked() {
+        viewModelScope.launch(dispatcher) {
+            _scanState.offer(true)
         }
     }
 

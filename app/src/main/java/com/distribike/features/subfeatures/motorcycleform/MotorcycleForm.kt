@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.toSize
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.*
 import com.distribike.R
+import com.distribike.features.subfeatures.form.scanner.main.viewmodel.CameraViewModel
 import com.distribike.features.subfeatures.motorcycleform.viewmodel.MotorcycleFormViewModel
 import com.distribike.ui.theme.Green
 import com.distribike.ui.theme.RedDark
@@ -53,6 +54,7 @@ fun MotorcycleForm() {
 @Composable
 fun TabletMotorcycleForm() {
     val viewModel = hiltViewModel<MotorcycleFormViewModel>()
+    val cameraSharedViewModel = hiltViewModel<CameraViewModel>()
 
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -70,9 +72,11 @@ fun TabletMotorcycleForm() {
         mutableStateOf("")
     }
 
-    var chassis by remember {
+    var numberChassis by remember {
         mutableStateOf("")
     }
+
+    var chassis = cameraSharedViewModel.chassisState.collectAsState()
 
     var nomConcession by remember {
         mutableStateOf("")
@@ -256,8 +260,8 @@ fun TabletMotorcycleForm() {
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
-                    value = chassis,
-                    onValueChange = { chassis = it },
+                    value = chassis.value.ifEmpty { numberChassis },
+                    onValueChange = { numberChassis = it },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -267,7 +271,7 @@ fun TabletMotorcycleForm() {
 
                 Button(
                     onClick = {
-                        // TODO("SCAN")
+                        viewModel.onScanClicked()
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = RedDark),
                     modifier = Modifier
@@ -546,7 +550,7 @@ fun MobileMotorcycleForm() {
 
         Button(
             onClick = {
-                // TODO("SCAN")
+                viewModel.onScanClicked()
             },
             colors = ButtonDefaults.buttonColors(containerColor = RedDark),
             modifier = Modifier
