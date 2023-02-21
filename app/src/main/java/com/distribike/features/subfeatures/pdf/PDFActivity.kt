@@ -67,7 +67,7 @@ class PDFActivity : ComponentActivity() {
 
                                     // on below line we are specifying
                                     // text to display in top app bar.
-                                    text = "PDF Generator",
+                                    text = "PDF",
 
                                     // on below line we are specifying
                                     // modifier to fill max width.
@@ -173,7 +173,7 @@ fun PDFGenerator() {
         // on below line we are creating a simple text as a PDF Generator.
         Text(
             // on below line we are setting text to our text
-            text = "PDF Generator",
+            text = "Générateur PDF",
 
             // on below line we are
             // setting color for our text
@@ -217,7 +217,7 @@ fun PDFGenerator() {
             }) {
 
             // on the below line we are displaying a text for our button.
-            Text(modifier = Modifier.padding(6.dp), text = "Generate PDF")
+            Text(modifier = Modifier.padding(6.dp), text = "Ouvrir PDF")
         }
     }
 
@@ -292,8 +292,8 @@ fun generatePDF(context: Context) {
     // the first parameter is our text, second parameter
     // is position from start, third parameter is position from top
     // and then we are passing our variable of paint which is title.
-    canvas.drawText("A portal for IT professionals.", 209F, 100F, title)
-    canvas.drawText("Geeks for Geeks", 209F, 80F, title)
+    canvas.drawText("TEST.", 209F, 100F, title)
+    canvas.drawText("TEST", 209F, 80F, title)
     title.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL))
     title.setColor(ContextCompat.getColor(context, R.color.purple_200))
     title.textSize = 15F
@@ -301,7 +301,7 @@ fun generatePDF(context: Context) {
     // below line is used for setting
     // our text to center of PDF.
     title.textAlign = Paint.Align.CENTER
-    canvas.drawText("This is sample document which we have created.", 396F, 560F, title)
+    canvas.drawText("TEST.", 396F, 560F, title)
 
     // after adding all attributes to our
     // PDF file we will be finishing our page.
