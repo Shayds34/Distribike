@@ -250,7 +250,7 @@ fun generatePDF(context: Context) {
 
     // on below line we are initializing our bitmap and scaled bitmap.
     bmp = BitmapFactory.decodeResource(context.resources, R.drawable.honda1)
-    scaledbmp = Bitmap.createScaledBitmap(bmp, 100, 100, false)
+    scaledbmp = Bitmap.createScaledBitmap(bmp, 90, 90, false)
 
 
     // we are adding page info to our PDF file
@@ -305,17 +305,21 @@ fun generatePDF(context: Context) {
     // the first parameter is our text, second parameter
     // is position from start, third parameter is position from top
     // and then we are passing our variable of paint which is title.
-    canvas.drawText("Nom Technicien : Jérome", 20F, 160F, title)
-    canvas.drawText("Code Prep : 389102", 20F, 180F, title)
+    canvas.drawText("Nom Technicien : Jérome", 20F, 140F, title)
+    canvas.drawText("Code Prep : 389102", 20F, 160F, title)
     canvas.drawText("Modèle:", 480F, 140F, title)
     canvas.drawText("NIV Châssis:", 480F, 160F, title)
     canvas.drawText("Nom concessionnaire:", 480F, 180F, title)
     canvas.drawText("Code concessionaire:", 480F, 200F, title)
     canvas.drawText("N° de position:", 480F, 220F, title)
+    canvas.drawText("Liste des vérifications", 20F, 220F, title)
     title.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL))
     title.setColor(ContextCompat.getColor(context, R.color.black))
-    title.textSize = 20F
-
+    title.textSize = 30F
+    canvas.drawText("Général", 20F, 300F, title)
+    title.textSize = 18F
+    canvas.drawText("Vérification des pièces à monter d'après la liste du manuel de montage.", 80F, 340F, title)
+    title.textSize = 30F
     // below line is used for setting
     // our text to center of PDF.
     title.textAlign = Paint.Align.CENTER
