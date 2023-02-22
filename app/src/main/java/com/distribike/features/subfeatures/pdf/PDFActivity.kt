@@ -250,7 +250,7 @@ fun generatePDF(context: Context) {
 
     // on below line we are initializing our bitmap and scaled bitmap.
     bmp = BitmapFactory.decodeResource(context.resources, R.drawable.honda1)
-    scaledbmp = Bitmap.createScaledBitmap(bmp, 140, 140, false)
+    scaledbmp = Bitmap.createScaledBitmap(bmp, 100, 100, false)
 
 
     // we are adding page info to our PDF file
@@ -258,7 +258,7 @@ fun generatePDF(context: Context) {
     // pageHeight and number of pages and after that
     // we are calling it to create our PDF.
     var myPageInfo: PdfDocument.PageInfo? =
-        PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create()
+        PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 2).create()
 
     // below line is used for setting
     // start page for our PDF file.
@@ -274,8 +274,21 @@ fun generatePDF(context: Context) {
     // second parameter is position from left
     // third parameter is position from top and last
     // one is our variable for paint.
-    canvas.drawBitmap(scaledbmp, 56F, 40F, paint)
+    canvas.drawBitmap(scaledbmp, 620F, 10F, paint)
 
+    // below line is used for adding typeface for
+    // our text which we will be adding in our PDF file.
+    title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL))
+
+    // below line is used for setting text size
+    // which we will be displaying in our PDF file.
+    title.textSize = 25F
+
+    // below line is sued for setting color
+    // of our text inside our PDF file.
+    title.setColor(ContextCompat.getColor(context, R.color.black))
+
+    canvas.drawText("Préparation Machine neuve par Distribike", 20F, 80F, title)
     // below line is used for adding typeface for
     // our text which we will be adding in our PDF file.
     title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL))
@@ -286,22 +299,27 @@ fun generatePDF(context: Context) {
 
     // below line is sued for setting color
     // of our text inside our PDF file.
-    title.setColor(ContextCompat.getColor(context, R.color.purple_200))
+    title.setColor(ContextCompat.getColor(context, R.color.black))
 
     // below line is used to draw text in our PDF file.
     // the first parameter is our text, second parameter
     // is position from start, third parameter is position from top
     // and then we are passing our variable of paint which is title.
-    canvas.drawText("TEST.", 209F, 100F, title)
-    canvas.drawText("TEST", 209F, 80F, title)
+    canvas.drawText("Nom Technicien : Jérome", 20F, 160F, title)
+    canvas.drawText("Code Prep : 389102", 20F, 180F, title)
+    canvas.drawText("Modèle:", 480F, 140F, title)
+    canvas.drawText("NIV Châssis:", 480F, 160F, title)
+    canvas.drawText("Nom concessionnaire:", 480F, 180F, title)
+    canvas.drawText("Code concessionaire:", 480F, 200F, title)
+    canvas.drawText("N° de position:", 480F, 220F, title)
     title.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL))
-    title.setColor(ContextCompat.getColor(context, R.color.purple_200))
-    title.textSize = 15F
+    title.setColor(ContextCompat.getColor(context, R.color.black))
+    title.textSize = 20F
 
     // below line is used for setting
     // our text to center of PDF.
     title.textAlign = Paint.Align.CENTER
-    canvas.drawText("TEST.", 396F, 560F, title)
+    canvas.drawText("En cours...", 396F, 560F, title)
 
     // after adding all attributes to our
     // PDF file we will be finishing our page.
@@ -309,7 +327,7 @@ fun generatePDF(context: Context) {
 
     // below line is used to set the name of
     // our PDF file and its path.
-    val file: File = File(Environment.getExternalStorageDirectory(), "GFG.pdf")
+    val file: File = File(Environment.getExternalStorageDirectory(), "N°CHASSIS.pdf")
 
     try {
         // after creating a file name we will
