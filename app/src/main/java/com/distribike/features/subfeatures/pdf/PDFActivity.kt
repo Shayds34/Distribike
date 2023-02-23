@@ -238,6 +238,9 @@ fun generatePDF(context: Context) {
     lateinit var bmp: Bitmap
     lateinit var scaledbmp: Bitmap
 
+    lateinit var bmp2: Bitmap
+    lateinit var scaledbmp2: Bitmap
+
     // creating an object variable
     // for our PDF document.
     var pdfDocument: PdfDocument = PdfDocument()
@@ -252,14 +255,21 @@ fun generatePDF(context: Context) {
     bmp = BitmapFactory.decodeResource(context.resources, R.drawable.honda1)
     scaledbmp = Bitmap.createScaledBitmap(bmp, 90, 90, false)
 
+    bmp2 = BitmapFactory.decodeResource(context.resources, R.drawable.page3)
+    scaledbmp2 = Bitmap.createScaledBitmap(bmp2, 792, 1120, false)
 
     // we are adding page info to our PDF file
     // in which we will be passing our pageWidth,
     // pageHeight and number of pages and after that
     // we are calling it to create our PDF.
     var myPageInfo: PdfDocument.PageInfo? =
+        PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create()
+
+    var myPageInfo2: PdfDocument.PageInfo? =
         PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 2).create()
 
+    var myPageInfo3: PdfDocument.PageInfo? =
+        PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 3).create()
     // below line is used for setting
     // start page for our PDF file.
     var myPage: PdfDocument.Page = pdfDocument.startPage(myPageInfo)
@@ -325,9 +335,51 @@ fun generatePDF(context: Context) {
     title.textAlign = Paint.Align.CENTER
     canvas.drawText("En cours...", 396F, 560F, title)
 
+
+
     // after adding all attributes to our
     // PDF file we will be finishing our page.
     pdfDocument.finishPage(myPage)
+
+    // below line is used for setting
+    // start page for our PDF file.
+    var myPage2: PdfDocument.Page = pdfDocument.startPage(myPageInfo2)
+
+    // creating a variable for canvas
+    // from our page of PDF.
+    var canvas2: Canvas = myPage2.canvas
+
+    // below line is used to draw our image on our PDF file.
+    // the first parameter of our drawbitmap method is
+    // our bitmap
+    // second parameter is position from left
+    // third parameter is position from top and last
+    // one is our variable for paint.
+    canvas2.drawBitmap(scaledbmp, 620F, 10F, paint)
+
+    // after adding all attributes to our
+    // PDF file we will be finishing our page.
+    pdfDocument.finishPage(myPage2)
+
+    // below line is used for setting
+    // start page for our PDF file.
+    var myPage3: PdfDocument.Page = pdfDocument.startPage(myPageInfo3)
+
+    // creating a variable for canvas
+    // from our page of PDF.
+    var canvas3: Canvas = myPage3.canvas
+
+    // below line is used to draw our image on our PDF file.
+    // the first parameter of our drawbitmap method is
+    // our bitmap
+    // second parameter is position from left
+    // third parameter is position from top and last
+    // one is our variable for paint.
+    canvas3.drawBitmap(scaledbmp2, 0F, 0F, paint)
+
+    // after adding all attributes to our
+    // PDF file we will be finishing our page.
+    pdfDocument.finishPage(myPage3)
 
     // below line is used to set the name of
     // our PDF file and its path.
