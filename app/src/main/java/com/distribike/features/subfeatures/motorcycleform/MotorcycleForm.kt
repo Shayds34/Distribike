@@ -92,13 +92,24 @@ fun TabletMotorcycleForm() {
         mutableStateOf("")
     }
 
+    var expanded2 by remember { mutableStateOf(false) }
+    val suggestions2 = listOf("ABDOULBAKI Abdou","ALBALADEJO Michel","AQUENI Antoine","BARRON Paco","BROUILLARD Alain","BRUEL Louis","CROISSIAU Steven","DELUCHE Eric","FAVEDE Laurent","FROTTIER Ryad","GONZALES Emmanuel","GRANON David","LOPES Arnaud","LOPES Lucas","LOPEZ Arnaud","MASVIDAL Christian","MATHERON Antoine","MATHIEU Anthony","PERE Bastien","PUJALTE Johan","RASSE Laurent","ROULET Julien","SEDIQUI Said")
+    var selectedText2 by remember { mutableStateOf("") }
+
+    var textfieldSize by remember { mutableStateOf(Size.Zero)}
+
+    val icon = if (expanded2)
+        Icons.Filled.ArrowDropUp //it requires androidx.compose.material:material-icons-extended
+    else
+        Icons.Filled.ArrowDropDown
+
     var expanded by remember { mutableStateOf(false) }
     val suggestions = listOf("ADV350","ADV750","CB500F","CB500X","CB650R","CB750","CBR1000","CBR500R","CBR650R","CMX1100","CMX500","CRF1100","CRF300L","GL1800","NC750X","NSS125","NSS750","NT1100","ST125","WW125")
     var selectedText by remember { mutableStateOf("") }
 
-    var textfieldSize by remember { mutableStateOf(Size.Zero)}
+    var textfieldSize2 by remember { mutableStateOf(Size.Zero)}
 
-    val icon = if (expanded)
+    val icon2 = if (expanded)
         Icons.Filled.ArrowDropUp //it requires androidx.compose.material:material-icons-extended
     else
         Icons.Filled.ArrowDropDown
@@ -161,9 +172,35 @@ fun TabletMotorcycleForm() {
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 150.dp),
-                    textStyle = TextStyle.Default.copy(fontSize = 28.sp)
-                )
+                        .padding(horizontal = 150.dp)
+                        .onGloballyPositioned { coordinates ->
+                            //This value is used to assign to the DropDown the same width
+                            textfieldSize2 = coordinates.size.toSize()
+                        },
+                    label = {Text("")},
+
+                    textStyle = TextStyle.Default.copy(fontSize = 28.sp),
+                    trailingIcon = {
+                        Icon(icon,"contentDescription",
+                            Modifier.clickable { expanded2 = !expanded2 })
+                    } )
+                            DropdownMenu(
+                            expanded = expanded2,
+                    onDismissRequest = { expanded2 = false },
+                    modifier = Modifier
+                        .width(with(LocalDensity.current){textfieldSize2.width.toDp()})
+                ) {
+                    suggestions2.forEach { label ->
+                        DropdownMenuItem(onClick = {
+                            username = label
+                            expanded2 = false
+                        },
+                            text ={
+                                Text(text=label)
+                            }
+                        )
+                    }
+                }
 
                 Spacer(modifier = Modifier.padding(8.dp))
 
