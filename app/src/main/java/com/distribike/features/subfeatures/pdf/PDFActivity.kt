@@ -230,8 +230,8 @@ fun generatePDF(context: Context) {
 
     // declaring width and height
     // for our PDF file.
-    var pageHeight = 1120
-    var pageWidth = 792
+    var pageHeight = 1680
+    var pageWidth = 1188
 
     // creating a bitmap variable
     // for storing our images
@@ -262,13 +262,13 @@ fun generatePDF(context: Context) {
     scaledbmp = Bitmap.createScaledBitmap(bmp, 90, 90, false)
 
     bmp2 = BitmapFactory.decodeResource(context.resources, R.drawable.page3)
-    scaledbmp2 = Bitmap.createScaledBitmap(bmp2, 792, 1120, false)
+    scaledbmp2 = Bitmap.createScaledBitmap(bmp2, 1188, 1680, false)
 
     bmp3 = BitmapFactory.decodeResource(context.resources, R.drawable.page2)
-    scaledbmp3 = Bitmap.createScaledBitmap(bmp3, 792, 1120, false)
+    scaledbmp3 = Bitmap.createScaledBitmap(bmp3, 1188, 1680, false)
 
     bmp4 = BitmapFactory.decodeResource(context.resources, R.drawable.page1)
-    scaledbmp4 = Bitmap.createScaledBitmap(bmp4, 792, 1120, false)
+    scaledbmp4 = Bitmap.createScaledBitmap(bmp4, 1188, 1680, false)
 
     // we are adding page info to our PDF file
     // in which we will be passing our pageWidth,
