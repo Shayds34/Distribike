@@ -235,8 +235,8 @@ fun generatePDF(context: Context) {
 
     // creating a bitmap variable
     // for storing our images
-    lateinit var bmp: Bitmap
-    lateinit var scaledbmp: Bitmap
+    //lateinit var bmp: Bitmap
+    //lateinit var scaledbmp: Bitmap
 
     lateinit var bmp2: Bitmap
     lateinit var scaledbmp2: Bitmap
@@ -246,6 +246,9 @@ fun generatePDF(context: Context) {
 
     lateinit var bmp4: Bitmap
     lateinit var scaledbmp4: Bitmap
+
+    lateinit var bmp5: Bitmap
+    lateinit var scaledbmp5: Bitmap
 
     // creating an object variable
     // for our PDF document.
@@ -258,8 +261,8 @@ fun generatePDF(context: Context) {
     var title: Paint = Paint()
 
     // on below line we are initializing our bitmap and scaled bitmap.
-    bmp = BitmapFactory.decodeResource(context.resources, R.drawable.honda1)
-    scaledbmp = Bitmap.createScaledBitmap(bmp, 90, 90, false)
+    //bmp = BitmapFactory.decodeResource(context.resources, R.drawable.honda1)
+    //scaledbmp = Bitmap.createScaledBitmap(bmp, 90, 90, false)
 
     bmp2 = BitmapFactory.decodeResource(context.resources, R.drawable.page3)
     scaledbmp2 = Bitmap.createScaledBitmap(bmp2, 1188, 1680, false)
@@ -269,6 +272,9 @@ fun generatePDF(context: Context) {
 
     bmp4 = BitmapFactory.decodeResource(context.resources, R.drawable.page1)
     scaledbmp4 = Bitmap.createScaledBitmap(bmp4, 1188, 1680, false)
+
+    bmp5 = BitmapFactory.decodeResource(context.resources, R.drawable.check)
+    scaledbmp5 = Bitmap.createScaledBitmap(bmp5, 30, 28, false)
 
     // we are adding page info to our PDF file
     // in which we will be passing our pageWidth,
@@ -290,6 +296,7 @@ fun generatePDF(context: Context) {
     // from our page of PDF.
     var canvas: Canvas = myPage.canvas
     var canvas4: Canvas = myPage.canvas
+    var canvas5: Canvas = myPage.canvas
 
     // below line is used to draw our image on our PDF file.
     // the first parameter of our drawbitmap method is
@@ -297,8 +304,12 @@ fun generatePDF(context: Context) {
     // second parameter is position from left
     // third parameter is position from top and last
     // one is our variable for paint.
-    canvas.drawBitmap(scaledbmp, 620F, 10F, paint)
+    //canvas.drawBitmap(scaledbmp, 620F, 10F, paint)
     canvas4.drawBitmap(scaledbmp4, 0F, 0F, paint)
+
+    canvas5.drawBitmap(scaledbmp5, 100F, 450F, paint)
+    canvas5.drawBitmap(scaledbmp5, 100F, 480F, paint)
+    canvas5.drawBitmap(scaledbmp5, 100F, 510F, paint)
 
     // below line is used for adding typeface for
     // our text which we will be adding in our PDF file.
