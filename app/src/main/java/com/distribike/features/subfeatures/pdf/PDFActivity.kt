@@ -241,6 +241,12 @@ fun generatePDF(context: Context) {
     lateinit var bmp2: Bitmap
     lateinit var scaledbmp2: Bitmap
 
+    lateinit var bmp3: Bitmap
+    lateinit var scaledbmp3: Bitmap
+
+    lateinit var bmp4: Bitmap
+    lateinit var scaledbmp4: Bitmap
+
     // creating an object variable
     // for our PDF document.
     var pdfDocument: PdfDocument = PdfDocument()
@@ -257,6 +263,12 @@ fun generatePDF(context: Context) {
 
     bmp2 = BitmapFactory.decodeResource(context.resources, R.drawable.page3)
     scaledbmp2 = Bitmap.createScaledBitmap(bmp2, 792, 1120, false)
+
+    bmp3 = BitmapFactory.decodeResource(context.resources, R.drawable.page2)
+    scaledbmp3 = Bitmap.createScaledBitmap(bmp3, 792, 1120, false)
+
+    bmp4 = BitmapFactory.decodeResource(context.resources, R.drawable.page1)
+    scaledbmp4 = Bitmap.createScaledBitmap(bmp4, 792, 1120, false)
 
     // we are adding page info to our PDF file
     // in which we will be passing our pageWidth,
@@ -277,6 +289,7 @@ fun generatePDF(context: Context) {
     // creating a variable for canvas
     // from our page of PDF.
     var canvas: Canvas = myPage.canvas
+    var canvas4: Canvas = myPage.canvas
 
     // below line is used to draw our image on our PDF file.
     // the first parameter of our drawbitmap method is
@@ -285,50 +298,51 @@ fun generatePDF(context: Context) {
     // third parameter is position from top and last
     // one is our variable for paint.
     canvas.drawBitmap(scaledbmp, 620F, 10F, paint)
+    canvas4.drawBitmap(scaledbmp4, 0F, 0F, paint)
 
     // below line is used for adding typeface for
     // our text which we will be adding in our PDF file.
-    title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL))
+    //title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL))
 
     // below line is used for setting text size
     // which we will be displaying in our PDF file.
-    title.textSize = 25F
+    //title.textSize = 25F
 
     // below line is sued for setting color
     // of our text inside our PDF file.
-    title.setColor(ContextCompat.getColor(context, R.color.black))
+   // title.setColor(ContextCompat.getColor(context, R.color.black))
 
-    canvas.drawText("Préparation Machine neuve par Distribike", 20F, 80F, title)
+    //canvas.drawText("Préparation Machine neuve par Distribike", 20F, 80F, title)
     // below line is used for adding typeface for
     // our text which we will be adding in our PDF file.
-    title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL))
+   // title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL))
 
     // below line is used for setting text size
     // which we will be displaying in our PDF file.
-    title.textSize = 15F
+    //title.textSize = 15F
 
     // below line is sued for setting color
     // of our text inside our PDF file.
-    title.setColor(ContextCompat.getColor(context, R.color.black))
+   // title.setColor(ContextCompat.getColor(context, R.color.black))
 
     // below line is used to draw text in our PDF file.
     // the first parameter is our text, second parameter
     // is position from start, third parameter is position from top
     // and then we are passing our variable of paint which is title.
-    canvas.drawText("Nom Technicien : Jérome", 20F, 140F, title)
-    canvas.drawText("Code Prep : 389102", 20F, 160F, title)
-    canvas.drawText("Modèle:", 480F, 140F, title)
-    canvas.drawText("NIV Châssis:", 480F, 160F, title)
-    canvas.drawText("Nom concessionnaire:", 480F, 180F, title)
-    canvas.drawText("Code concessionaire:", 480F, 200F, title)
-    canvas.drawText("N° de position:", 480F, 220F, title)
-    canvas.drawText("Liste des vérifications", 20F, 220F, title)
+    //canvas.drawText("Nom Technicien : Jérome", 20F, 140F, title)
+    //canvas.drawText("Code Prep : 389102", 20F, 160F, title)
+   // canvas.drawText("Modèle:", 480F, 140F, title)
+    //canvas.drawText("NIV Châssis:", 480F, 160F, title)
+    //canvas.drawText("Nom concessionnaire:", 480F, 180F, title)
+    //canvas.drawText("Code concessionaire:", 480F, 200F, title)
+    //canvas.drawText("N° de position:", 480F, 220F, title)
+   // canvas.drawText("Liste des vérifications", 20F, 220F, title)
     title.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL))
     title.setColor(ContextCompat.getColor(context, R.color.black))
-    title.textSize = 30F
-    canvas.drawText("Général", 20F, 300F, title)
-    title.textSize = 18F
-    canvas.drawText("Vérification des pièces à monter d'après la liste du manuel de montage.", 80F, 340F, title)
+   // title.textSize = 30F
+    //canvas.drawText("Général", 20F, 300F, title)
+   // title.textSize = 18F
+    //canvas.drawText("Vérification des pièces à monter d'après la liste du manuel de montage.", 80F, 340F, title)
     title.textSize = 30F
     // below line is used for setting
     // our text to center of PDF.
@@ -355,7 +369,7 @@ fun generatePDF(context: Context) {
     // second parameter is position from left
     // third parameter is position from top and last
     // one is our variable for paint.
-    canvas2.drawBitmap(scaledbmp, 620F, 10F, paint)
+    canvas2.drawBitmap(scaledbmp3, 0F, 0F, paint)
 
     // after adding all attributes to our
     // PDF file we will be finishing our page.
