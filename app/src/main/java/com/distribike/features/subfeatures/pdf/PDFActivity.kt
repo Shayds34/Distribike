@@ -316,13 +316,15 @@ fun generatePDF(context: Context) {
     //canvas.drawBitmap(scaledbmp, 620F, 10F, paint)
     canvas4.drawBitmap(scaledbmp4, 0F, 0F, paint)
 
-    canvas5.drawBitmap(scaledbmp5, 100F, 450F, paint)
-    //canvas6.drawBitmap(scaledbmp6, 100F, 450F, paint)
+    //GENERAL
+    //canvas5.drawBitmap(scaledbmp5, 100F, 450F, paint)
+    canvas6.drawBitmap(scaledbmp6, 100F, 450F, paint)
     canvas5.drawBitmap(scaledbmp5, 100F, 480F, paint)
     canvas5.drawBitmap(scaledbmp5, 100F, 510F, paint)
     canvas6.drawBitmap(scaledbmp6, 100F, 540F, paint)
     canvas6.drawBitmap(scaledbmp6, 100F, 570F, paint)
-
+    canvas6.drawBitmap(scaledbmp6, 100F, 600F, paint)
+    canvas5.drawBitmap(scaledbmp6, 100F, 630F, paint)
 
     // below line is used for adding typeface for
     // our text which we will be adding in our PDF file.
