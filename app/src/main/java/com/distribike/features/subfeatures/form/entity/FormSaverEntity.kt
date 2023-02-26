@@ -24,6 +24,8 @@ interface FormSaverEntity {
     val isElectricSystemFormCompleted: Flow<Boolean>
     val isSteeringFormCompleted: Flow<Boolean>
 
+    val getPDFResult: Flow<FormRecordEntityModel>
+
     /**
      * Save the current state of a form to retrieve
      * data later in the process.
