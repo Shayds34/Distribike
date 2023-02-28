@@ -75,8 +75,10 @@
         },
         {
           "id": 1,
-          "title": "Pneus | Vérifier pression et état.",
-          "description": ""
+          "title": "Pneus | Vérifier pression et état. Noter les pressions réalisées.",
+          "description": "",
+          "additional_info": "NEEDED",
+          "additional_info_2": "NEEDED"
         },
         {
           "id": 2,

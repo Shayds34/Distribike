@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
+import androidx.compose.material.TextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -70,6 +71,38 @@ class WheelsFormActivity : ComponentActivity() {
                                         .size(200.dp)
                                         .padding(horizontal = 1.dp)
                                 )
+
+                                if (data.value.sections[2].tasks[index].additionalInfo == "NEEDED" &&
+                                    data.value.sections[2].tasks[index].additionalInfo2 == "NEEDED"
+                                ) {
+                                    Column {
+                                        Row {
+                                            Text(
+                                                text = "Avant",
+                                                modifier = Modifier
+                                                    .wrapContentWidth()
+                                                    .padding(5.dp)
+                                            )
+                                            TextField(
+                                                value = "",
+                                                onValueChange = { /* TODO */ }
+                                            )
+                                        }
+                                        Row {
+                                            Text(
+                                                text = "Arrière",
+                                                modifier = Modifier
+                                                    .wrapContentWidth()
+                                                    .padding(5.dp)
+                                            )
+                                            TextField(
+                                                value = "",
+                                                onValueChange = { /* TODO */ }
+                                            )
+                                        }
+                                    }
+
+                                }
                             }
                         }
                     }
@@ -80,6 +113,7 @@ class WheelsFormActivity : ComponentActivity() {
                         currentStep = currentStep,
                         nextButton = {
                             Button(
+                                enabled = true, // TODO enable only if additional info are filled
                                 onClick = {
                                     viewModel.saveCurrentStepState(
                                         state = StepState.COMPLETE,
@@ -99,6 +133,7 @@ class WheelsFormActivity : ComponentActivity() {
                         },
                         passButton = {
                             Button(
+                                enabled = true, // TODO enable only if additional info is filled
                                 onClick = {
                                     viewModel.saveCurrentStepState(
                                         state = StepState.PASS,
