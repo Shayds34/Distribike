@@ -141,7 +141,7 @@ class GeneralFormActivity : ComponentActivity() {
                                 enabled = viewModel.shouldEnableNextButton.observeAsState(false).value,
                                 onClick = {
                                     finish()
-                                    startActivity(PDFActivity.newInstance(context = applicationContext))
+                                    startActivity(BatteryFormActivity.newInstance(context = applicationContext))
                                 }) {
                                 Text(
                                     text = "Section suivante".uppercase(),

@@ -2,6 +2,7 @@ package com.distribike.features.subfeatures.pdf
 
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -15,7 +16,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -30,9 +30,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.distribike.R
-import com.distribike.features.subfeatures.form.entity.models.FormRecordEntityModel
-import com.distribike.features.subfeatures.form.entity.models.StepStateEntityModel
 import com.distribike.features.subfeatures.pdf.model.PDFModelUi
 import com.distribike.features.subfeatures.pdf.viewmodel.PDFViewModel
 import com.distribike.ui.theme.*
@@ -48,15 +47,9 @@ class PDFActivity : ComponentActivity() {
         fun newInstance(context: Context) = Intent(context, PDFActivity::class.java)
     }
 
-    private val viewModel: PDFViewModel by viewModels()
-    var sections: PDFModelUi? = null
-
+    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewModel.formRecordLiveData.observe(this) {
-            Log.e("SEBCHA", "observe $it")
-        }
 
         setContent {
             Surface(
@@ -65,7 +58,6 @@ class PDFActivity : ComponentActivity() {
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colors.background
             ) {
-
                 // on below line we are specifying theme as scaffold.
                 Scaffold(
 
@@ -102,9 +94,9 @@ class PDFActivity : ComponentActivity() {
                         )
                     }
                 ) {
+
                     // on below line we are calling pdf generator
                     // method for generating a pdf file.
-
                     PDFGenerator()
                 }
             }
@@ -146,7 +138,7 @@ class PDFActivity : ComponentActivity() {
     }
 
     // on below line we are creating a
-// pdf generator composable function for ui.
+    // pdf generator composable function for ui.
     @Composable
     fun PDFGenerator() {
         // on below line we are creating a variable for
@@ -154,7 +146,9 @@ class PDFActivity : ComponentActivity() {
         val context = LocalContext.current
         val activity = (LocalContext.current as? Activity)
 
-        val formRecord by viewModel.formRecordLiveData.observeAsState()
+        val viewModel = hiltViewModel<PDFViewModel>()
+
+        val sections = viewModel.formRecordLiveData.observeAsState(PDFModelUi())
 
         // on below line we are checking permission
         if (checkPermissions(context)) {
@@ -236,7 +230,7 @@ class PDFActivity : ComponentActivity() {
                     if (sections != null) {
                         generatePDF(
                             context = context,
-                            sections = formRecord
+                            sections = sections.value
                         )
                     }
                 }) {
@@ -251,7 +245,7 @@ class PDFActivity : ComponentActivity() {
     // on below line we are creating a generate PDF
 // method which is use to generate our PDF file.
     @RequiresApi(Build.VERSION_CODES.KITKAT)
-    fun generatePDF(context: Context, sections: FormRecordEntityModel?) {
+    fun generatePDF(context: Context, sections: PDFModelUi) {
 
         // declaring width and height
         // for our PDF file.
@@ -359,30 +353,31 @@ class PDFActivity : ComponentActivity() {
         // On initialise un position Y (top) d'origine,
         // Et chaque fois que l'on dessine une nouvelle ligne, on ajoute +30
         var generalOriginPostionY = 450f
-        sections?.generalSteps?.stepEntityModels?.forEach {
-            when (it.stepStateEntityModel) {
-                StepStateEntityModel.NONE -> { /* nothing to do */
-                }
-                StepStateEntityModel.COMPLETE -> {
+        sections.generalSteps?.stepModelUis?.forEach {
+            when (it.stepStateUseCaseModel) {
+                PDFModelUi.State.NONE -> { /* nothing to do */ }
+                PDFModelUi.State.COMPLETE -> {
                     canvas5.drawBitmap(scaledbmp5, checkPositionX, generalOriginPostionY, paint)
                     generalOriginPostionY += 30f
                 }
-                StepStateEntityModel.PASS -> {
+                PDFModelUi.State.PASS -> {
                     canvas6.drawBitmap(scaledbmp6, passPositionX, generalOriginPostionY, paint)
                     generalOriginPostionY += 30f
                 }
             }
         }
 
-        sections?.batterySteps?.stepEntityModels?.map {
-            when (it.stepStateEntityModel) {
-                StepStateEntityModel.NONE -> { /* nothing to do */
+        var batteryOriginPositionY = 700f
+        sections.batterySteps?.stepModelUis?.map {
+            when (it.stepStateUseCaseModel) {
+                PDFModelUi.State.NONE -> { /* nothing to do */ }
+                PDFModelUi.State.COMPLETE -> {
+                    canvas5.drawBitmap(scaledbmp5, checkPositionX, batteryOriginPositionY, paint)
+                    batteryOriginPositionY += 30f
                 }
-                StepStateEntityModel.COMPLETE -> {
-                    // TODO: ici dessiner le check
-                }
-                StepStateEntityModel.PASS -> {
-                    // TODO: ici dessiner la croix
+                PDFModelUi.State.PASS -> {
+                    canvas6.drawBitmap(scaledbmp6, passPositionX, batteryOriginPositionY, paint)
+                    batteryOriginPositionY += 30f
                 }
             }
         }

@@ -44,7 +44,7 @@ class FormUseCaseImpl @Inject constructor(
     override suspend fun getTasks(): SectionsUseCaseModel =
         withContext(dispatcher) {
             val tasks = repository.getTasks()
-            entity.storeTasks(model = mapper.mapRepoToEntity(tasks))
+            entity.storeTasks(model = mapper.mapRepoToEntity(tasks)) // TODO don't store every time
             mapper.mapToUseCaseModel(tasks = tasks)
         }
 

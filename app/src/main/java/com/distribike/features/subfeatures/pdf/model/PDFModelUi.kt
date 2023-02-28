@@ -1,29 +1,29 @@
 package com.distribike.features.subfeatures.pdf.model
 
 data class PDFModelUi(
-    val generalSteps: GeneralModelUi,
-    val batterySteps: BatteryModelUi,
-    val wheelsAndTiresSteps: WheelsAndTiresModelUi,
-    val breaksSteps: BreaksModelUi,
-    val suspensionSteps: SuspensionsModelUi,
-    val transmissionSteps: TransmissionModelUi,
-    val coolingSystemSteps: CoolingSystemModelUi,
-    val engineSteps: EngineModelUi,
-    val poweringSteps: PoweringModelUi,
-    val clutchSteps: ClutchModelUi,
-    val othersSteps: OthersModelUi,
-    val electricSystemSteps: ElectricSystemModelUi,
-    val steeringSteps: SteeringModelUi
+    val generalSteps: GeneralModelUi? = null,
+    val batterySteps: BatteryModelUi? = null,
+    val wheelsAndTiresSteps: WheelsAndTiresModelUi? = null,
+    val breaksSteps: BreaksModelUi? = null,
+    val suspensionSteps: SuspensionsModelUi? = null,
+    val transmissionSteps: TransmissionModelUi? = null,
+    val coolingSystemSteps: CoolingSystemModelUi? = null,
+    val engineSteps: EngineModelUi? = null,
+    val poweringSteps: PoweringModelUi? = null,
+    val clutchSteps: ClutchModelUi? = null,
+    val othersSteps: OthersModelUi? = null,
+    val electricSystemSteps: ElectricSystemModelUi? = null,
+    val steeringSteps: SteeringModelUi? = null
 ) {
 
     data class StepModelUi(
         val stepId: Int,
-        val stepStateUseCaseModel: StepStateUseCaseModel = StepStateUseCaseModel.NONE,
+        val stepStateUseCaseModel: State = State.NONE,
         val additionalInfo: String? = null,
         val additionalInfo2: String? = null
     )
 
-    enum class StepStateUseCaseModel {
+    enum class State {
         NONE,
         COMPLETE,
         PASS

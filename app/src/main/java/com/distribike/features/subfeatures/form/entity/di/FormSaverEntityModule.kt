@@ -2,20 +2,20 @@ package com.distribike.features.subfeatures.form.entity.di
 
 import com.distribike.features.subfeatures.form.entity.FormSaverEntity
 import com.distribike.features.subfeatures.form.entity.FormSaverEntityImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityRetainedComponent
-import dagger.hilt.android.scopes.ActivityRetainedScoped
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ActivityRetainedComponent::class)
-class FormSaverEntityModule {
+@InstallIn(SingletonComponent::class)
+interface FormSaverEntityModule {
 
     /**
      * Binds instance
      */
-    @ActivityRetainedScoped
-    @Provides
-    fun providesFormSaverEntityImpl(impl: FormSaverEntityImpl): FormSaverEntity = impl
+    @Singleton
+    @Binds
+    fun bindsFormSaverEntityImpl(impl: FormSaverEntityImpl): FormSaverEntity
 }

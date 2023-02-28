@@ -5,4 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface PDFUseCase {
 
+    val pdfResults: Flow<PDFUseCaseModel>
+
 }
