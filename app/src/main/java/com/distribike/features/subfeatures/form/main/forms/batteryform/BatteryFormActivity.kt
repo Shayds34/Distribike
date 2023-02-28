@@ -23,7 +23,6 @@ import com.distribike.features.subfeatures.form.main.forms.batteryform.viewmodel
 import com.distribike.features.subfeatures.form.main.forms.wheelsform.WheelsFormActivity
 import com.distribike.features.subfeatures.form.main.model.FormModelUi
 import com.distribike.features.subfeatures.login.WorkerLottie
-import com.distribike.features.subfeatures.pdf.PDFActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -141,7 +140,7 @@ class BatteryFormActivity : ComponentActivity() {
                                 enabled = viewModel.shouldEnableNextButton.observeAsState(false).value,
                                 onClick = {
                                     finish()
-                                    startActivity(PDFActivity.newInstance(context = applicationContext))
+                                    startActivity(WheelsFormActivity.newInstance(context = applicationContext))
                                 }) {
                                 Text(
                                     text = "Section suivante".uppercase(),

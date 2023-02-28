@@ -39,12 +39,19 @@ class FormUseCaseImpl @Inject constructor(
     override val isSteeringFormCompleted: Flow<Boolean> = entity.isSteeringFormCompleted
 
     /**
+     * Stores the original list of tasks.
+     */
+    override suspend fun storeTasks() = withContext(dispatcher) {
+        val tasks = repository.getTasks()
+        entity.storeTasks(model = mapper.mapRepoToEntity(tasks))
+    }
+
+    /**
      * Retrieve a list of tasks to display.
      */
     override suspend fun getTasks(): SectionsUseCaseModel =
         withContext(dispatcher) {
             val tasks = repository.getTasks()
-            entity.storeTasks(model = mapper.mapRepoToEntity(tasks)) // TODO don't store every time
             mapper.mapToUseCaseModel(tasks = tasks)
         }
 

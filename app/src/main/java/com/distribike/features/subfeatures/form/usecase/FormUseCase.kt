@@ -21,6 +21,11 @@ interface FormUseCase {
     val isSteeringFormCompleted: Flow<Boolean>
 
     /**
+     * Stores the original list of tasks
+     */
+    suspend fun storeTasks()
+
+    /**
      * Retrieve a list of tasks to display
      */
     suspend fun getTasks(): SectionsUseCaseModel
