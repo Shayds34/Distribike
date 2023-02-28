@@ -1,6 +1,5 @@
 package com.distribike.features.subfeatures.form.main.forms.generalform.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -35,6 +34,7 @@ class GeneralFormViewModel @Inject constructor(
 
     private fun initialize() {
         viewModelScope.launch(dispatcher) {
+            useCase.storeTasks()
             val useCaseModel = useCase.getTasks()
             _viewState.offer(
                 mapper.mapToModelUi(useCaseModel)
@@ -49,7 +49,6 @@ class GeneralFormViewModel @Inject constructor(
         additionalInfo2: String? = null
     ) {
         viewModelScope.launch(dispatcher) {
-            Log.e("SaveState", "ViewModel - stepId: $currentStep - state: $state")
             useCase.saveGeneralStepState(
                 state = state,
                 currentStep = currentStep,

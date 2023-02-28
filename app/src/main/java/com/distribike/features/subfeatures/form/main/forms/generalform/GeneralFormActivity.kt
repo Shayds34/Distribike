@@ -23,6 +23,7 @@ import com.distribike.features.subfeatures.form.main.forms.batteryform.BatteryFo
 import com.distribike.features.subfeatures.form.main.model.FormModelUi
 import com.distribike.features.subfeatures.form.main.forms.generalform.viewmodel.GeneralFormViewModel
 import com.distribike.features.subfeatures.login.WorkerLottie
+import com.distribike.features.subfeatures.pdf.PDFActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
