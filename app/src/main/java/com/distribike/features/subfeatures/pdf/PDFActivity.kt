@@ -223,7 +223,7 @@ class PDFActivity : ComponentActivity() {
                 // on click for our button.
                 onClick = {
 
-                    Log.e("SEBCHA", sections.toString())
+
 
                     // inside on click we are calling our
                     // generate PDF method to generate our PDF
@@ -272,6 +272,12 @@ class PDFActivity : ComponentActivity() {
         lateinit var bmp6: Bitmap
         lateinit var scaledbmp6: Bitmap
 
+        lateinit var bmp7: Bitmap
+        lateinit var scaledbmp7: Bitmap
+
+        lateinit var bmp8: Bitmap
+        lateinit var scaledbmp8: Bitmap
+
         // creating an object variable
         // for our PDF document.
         var pdfDocument: PdfDocument = PdfDocument()
@@ -301,6 +307,12 @@ class PDFActivity : ComponentActivity() {
         bmp6 = BitmapFactory.decodeResource(context.resources, R.drawable.pass)
         scaledbmp6 = Bitmap.createScaledBitmap(bmp6, 30, 28, false)
 
+        bmp7 = BitmapFactory.decodeResource(context.resources, R.drawable.check)
+        scaledbmp7 = Bitmap.createScaledBitmap(bmp7, 30, 28, false)
+
+        bmp8 = BitmapFactory.decodeResource(context.resources, R.drawable.pass)
+        scaledbmp8 = Bitmap.createScaledBitmap(bmp8, 30, 28, false)
+
 
         // we are adding page info to our PDF file
         // in which we will be passing our pageWidth,
@@ -320,7 +332,7 @@ class PDFActivity : ComponentActivity() {
 
         // creating a variable for canvas
         // from our page of PDF.
-        var canvas: Canvas = myPage.canvas
+
         var canvas4: Canvas = myPage.canvas
         var canvas5: Canvas = myPage.canvas
         var canvas6: Canvas = myPage.canvas
@@ -331,18 +343,12 @@ class PDFActivity : ComponentActivity() {
         // second parameter is position from left
         // third parameter is position from top and last
         // one is our variable for paint.
-        //canvas.drawBitmap(scaledbmp, 620F, 10F, paint)
+
         canvas4.drawBitmap(scaledbmp4, 0F, 0F, paint)
 
         //GENERAL
         //canvas5.drawBitmap(scaledbmp5, 100F, 450F, paint)
-        // canvas6.drawBitmap(scaledbmp6, 70F, 450F, paint)
-        // canvas5.drawBitmap(scaledbmp5, 110F, 480F, paint)
-        // canvas5.drawBitmap(scaledbmp5, 110F, 510F, paint)
-        // canvas6.drawBitmap(scaledbmp6, 70F, 540F, paint)
-        // canvas6.drawBitmap(scaledbmp6, 70F, 570F, paint)
-        // canvas6.drawBitmap(scaledbmp6, 70F, 600F, paint)
-        // canvas5.drawBitmap(scaledbmp5, 110F, 630F, paint)
+
 
         // GLOBAL POSITION
         // Normalement ces positions ne devraient jamais changer,
@@ -459,54 +465,7 @@ class PDFActivity : ComponentActivity() {
 
         // TODO: et ainsi de suite pour toutes les sections présentes dans [sections...]
 
-        // below line is used for adding typeface for
-        // our text which we will be adding in our PDF file.
-        //title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL))
 
-        // below line is used for setting text size
-        // which we will be displaying in our PDF file.
-        //title.textSize = 25F
-
-        // below line is sued for setting color
-        // of our text inside our PDF file.
-        // title.setColor(ContextCompat.getColor(context, R.color.black))
-
-        //canvas.drawText("Préparation Machine neuve par Distribike", 20F, 80F, title)
-        // below line is used for adding typeface for
-        // our text which we will be adding in our PDF file.
-        // title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL))
-
-        // below line is used for setting text size
-        // which we will be displaying in our PDF file.
-        //title.textSize = 15F
-
-        // below line is sued for setting color
-        // of our text inside our PDF file.
-        // title.setColor(ContextCompat.getColor(context, R.color.black))
-
-        // below line is used to draw text in our PDF file.
-        // the first parameter is our text, second parameter
-        // is position from start, third parameter is position from top
-        // and then we are passing our variable of paint which is title.
-        //canvas.drawText("Nom Technicien : Jérome", 20F, 140F, title)
-        //canvas.drawText("Code Prep : 389102", 20F, 160F, title)
-        // canvas.drawText("Modèle:", 480F, 140F, title)
-        //canvas.drawText("NIV Châssis:", 480F, 160F, title)
-        //canvas.drawText("Nom concessionnaire:", 480F, 180F, title)
-        //canvas.drawText("Code concessionaire:", 480F, 200F, title)
-        //canvas.drawText("N° de position:", 480F, 220F, title)
-        // canvas.drawText("Liste des vérifications", 20F, 220F, title)
-        //title.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL))
-        //title.setColor(ContextCompat.getColor(context, R.color.black))
-        // title.textSize = 30F
-        //canvas.drawText("Général", 20F, 300F, title)
-        // title.textSize = 18F
-        //canvas.drawText("Vérification des pièces à monter d'après la liste du manuel de montage.", 80F, 340F, title)
-        // title.textSize = 30F
-        // below line is used for setting
-        // our text to center of PDF.
-        //title.textAlign = Paint.Align.CENTER
-        //canvas.drawText("En cours...", 396F, 560F, title)
 
 
         // after adding all attributes to our
@@ -520,6 +479,8 @@ class PDFActivity : ComponentActivity() {
         // creating a variable for canvas
         // from our page of PDF.
         var canvas2: Canvas = myPage2.canvas
+        var canvas7: Canvas = myPage2.canvas
+        var canvas8: Canvas = myPage2.canvas
 
         // below line is used to draw our image on our PDF file.
         // the first parameter of our drawbitmap method is
@@ -532,23 +493,24 @@ class PDFActivity : ComponentActivity() {
         // after adding all attributes to our
         // PDF file we will be finishing our page.
 
-
-        // On initialise un position Y (top) d'origine,
-        // Et chaque fois que l'on dessine une nouvelle ligne, on ajoute +30
-        var EngineOriginPostionY = 350f
-        sections.engineSteps?.stepEntityModels?.forEach {
+        var engineOriginPositionY = 350f
+        sections.engineSteps?.stepEntityModels?.map {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */ }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledbmp5, checkPositionX, EngineOriginPostionY, paint)
-                    EngineOriginPostionY += 30f
+                    canvas7.drawBitmap(scaledbmp7, checkPositionX, engineOriginPositionY, paint)
+                    engineOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledbmp6, passPositionX, EngineOriginPostionY, paint)
-                    EngineOriginPostionY += 30f
+                    canvas8.drawBitmap(scaledbmp8, passPositionX, engineOriginPositionY, paint)
+                    engineOriginPositionY += 30f
                 }
             }
         }
+
+        // On initialise un position Y (top) d'origine,
+        // Et chaque fois que l'on dessine une nouvelle ligne, on ajoute +30
+
 
 
         pdfDocument.finishPage(myPage2)
