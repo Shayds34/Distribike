@@ -22,6 +22,7 @@ import com.distribike.features.subfeatures.form.main.component.StepState
 import com.distribike.features.subfeatures.form.main.component.Stepper
 import com.distribike.features.subfeatures.form.main.forms.coolingform.CoolingFormActivity
 import com.distribike.features.subfeatures.form.main.forms.suspensionsform.viewmodel.SuspensionsFormViewModel
+import com.distribike.features.subfeatures.form.main.forms.transmissionform.viewmodel.TransmissionFormViewModel
 import com.distribike.features.subfeatures.form.main.model.FormModelUi
 import com.distribike.features.subfeatures.login.WorkerLottie
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +34,7 @@ class TransmissionFormActivity : ComponentActivity() {
         fun newInstance(context: Context) = Intent(context, TransmissionFormActivity::class.java)
     }
 
-    private val viewModel: SuspensionsFormViewModel by viewModels()
+    private val viewModel: TransmissionFormViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

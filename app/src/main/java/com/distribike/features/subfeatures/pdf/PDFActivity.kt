@@ -433,7 +433,7 @@ class PDFActivity : ComponentActivity() {
             }
         }
 
-        var transmissionOriginPositionY = 1335f
+        var transmissionOriginPositionY = 1338f
         sections.transmissionSteps?.stepEntityModels?.map {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */ }
