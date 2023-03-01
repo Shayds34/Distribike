@@ -535,17 +535,17 @@ class PDFActivity : ComponentActivity() {
 
         // On initialise un position Y (top) d'origine,
         // Et chaque fois que l'on dessine une nouvelle ligne, on ajoute +30
-        var generalOriginPostionY = 450f
-        sections.generalSteps?.stepModelUis?.forEach {
+        var EngineOriginPostionY = 350f
+        sections.engineSteps?.stepEntityModels?.forEach {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */ }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledbmp5, checkPositionX, generalOriginPostionY, paint)
-                    generalOriginPostionY += 30f
+                    canvas5.drawBitmap(scaledbmp5, checkPositionX, EngineOriginPostionY, paint)
+                    EngineOriginPostionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledbmp6, passPositionX, generalOriginPostionY, paint)
-                    generalOriginPostionY += 30f
+                    canvas6.drawBitmap(scaledbmp6, passPositionX, EngineOriginPostionY, paint)
+                    EngineOriginPostionY += 30f
                 }
             }
         }
