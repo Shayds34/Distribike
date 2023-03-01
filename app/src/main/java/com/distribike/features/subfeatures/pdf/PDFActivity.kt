@@ -427,7 +427,7 @@ class PDFActivity : ComponentActivity() {
             }
         }
 
-        var TransmissionOriginPositionY = 1305f
+        var TransmissionOriginPositionY = 1335f
         sections.transmissionSteps?.stepEntityModels?.map {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */ }
@@ -531,6 +531,26 @@ class PDFActivity : ComponentActivity() {
 
         // after adding all attributes to our
         // PDF file we will be finishing our page.
+
+
+        // On initialise un position Y (top) d'origine,
+        // Et chaque fois que l'on dessine une nouvelle ligne, on ajoute +30
+        var generalOriginPostionY = 450f
+        sections.generalSteps?.stepModelUis?.forEach {
+            when (it.stepStateUseCaseModel) {
+                PDFModelUi.State.NONE -> { /* nothing to do */ }
+                PDFModelUi.State.COMPLETE -> {
+                    canvas5.drawBitmap(scaledbmp5, checkPositionX, generalOriginPostionY, paint)
+                    generalOriginPostionY += 30f
+                }
+                PDFModelUi.State.PASS -> {
+                    canvas6.drawBitmap(scaledbmp6, passPositionX, generalOriginPostionY, paint)
+                    generalOriginPostionY += 30f
+                }
+            }
+        }
+
+
         pdfDocument.finishPage(myPage2)
 
         // below line is used for setting
