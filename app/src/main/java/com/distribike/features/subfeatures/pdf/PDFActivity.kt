@@ -367,7 +367,7 @@ class PDFActivity : ComponentActivity() {
             }
         }
 
-        var batteryOriginPositionY = 700f
+        var batteryOriginPositionY = 720f
         sections.batterySteps?.stepModelUis?.map {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */ }
@@ -378,6 +378,81 @@ class PDFActivity : ComponentActivity() {
                 PDFModelUi.State.PASS -> {
                     canvas6.drawBitmap(scaledbmp6, passPositionX, batteryOriginPositionY, paint)
                     batteryOriginPositionY += 30f
+                }
+            }
+        }
+
+        var wheelsOriginPositionY = 900f
+        sections.wheelsAndTiresSteps?.stepEntityModels?.map {
+            when (it.stepStateUseCaseModel) {
+                PDFModelUi.State.NONE -> { /* nothing to do */ }
+                PDFModelUi.State.COMPLETE -> {
+                    canvas5.drawBitmap(scaledbmp5, checkPositionX, wheelsOriginPositionY, paint)
+                    wheelsOriginPositionY += 30f
+                }
+                PDFModelUi.State.PASS -> {
+                    canvas6.drawBitmap(scaledbmp6, passPositionX, wheelsOriginPositionY, paint)
+                    wheelsOriginPositionY += 30f
+                }
+            }
+        }
+
+        var BreaksOriginPositionY = 1085f
+        sections.breaksSteps?.stepEntityModels?.map {
+            when (it.stepStateUseCaseModel) {
+                PDFModelUi.State.NONE -> { /* nothing to do */ }
+                PDFModelUi.State.COMPLETE -> {
+                    canvas5.drawBitmap(scaledbmp5, checkPositionX, BreaksOriginPositionY, paint)
+                    BreaksOriginPositionY += 30f
+                }
+                PDFModelUi.State.PASS -> {
+                    canvas6.drawBitmap(scaledbmp6, passPositionX, BreaksOriginPositionY, paint)
+                    BreaksOriginPositionY += 30f
+                }
+            }
+        }
+
+        var SuspensionsOriginPositionY = 1255f
+        sections.suspensionSteps?.stepEntityModels?.map {
+            when (it.stepStateUseCaseModel) {
+                PDFModelUi.State.NONE -> { /* nothing to do */ }
+                PDFModelUi.State.COMPLETE -> {
+                    canvas5.drawBitmap(scaledbmp5, checkPositionX, SuspensionsOriginPositionY, paint)
+                    SuspensionsOriginPositionY += 30f
+                }
+                PDFModelUi.State.PASS -> {
+                    canvas6.drawBitmap(scaledbmp6, passPositionX, SuspensionsOriginPositionY, paint)
+                    SuspensionsOriginPositionY += 30f
+                }
+            }
+        }
+
+        var TransmissionOriginPositionY = 1305f
+        sections.transmissionSteps?.stepEntityModels?.map {
+            when (it.stepStateUseCaseModel) {
+                PDFModelUi.State.NONE -> { /* nothing to do */ }
+                PDFModelUi.State.COMPLETE -> {
+                    canvas5.drawBitmap(scaledbmp5, checkPositionX, TransmissionOriginPositionY, paint)
+                    TransmissionOriginPositionY += 30f
+                }
+                PDFModelUi.State.PASS -> {
+                    canvas6.drawBitmap(scaledbmp6, passPositionX, TransmissionOriginPositionY, paint)
+                    TransmissionOriginPositionY += 30f
+                }
+            }
+        }
+
+        var CoolingOriginPositionY = 1510f
+        sections.coolingSystemSteps?.stepEntityModels?.map {
+            when (it.stepStateUseCaseModel) {
+                PDFModelUi.State.NONE -> { /* nothing to do */ }
+                PDFModelUi.State.COMPLETE -> {
+                    canvas5.drawBitmap(scaledbmp5, checkPositionX, CoolingOriginPositionY, paint)
+                    CoolingOriginPositionY += 30f
+                }
+                PDFModelUi.State.PASS -> {
+                    canvas6.drawBitmap(scaledbmp6, passPositionX, CoolingOriginPositionY, paint)
+                    CoolingOriginPositionY += 30f
                 }
             }
         }
