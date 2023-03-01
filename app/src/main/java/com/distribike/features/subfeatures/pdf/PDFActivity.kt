@@ -397,62 +397,62 @@ class PDFActivity : ComponentActivity() {
             }
         }
 
-        var BreaksOriginPositionY = 1085f
+        var breaksOriginPositionY = 1085f
         sections.breaksSteps?.stepEntityModels?.map {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */ }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledbmp5, checkPositionX, BreaksOriginPositionY, paint)
-                    BreaksOriginPositionY += 30f
+                    canvas5.drawBitmap(scaledbmp5, checkPositionX, breaksOriginPositionY, paint)
+                    breaksOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledbmp6, passPositionX, BreaksOriginPositionY, paint)
-                    BreaksOriginPositionY += 30f
+                    canvas6.drawBitmap(scaledbmp6, passPositionX, breaksOriginPositionY, paint)
+                    breaksOriginPositionY += 30f
                 }
             }
         }
 
-        var SuspensionsOriginPositionY = 1255f
+        var suspensionsOriginPositionY = 1255f
         sections.suspensionSteps?.stepEntityModels?.map {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */ }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledbmp5, checkPositionX, SuspensionsOriginPositionY, paint)
-                    SuspensionsOriginPositionY += 30f
+                    canvas5.drawBitmap(scaledbmp5, checkPositionX, suspensionsOriginPositionY, paint)
+                    suspensionsOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledbmp6, passPositionX, SuspensionsOriginPositionY, paint)
-                    SuspensionsOriginPositionY += 30f
+                    canvas6.drawBitmap(scaledbmp6, passPositionX, suspensionsOriginPositionY, paint)
+                    suspensionsOriginPositionY += 30f
                 }
             }
         }
 
-        var TransmissionOriginPositionY = 1335f
+        var transmissionOriginPositionY = 1335f
         sections.transmissionSteps?.stepEntityModels?.map {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */ }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledbmp5, checkPositionX, TransmissionOriginPositionY, paint)
-                    TransmissionOriginPositionY += 30f
+                    canvas5.drawBitmap(scaledbmp5, checkPositionX, transmissionOriginPositionY, paint)
+                    transmissionOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledbmp6, passPositionX, TransmissionOriginPositionY, paint)
-                    TransmissionOriginPositionY += 30f
+                    canvas6.drawBitmap(scaledbmp6, passPositionX, transmissionOriginPositionY, paint)
+                    transmissionOriginPositionY += 30f
                 }
             }
         }
 
-        var CoolingOriginPositionY = 1510f
+        var coolingOriginPositionY = 1510f
         sections.coolingSystemSteps?.stepEntityModels?.map {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */ }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledbmp5, checkPositionX, CoolingOriginPositionY, paint)
-                    CoolingOriginPositionY += 30f
+                    canvas5.drawBitmap(scaledbmp5, checkPositionX, coolingOriginPositionY, paint)
+                    coolingOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledbmp6, passPositionX, CoolingOriginPositionY, paint)
-                    CoolingOriginPositionY += 30f
+                    canvas6.drawBitmap(scaledbmp6, passPositionX, coolingOriginPositionY, paint)
+                    coolingOriginPositionY += 30f
                 }
             }
         }

@@ -1,7 +1,5 @@
 package com.distribike.features.subfeatures.form.entity
 
-import android.util.Log
-import androidx.lifecycle.flowWithLifecycle
 import com.distribike.features.subfeatures.form.entity.mappers.FormsEntityMapper
 import com.distribike.features.subfeatures.form.entity.models.FormRecordEntityModel
 import com.distribike.features.subfeatures.form.entity.models.StepStateEntityModel
@@ -40,14 +38,6 @@ class FormSaverEntityImpl @Inject constructor(
             steeringSteps = formsEntityMapper.mapToSteering(model.sections[12]),
         )
     }
-
-    override val getPDFResult: Flow<FormRecordEntityModel> = formRecord
-        .flatMapLatest {
-            flow {
-                val formResult = formRecord.value
-                emit(formResult)
-            }
-        }
 
     //region GENERAL SECTION
     /**

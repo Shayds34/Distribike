@@ -48,7 +48,7 @@ class TransmissionFormViewModel @Inject constructor(
         additionalInfo2: String? = null
     ) {
         viewModelScope.launch(dispatcher) {
-            useCase.saveSuspensionsStepState(
+            useCase.saveTransmissionStepState(
                 state = state,
                 currentStep = currentStep,
                 additionalInfo = additionalInfo,

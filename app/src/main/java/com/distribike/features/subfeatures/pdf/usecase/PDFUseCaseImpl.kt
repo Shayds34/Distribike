@@ -24,7 +24,6 @@ class PDFUseCaseImpl @Inject constructor(
 
     override val pdfResults: Flow<PDFUseCaseModel> by lazy {
         entity.formRecord.mapLatest { result ->
-            Log.e("SEBCHA", "useCaseImpl result $result")
             mapper.mapEntityToUseCaseModel(result)
         }
     }

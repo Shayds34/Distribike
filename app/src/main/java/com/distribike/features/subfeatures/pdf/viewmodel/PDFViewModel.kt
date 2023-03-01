@@ -31,7 +31,6 @@ class PDFViewModel @Inject constructor(
     val formRecordLiveData: LiveData<PDFModelUi> = useCase.pdfResults
         .flowOn(dispatcher)
         .mapLatest {
-            Log.e("SEBCHA", "viewModel pdfResult $it")
             mapper.mapToModelUi(it)
         }
         .distinctUntilChanged()
