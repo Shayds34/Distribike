@@ -30,13 +30,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.distribike.BuildConfig
 import com.distribike.R
 import com.distribike.features.subfeatures.pdf.model.PDFModelUi
 import com.distribike.features.subfeatures.pdf.viewmodel.PDFViewModel
 import com.distribike.ui.theme.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
+import java.io.FileInputStream
 import java.io.FileOutputStream
 
 @Suppress("DEPRECATION")
@@ -433,7 +436,7 @@ class PDFActivity : ComponentActivity() {
             }
         }
 
-        var transmissionOriginPositionY = 1338f
+        var transmissionOriginPositionY = 1340f
         sections.transmissionSteps?.stepEntityModels?.map {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */ }
@@ -612,7 +615,7 @@ class PDFActivity : ComponentActivity() {
 
         // below line is used to set the name of
         // our PDF file and its path.
-        val file: File = File(Environment.getExternalStorageDirectory(), "N°CHASSIS.pdf")
+        val file: File = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath, "N°CHASSIS.pdf")
 
         try {
             // after creating a file name we will
@@ -633,6 +636,21 @@ class PDFActivity : ComponentActivity() {
         // after storing our pdf to that
         // location we are closing our PDF file.
         pdfDocument.close()
+        val uri = FileProvider.getUriForFile(
+            context,
+            BuildConfig.APPLICATION_ID + ".provider", file)
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            intent.putExtra(Intent.EXTRA_TEXT, "TEST")
+            setDataAndType(uri, "application/pdf")
+
+
+        }
+        context.startActivity(Intent.createChooser(intent, "Selectionner l'application"))
+
+
+
     }
 
     fun checkPermissions(context: Context): Boolean {
