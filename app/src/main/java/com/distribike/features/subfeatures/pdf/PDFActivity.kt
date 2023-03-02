@@ -18,14 +18,19 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material.ButtonColors
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
@@ -35,6 +40,8 @@ import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.distribike.BuildConfig
 import com.distribike.R
+import com.distribike.features.subfeatures.form.main.forms.wheelsform.WheelsFormActivity
+import com.distribike.features.subfeatures.motorcycleform.MotorcycleFormActivity
 import com.distribike.features.subfeatures.pdf.model.PDFModelUi
 import com.distribike.features.subfeatures.pdf.viewmodel.PDFViewModel
 import com.distribike.ui.theme.*
@@ -61,7 +68,12 @@ class PDFActivity : ComponentActivity() {
                 // modifier and color for our app
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colors.background
-            ) {
+
+            )
+
+
+            {
+
                 // on below line we are specifying theme as scaffold.
                 Scaffold(
 
@@ -189,7 +201,7 @@ class PDFActivity : ComponentActivity() {
             // on below line we are creating a simple text as a PDF Generator.
             Text(
                 // on below line we are setting text to our text
-                text = "Générateur PDF",
+                text = "Validation du PDI",
 
                 // on below line we are
                 // setting color for our text
@@ -205,23 +217,24 @@ class PDFActivity : ComponentActivity() {
 
                 // on below line we are
                 // setting font size for our text
-                fontSize = 20.sp
+                fontSize = 40.sp
             )
 
             // on below line we are adding
             // spacer between text and a button.
-            Spacer(modifier = Modifier.height(60.dp))
+            Spacer(modifier = Modifier.height(120.dp))
 
             // on the below line we are creating a button.
-            Button(
+            androidx.compose.material3.Button(
                 // on below line we are adding a modifier
                 // to it and specifying max width to it.
+                colors = ButtonDefaults.buttonColors(containerColor = Green),
                 modifier = Modifier
                     .fillMaxWidth()
 
                     // on below line we are adding
                     // padding for our button.
-                    .padding(20.dp),
+                    .padding(horizontal = 150.dp),
 
                 // on below line we are adding
                 // on click for our button.
@@ -240,7 +253,48 @@ class PDFActivity : ComponentActivity() {
                 }) {
 
                 // on the below line we are displaying a text for our button.
-                Text(modifier = Modifier.padding(6.dp), text = "Ouvrir/Envoyer/Imprimer PDF")
+                Text(modifier = Modifier
+                    .padding(10.dp),
+                    color = White,
+                    fontSize = 22.sp,
+                    text = "Ouvrir/Envoyer/Imprimer PDF")
+            }
+            // on below line we are adding
+            // spacer between text and a button.
+
+            Spacer(modifier = Modifier.height(80.dp))
+
+
+            androidx.compose.material3.Button(
+                // on below line we are adding a modifier
+                // to it and specifying max width to it.
+                colors = ButtonDefaults.buttonColors(containerColor = RedDark),
+                modifier = Modifier
+                    .fillMaxWidth()
+
+                    // on below line we are adding
+                    // padding for our button.
+                    .padding(horizontal = 150.dp),
+
+                // on below line we are adding
+                // on click for our button.
+                onClick = {
+                    finish()
+                    startActivity(MotorcycleFormActivity.newInstance(context = applicationContext))
+                }
+
+            )
+
+            {
+
+                // on the below line we are displaying a text for our button.
+                Text(modifier = Modifier
+                    .padding(10.dp),
+                    color = White,
+                    fontSize = 22.sp,
+                    text = "Commencer un nouveau châssis")
+
+
             }
         }
 
@@ -647,13 +701,13 @@ class PDFActivity : ComponentActivity() {
             sendintent.putExtra(Intent.EXTRA_STREAM, uri)
             sendintent.setDataAndType(uri, "application/pdf")
 
-        val openIntent = Intent(Intent.ACTION_VIEW)
-        openIntent.setDataAndType(uri, "application/pdf")
-        openIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        val openintent = Intent(Intent.ACTION_VIEW)
+        openintent.setDataAndType(uri, "application/pdf")
+        openintent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
-        val chooserIntent = Intent.createChooser(sendintent,"Selectionner l'application")
+        val chooserIntent = Intent.createChooser(openintent,"Selectionner l'application")
 
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(openIntent))
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(sendintent))
 
         context.startActivity(chooserIntent)
 
