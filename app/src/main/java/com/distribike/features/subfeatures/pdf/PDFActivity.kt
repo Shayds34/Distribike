@@ -27,8 +27,10 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -63,9 +65,10 @@ class PDFActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
+
             Surface(
                 // on below line we are specifying
-                // modifier and color for our app
+               // modifier and color for our app
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colors.background
 
@@ -73,6 +76,8 @@ class PDFActivity : ComponentActivity() {
 
 
             {
+
+
 
                 // on below line we are specifying theme as scaffold.
                 Scaffold(
@@ -178,6 +183,8 @@ class PDFActivity : ComponentActivity() {
 
         // on below line we are creating a column for our ui.
         Column(
+
+
             // in this column we are adding a modifier for our
             // column and specifying max width, height and size.
             modifier = Modifier
@@ -197,6 +204,19 @@ class PDFActivity : ComponentActivity() {
             // horizontal alignment for our column.
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+            Image(
+                painter = painterResource(id = R.drawable.login_image3),
+                contentDescription = null,
+                modifier = Modifier
+                    .height(160.dp)
+                    .width(160.dp)
+                    .paint(
+                        painter = painterResource(R.drawable.logodistribike2),
+                        contentScale = ContentScale.FillWidth
+                    )
+                    .padding(32.dp),
+            )
 
             // on below line we are creating a simple text as a PDF Generator.
             Text(
