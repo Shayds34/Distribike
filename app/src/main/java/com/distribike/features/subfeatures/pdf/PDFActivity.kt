@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.graphics.pdf.PdfDocument
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -239,7 +240,7 @@ class PDFActivity : ComponentActivity() {
                 }) {
 
                 // on the below line we are displaying a text for our button.
-                Text(modifier = Modifier.padding(6.dp), text = "Ouvrir PDF")
+                Text(modifier = Modifier.padding(6.dp), text = "Ouvrir/Envoyer/Imprimer PDF")
             }
         }
 
@@ -639,15 +640,35 @@ class PDFActivity : ComponentActivity() {
         val uri = FileProvider.getUriForFile(
             context,
             BuildConfig.APPLICATION_ID + ".provider", file)
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            intent.putExtra(Intent.EXTRA_TEXT, "TEST")
-            setDataAndType(uri, "application/pdf")
+        val sendintent = Intent(Intent.ACTION_SEND)
+
+            sendintent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            sendintent.putExtra(Intent.EXTRA_SUBJECT, "PDI")
+            sendintent.putExtra(Intent.EXTRA_STREAM, uri)
+            sendintent.setDataAndType(uri, "application/pdf")
+
+        val openIntent = Intent(Intent.ACTION_VIEW)
+        openIntent.setDataAndType(uri, "application/pdf")
+        openIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        val chooserIntent = Intent.createChooser(sendintent,"Selectionner l'application")
+
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(openIntent))
+
+        context.startActivity(chooserIntent)
+
+// a garder ouvrir unique
+      //  val uri = FileProvider.getUriForFile(
+      //      context,
+      //      BuildConfig.APPLICATION_ID + ".provider", file)
+     //   val intent = Intent(Intent.ACTION_VIEW).apply {
+      //      addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+      //      addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+       //     setDataAndType(uri, "application/pdf")
 
 
-        }
-        context.startActivity(Intent.createChooser(intent, "Selectionner l'application"))
+       // }
+        //context.startActivity(Intent.createChooser(intent, "Selectionner l'application"))
 
 
 
