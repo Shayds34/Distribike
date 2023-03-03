@@ -62,6 +62,34 @@ fun LoginLottie(modifier: Modifier = Modifier) {
 }
 
 @Composable
+fun WorkerLottie(modifier: Modifier = Modifier) {
+    // Keep track if the animation is playing
+    val isPlaying by remember {
+        mutableStateOf(true)
+    }
+
+    val speed by remember {
+        mutableStateOf(1f)
+    }
+
+    val composition by rememberLottieComposition(
+        spec = LottieCompositionSpec.RawRes(R.raw.lottie_worker_yellow_and_black)
+    )
+
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = LottieConstants.IterateForever,
+        isPlaying = isPlaying,
+        speed = speed,
+        restartOnPlay = false
+    )
+
+    LottieAnimation(
+        composition = composition, progress = progress, modifier = modifier
+    )
+}
+
+@Composable
 fun LoginScreen() {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp

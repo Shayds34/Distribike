@@ -180,21 +180,7 @@
         }
       ]
     },
-    {
-      "title": "Système d'alimentation",
-      "tasks": [
-        {
-          "id": 0,
-          "title": "Commande des gaz | Vérifier le jeu libre, le passage du câble.(Reste au ralenti dans toutes les positions du guidon)",
-          "description": ""
-        },
-        {
-          "id": 1,
-          "title": "Réservoir et canalisations | Vérifier s'il y a des fuites.",
-          "description": ""
-        }
-      ]
-    },
+
     {
       "title": "Système d'alimentation",
       "tasks": [

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
@@ -35,8 +36,8 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
-import com.distribike.features.subfeatures.form.scanner.main.viewmodel.CameraViewModel
 import com.distribike.features.subfeatures.form.scanner.main.component.BarcodeConfirmationDialog
+import com.distribike.features.subfeatures.form.scanner.main.viewmodel.CameraViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.common.util.concurrent.ListenableFuture
@@ -47,6 +48,8 @@ import java.util.concurrent.Executors
 @OptIn(ExperimentalPermissionsApi::class)
 @AndroidEntryPoint
 class CameraActivity : ComponentActivity(), LifecycleOwner {
+
+    private val viewModel: CameraViewModel by viewModels()
 
     companion object {
         fun newInstance(context: Context) = Intent(context, CameraActivity::class.java)
@@ -69,6 +72,10 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
                 CameraPreview()
 
                 BarcodeConfirmationDialog()
+
+                if (viewModel.chassisState.collectAsState().value.isNotEmpty()) {
+                    finish()
+                }
             }
         }
     }
