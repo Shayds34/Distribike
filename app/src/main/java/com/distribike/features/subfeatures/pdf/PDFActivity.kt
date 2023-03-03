@@ -9,11 +9,9 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.graphics.pdf.PdfDocument
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,15 +20,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material.ButtonColors
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -42,15 +37,16 @@ import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.distribike.BuildConfig
 import com.distribike.R
-import com.distribike.features.subfeatures.form.main.forms.wheelsform.WheelsFormActivity
 import com.distribike.features.subfeatures.motorcycleform.MotorcycleFormActivity
 import com.distribike.features.subfeatures.pdf.model.PDFModelUi
 import com.distribike.features.subfeatures.pdf.viewmodel.PDFViewModel
 import com.distribike.ui.theme.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
-import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.util.*
 
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
@@ -329,6 +325,20 @@ class PDFActivity : ComponentActivity() {
         // for our PDF file.
         var pageHeight = 1680
         var pageWidth = 1188
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+        val currentDate = sdf.format(Date())
+        var name = "NOM PRENOM"
+        var codeprep = "555555"
+        var model = "CMX500"
+        var chassis = "JH25ML14578912314"
+        var concess = "MOTO ARLES SARL TEST"
+        var codeconcess = "1055577"
+        var position = "921127"
+        var avbar = "20"
+        var arbar = "25"
+        var debattement = "5"
+        var markgauche = "2"
+        var markdroite = "5"
 
         // creating a bitmap variable
         // for storing our images
@@ -410,7 +420,7 @@ class PDFActivity : ComponentActivity() {
 
         // creating a variable for canvas
         // from our page of PDF.
-
+        var canvas1: Canvas = myPage.canvas
         var canvas4: Canvas = myPage.canvas
         var canvas5: Canvas = myPage.canvas
         var canvas6: Canvas = myPage.canvas
@@ -426,7 +436,21 @@ class PDFActivity : ComponentActivity() {
 
         //GENERAL
         //canvas5.drawBitmap(scaledbmp5, 100F, 450F, paint)
-
+        title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL))
+        title.textSize = 20F
+        title.setColor(ContextCompat.getColor(context, R.color.black))
+        canvas1.drawText(name, 255F, 139F, title)
+        canvas1.drawText(codeprep, 255F, 180F, title)
+        canvas1.drawText(model, 702F, 139F, title)
+        canvas1.drawText(chassis, 730F, 182F, title)
+        canvas1.drawText(concess, 831F, 227F, title)
+        canvas1.drawText(codeconcess, 831F, 267F, title)
+        canvas1.drawText(position, 762F, 312F, title)
+        canvas1.drawText(avbar, 782F, 955F, title)
+        canvas1.drawText(arbar, 925F, 955F, title)
+        canvas1.drawText(debattement+" cm", 370F, 1393F, title)
+        canvas1.drawText(markgauche, 750F, 1462F, title)
+        canvas1.drawText(markdroite, 900F, 1462F, title)
 
         // GLOBAL POSITION
         // Normalement ces positions ne devraient jamais changer,
@@ -556,6 +580,7 @@ class PDFActivity : ComponentActivity() {
 
         // creating a variable for canvas
         // from our page of PDF.
+        var canvas: Canvas = myPage2.canvas
         var canvas2: Canvas = myPage2.canvas
         var canvas7: Canvas = myPage2.canvas
         var canvas8: Canvas = myPage2.canvas
@@ -570,6 +595,12 @@ class PDFActivity : ComponentActivity() {
 
         // after adding all attributes to our
         // PDF file we will be finishing our page.
+
+        title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL))
+        title.textSize = 20F
+        title.setColor(ContextCompat.getColor(context, R.color.black))
+        canvas.drawText(currentDate, 830F, 1300F, title)
+        canvas.drawText(name, 830F, 1400F, title)
 
         var engineOriginPositionY = 90f
         sections.engineSteps?.stepEntityModels?.map {
@@ -675,7 +706,7 @@ class PDFActivity : ComponentActivity() {
         // creating a variable for canvas
         // from our page of PDF.
         var canvas3: Canvas = myPage3.canvas
-
+        var canvas9: Canvas = myPage3.canvas
         // below line is used to draw our image on our PDF file.
         // the first parameter of our drawbitmap method is
         // our bitmap
@@ -683,6 +714,8 @@ class PDFActivity : ComponentActivity() {
         // third parameter is position from top and last
         // one is our variable for paint.
         canvas3.drawBitmap(scaledbmp2, 0F, 0F, paint)
+        canvas9.drawText(model, 695F, 195F, title)
+        canvas9.drawText(chassis, 725F, 238F, title)
 
         // after adding all attributes to our
         // PDF file we will be finishing our page.
