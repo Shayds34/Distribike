@@ -198,27 +198,15 @@ class PDFActivity : ComponentActivity() {
 
             // on below line we are adding vertical
             // arrangement for our column as center
-            verticalArrangement = Arrangement.Center,
+         //   verticalArrangement = Arrangement.Center,
 
             // on below line we are adding
             // horizontal alignment for our column.
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Image(
-                painter = painterResource(id = R.drawable.login_image3),
-                contentDescription = null,
-                modifier = Modifier
-                    .height(160.dp)
-                    .width(160.dp)
-                    .paint(
-                        painter = painterResource(R.drawable.logodistribike2),
-                        contentScale = ContentScale.FillWidth
-                    )
-                    .padding(32.dp),
-            )
+            Spacer(modifier = Modifier.height(50.dp))
 
-            // on below line we are creating a simple text as a PDF Generator.
             Text(
                 // on below line we are setting text to our text
                 text = "Validation du PDI",
@@ -240,9 +228,21 @@ class PDFActivity : ComponentActivity() {
                 fontSize = 40.sp
             )
 
+            Image(
+                painter = painterResource(id = R.drawable.login_image5),
+                contentDescription = null,
+                modifier = Modifier
+                    .height(540.dp)
+                    .width(580.dp)
+
+            )
+
+
+
+
             // on below line we are adding
             // spacer between text and a button.
-            Spacer(modifier = Modifier.height(120.dp))
+            Spacer(modifier = Modifier.height(50.dp))
 
             // on the below line we are creating a button.
             androidx.compose.material3.Button(
