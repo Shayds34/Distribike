@@ -47,6 +47,14 @@ import java.util.*
 class PDFActivity : ComponentActivity() {
 
     companion object {
+        private const val PERMISSION_REQUEST_CODE = 101
+        private const val FLAG_FILE_TYPE = "application/pdf"
+
+        private const val PERMISSION_GRANTED = "Permissions Granted..."
+        private const val PERMISSION_DENIED = "Permissions Denied..."
+        private const val TOAST_SUCCESS = "PDF file generated..."
+        private const val TOAST_FAILURE = "Fail to generate PDF file..."
+
         fun newInstance(context: Context) = Intent(context, PDFActivity::class.java)
     }
 
@@ -88,12 +96,14 @@ class PDFActivity : ComponentActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        if (requestCode == 101) {
+        if (requestCode == PERMISSION_REQUEST_CODE) {
             if (grantResults.isNotEmpty()) {
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Permission Granted..", Toast.LENGTH_SHORT).show()
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                    grantResults[1] == PackageManager.PERMISSION_GRANTED
+                ) {
+                    Toast.makeText(this, PERMISSION_GRANTED, Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this, "Permission Denied..", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, PERMISSION_DENIED, Toast.LENGTH_SHORT).show()
                     finish()
                 }
             }
@@ -109,7 +119,7 @@ class PDFActivity : ComponentActivity() {
         val sections = viewModel.formRecordLiveData.observeAsState(PDFModelUi())
 
         if (checkPermissions(context)) {
-            Toast.makeText(context, "Permissions Granted..", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, PERMISSION_GRANTED, Toast.LENGTH_SHORT).show()
         } else {
             requestPermission(activity!!)
         }
@@ -226,9 +236,9 @@ class PDFActivity : ComponentActivity() {
         val pdfDocument = PdfDocument()
 
         // Two variables for paint:
-        // paint is for drawing shapes
+        // paint is for drawing shapes (like background)
         // textPaint is for adding text in our PDF file.
-        val paint = Paint()
+        val imagePaint = Paint()
         val textPaint = Paint()
 
         // On below line we are initializing our bitmap and scaled bitmap.
@@ -255,10 +265,9 @@ class PDFActivity : ComponentActivity() {
         scaledBitmap8 = Bitmap.createScaledBitmap(bmp8, 30, 28, false)
 
 
-        // we are adding page info to our PDF file
-        // in which we will be passing our pageWidth,
-        // pageHeight and number of pages and after that
-        // we are calling it to create our PDF.
+        // Add page info to PDF file with
+        // pageWidth, pageHeight and number of pages
+        // Then create PDF file.
         val myPageInfo: PdfDocument.PageInfo? =
             PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create()
 
@@ -267,28 +276,20 @@ class PDFActivity : ComponentActivity() {
 
         val myPageInfo3: PdfDocument.PageInfo? =
             PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 3).create()
-        // below line is used for setting
-        // start page for our PDF file.
+
+        // Start page for PDF file.
         val myPage: PdfDocument.Page = pdfDocument.startPage(myPageInfo)
 
-        // creating a variable for canvas
-        // from our page of PDF.
+        // Create variable for canvas from PDF page.
         val canvas1: Canvas = myPage.canvas
         val canvas4: Canvas = myPage.canvas
         val canvas5: Canvas = myPage.canvas
         val canvas6: Canvas = myPage.canvas
 
-        // below line is used to draw our image on our PDF file.
-        // the first parameter of our drawbitmap method is
-        // our bitmap
-        // second parameter is position from left
-        // third parameter is position from top and last
-        // one is our variable for paint.
+        // Draw image on PDF file.
+        canvas4.drawBitmap(scaledBitmap4, 0F, 0F, imagePaint)
 
-        canvas4.drawBitmap(scaledBitmap4, 0F, 0F, paint)
-
-        //GENERAL
-        //canvas5.drawBitmap(scaledbmp5, 100F, 450F, paint)
+        // Login & MotorcycleForm information
         textPaint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
         textPaint.textSize = 20F
         textPaint.color = ContextCompat.getColor(context, R.color.black)
@@ -311,6 +312,7 @@ class PDFActivity : ComponentActivity() {
         val checkPositionX = 70f
         val passPositionX = 110f
 
+        // GENERAL
         // On initialise un position Y (top) d'origine,
         // Et chaque fois que l'on dessine une nouvelle ligne, on ajoute +30
         var generalOriginPostionY = 450f
@@ -319,11 +321,11 @@ class PDFActivity : ComponentActivity() {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledBitmap5, checkPositionX, generalOriginPostionY, paint)
+                    canvas5.drawBitmap(scaledBitmap5, checkPositionX, generalOriginPostionY, imagePaint)
                     generalOriginPostionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledBitmap6, passPositionX, generalOriginPostionY, paint)
+                    canvas6.drawBitmap(scaledBitmap6, passPositionX, generalOriginPostionY, imagePaint)
                     generalOriginPostionY += 30f
                 }
             }
@@ -335,11 +337,11 @@ class PDFActivity : ComponentActivity() {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledBitmap5, checkPositionX, batteryOriginPositionY, paint)
+                    canvas5.drawBitmap(scaledBitmap5, checkPositionX, batteryOriginPositionY, imagePaint)
                     batteryOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledBitmap6, passPositionX, batteryOriginPositionY, paint)
+                    canvas6.drawBitmap(scaledBitmap6, passPositionX, batteryOriginPositionY, imagePaint)
                     batteryOriginPositionY += 30f
                 }
             }
@@ -351,11 +353,11 @@ class PDFActivity : ComponentActivity() {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledBitmap5, checkPositionX, wheelsOriginPositionY, paint)
+                    canvas5.drawBitmap(scaledBitmap5, checkPositionX, wheelsOriginPositionY, imagePaint)
                     wheelsOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledBitmap6, passPositionX, wheelsOriginPositionY, paint)
+                    canvas6.drawBitmap(scaledBitmap6, passPositionX, wheelsOriginPositionY, imagePaint)
                     wheelsOriginPositionY += 30f
                 }
             }
@@ -367,11 +369,11 @@ class PDFActivity : ComponentActivity() {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledBitmap5, checkPositionX, breaksOriginPositionY, paint)
+                    canvas5.drawBitmap(scaledBitmap5, checkPositionX, breaksOriginPositionY, imagePaint)
                     breaksOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledBitmap6, passPositionX, breaksOriginPositionY, paint)
+                    canvas6.drawBitmap(scaledBitmap6, passPositionX, breaksOriginPositionY, imagePaint)
                     breaksOriginPositionY += 30f
                 }
             }
@@ -387,7 +389,7 @@ class PDFActivity : ComponentActivity() {
                         scaledBitmap5,
                         checkPositionX,
                         suspensionsOriginPositionY,
-                        paint
+                        imagePaint
                     )
                     suspensionsOriginPositionY += 30f
                 }
@@ -396,7 +398,7 @@ class PDFActivity : ComponentActivity() {
                         scaledBitmap6,
                         passPositionX,
                         suspensionsOriginPositionY,
-                        paint
+                        imagePaint
                     )
                     suspensionsOriginPositionY += 30f
                 }
@@ -413,7 +415,7 @@ class PDFActivity : ComponentActivity() {
                         scaledBitmap5,
                         checkPositionX,
                         transmissionOriginPositionY,
-                        paint
+                        imagePaint
                     )
                     transmissionOriginPositionY += 30f
                 }
@@ -422,7 +424,7 @@ class PDFActivity : ComponentActivity() {
                         scaledBitmap6,
                         passPositionX,
                         transmissionOriginPositionY,
-                        paint
+                        imagePaint
                     )
                     transmissionOriginPositionY += 30f
                 }
@@ -435,42 +437,28 @@ class PDFActivity : ComponentActivity() {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledBitmap5, checkPositionX, coolingOriginPositionY, paint)
+                    canvas5.drawBitmap(scaledBitmap5, checkPositionX, coolingOriginPositionY, imagePaint)
                     coolingOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledBitmap6, passPositionX, coolingOriginPositionY, paint)
+                    canvas6.drawBitmap(scaledBitmap6, passPositionX, coolingOriginPositionY, imagePaint)
                     coolingOriginPositionY += 30f
                 }
             }
         }
 
-        // after adding all attributes to our
-        // PDF file we will be finishing our page.
+        // After adding all attributes to PDF file, finish page.
         pdfDocument.finishPage(myPage)
 
-        // below line is used for setting
-        // start page for our PDF file.
+        // Start second page for PDF file.
         val myPage2: PdfDocument.Page = pdfDocument.startPage(myPageInfo2)
-
-        // creating a variable for canvas
-        // from our page of PDF.
         val canvas: Canvas = myPage2.canvas
         val canvas2: Canvas = myPage2.canvas
         val canvas7: Canvas = myPage2.canvas
         val canvas8: Canvas = myPage2.canvas
 
-        // below line is used to draw our image on our PDF file.
-        // the first parameter of our drawbitmap method is
-        // our bitmap
-        // second parameter is position from left
-        // third parameter is position from top and last
-        // one is our variable for paint.
-        canvas2.drawBitmap(scaledBitmap3, 0F, 0F, paint)
-
-        // after adding all attributes to our
-        // PDF file we will be finishing our page.
-
+        // Draw image on PDF file.
+        canvas2.drawBitmap(scaledBitmap3, 0F, 0F, imagePaint)
         textPaint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
         textPaint.textSize = 20F
         textPaint.color = ContextCompat.getColor(context, R.color.black)
@@ -483,11 +471,11 @@ class PDFActivity : ComponentActivity() {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas7.drawBitmap(scaledBitmap7, checkPositionX, engineOriginPositionY, paint)
+                    canvas7.drawBitmap(scaledBitmap7, checkPositionX, engineOriginPositionY, imagePaint)
                     engineOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas8.drawBitmap(scaledBitmap8, passPositionX, engineOriginPositionY, paint)
+                    canvas8.drawBitmap(scaledBitmap8, passPositionX, engineOriginPositionY, imagePaint)
                     engineOriginPositionY += 30f
                 }
             }
@@ -503,12 +491,12 @@ class PDFActivity : ComponentActivity() {
                         scaledBitmap7,
                         checkPositionX,
                         poweringOriginPositionY,
-                        paint
+                        imagePaint
                     )
                     poweringOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas8.drawBitmap(scaledBitmap8, passPositionX, poweringOriginPositionY, paint)
+                    canvas8.drawBitmap(scaledBitmap8, passPositionX, poweringOriginPositionY, imagePaint)
                     poweringOriginPositionY += 30f
                 }
             }
@@ -520,11 +508,11 @@ class PDFActivity : ComponentActivity() {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas7.drawBitmap(scaledBitmap7, checkPositionX, clutchOriginPositionY, paint)
+                    canvas7.drawBitmap(scaledBitmap7, checkPositionX, clutchOriginPositionY, imagePaint)
                     clutchOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas8.drawBitmap(scaledBitmap8, passPositionX, clutchOriginPositionY, paint)
+                    canvas8.drawBitmap(scaledBitmap8, passPositionX, clutchOriginPositionY, imagePaint)
                     clutchOriginPositionY += 30f
                 }
             }
@@ -536,11 +524,11 @@ class PDFActivity : ComponentActivity() {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas7.drawBitmap(scaledBitmap7, checkPositionX, othersOriginPositionY, paint)
+                    canvas7.drawBitmap(scaledBitmap7, checkPositionX, othersOriginPositionY, imagePaint)
                     othersOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas8.drawBitmap(scaledBitmap8, passPositionX, othersOriginPositionY, paint)
+                    canvas8.drawBitmap(scaledBitmap8, passPositionX, othersOriginPositionY, imagePaint)
                     othersOriginPositionY += 30f
                 }
             }
@@ -556,12 +544,12 @@ class PDFActivity : ComponentActivity() {
                         scaledBitmap7,
                         checkPositionX,
                         electricOriginPositionY,
-                        paint
+                        imagePaint
                     )
                     electricOriginPositionY += 31f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas8.drawBitmap(scaledBitmap8, passPositionX, electricOriginPositionY, paint)
+                    canvas8.drawBitmap(scaledBitmap8, passPositionX, electricOriginPositionY, imagePaint)
                     electricOriginPositionY += 31f
                 }
             }
@@ -577,93 +565,70 @@ class PDFActivity : ComponentActivity() {
                         scaledBitmap7,
                         checkPositionX,
                         steeringOriginPositionY,
-                        paint
+                        imagePaint
                     )
                     steeringOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas8.drawBitmap(scaledBitmap8, passPositionX, steeringOriginPositionY, paint)
+                    canvas8.drawBitmap(scaledBitmap8, passPositionX, steeringOriginPositionY, imagePaint)
                     steeringOriginPositionY += 30f
                 }
             }
         }
 
-        // On initialise un position Y (top) d'origine,
-        // Et chaque fois que l'on dessine une nouvelle ligne, on ajoute +30
-
-
         pdfDocument.finishPage(myPage2)
 
-        // below line is used for setting
-        // start page for our PDF file.
+        // Start page 3 for our PDF file.
         val myPage3: PdfDocument.Page = pdfDocument.startPage(myPageInfo3)
-
-        // creating a variable for canvas
-        // from our page of PDF.
+        // Creating a variable for canvas from our page of PDF.
         val canvas3: Canvas = myPage3.canvas
         val canvas9: Canvas = myPage3.canvas
-        // below line is used to draw our image on our PDF file.
-        // the first parameter of our drawbitmap method is
-        // our bitmap
-        // second parameter is position from left
-        // third parameter is position from top and last
-        // one is our variable for paint.
-        canvas3.drawBitmap(scaledBitmap2, 0F, 0F, paint)
+        // Draw our image on our PDF file.
+        canvas3.drawBitmap(scaledBitmap2, 0F, 0F, imagePaint)
         canvas9.drawText(model, 695F, 195F, textPaint)
         canvas9.drawText(chassis, 725F, 238F, textPaint)
 
-        // after adding all attributes to our
-        // PDF file we will be finishing our page.
+        // After adding all attributes, we will be finishing our page.
         pdfDocument.finishPage(myPage3)
 
-        // below line is used to set the name of
-        // our PDF file and its path.
+        // Set the name of our PDF file and its path.
         val file = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath,
             "N°CHASSIS.pdf"
         )
 
         try {
-            // after creating a file name we will
-            // write our PDF file to that location.
+            // Write PDF file to that location.
             pdfDocument.writeTo(FileOutputStream(file))
-
-            // on below line we are displaying a toast message as PDF file generated..
-            Toast.makeText(context, "PDF file generated..", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, TOAST_SUCCESS, Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
-            // below line is used
-            // to handle error
             e.printStackTrace()
-
-            // on below line we are displaying a toast message as fail to generate PDF
-            Toast.makeText(context, "Fail to generate PDF file..", Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(context, TOAST_FAILURE, Toast.LENGTH_SHORT).show()
         }
-        // after storing our pdf to that
-        // location we are closing our PDF file.
+        // Close PDF file.
         pdfDocument.close()
         val uri = FileProvider.getUriForFile(
             context,
             BuildConfig.APPLICATION_ID + ".provider", file
         )
-        val sendintent = Intent(Intent.ACTION_SEND)
+        // Send function
+        val sendIntent = Intent(Intent.ACTION_SEND)
+        sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "PDI")
+        sendIntent.putExtra(Intent.EXTRA_STREAM, uri)
+        sendIntent.setDataAndType(uri, FLAG_FILE_TYPE)
 
-        sendintent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        sendintent.putExtra(Intent.EXTRA_SUBJECT, "PDI")
-        sendintent.putExtra(Intent.EXTRA_STREAM, uri)
-        sendintent.setDataAndType(uri, "application/pdf")
+        // Open function
+        val openIntent = Intent(Intent.ACTION_VIEW)
+        openIntent.setDataAndType(uri, FLAG_FILE_TYPE)
+        openIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
-        val openintent = Intent(Intent.ACTION_VIEW)
-        openintent.setDataAndType(uri, "application/pdf")
-        openintent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-
-        val chooserIntent = Intent.createChooser(openintent, "Selectionner l'application")
-
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(sendintent))
-
+        // Pick function
+        val chooserIntent = Intent.createChooser(openIntent, "Selectionner l'application")
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(sendIntent))
         context.startActivity(chooserIntent)
 
-// a garder ouvrir unique
+        // A garder ouvrir unique
         //  val uri = FileProvider.getUriForFile(
         //      context,
         //      BuildConfig.APPLICATION_ID + ".provider", file)
@@ -671,46 +636,32 @@ class PDFActivity : ComponentActivity() {
         //      addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         //      addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         //     setDataAndType(uri, "application/pdf")
-
-
         // }
         //context.startActivity(Intent.createChooser(intent, "Selectionner l'application"))
-
-
     }
 
     private fun checkPermissions(context: Context): Boolean {
-        // on below line we are creating a variable for both of our permissions.
-
-        // on below line we are creating a variable for writing to external storage permission
         val writeStoragePermission = ContextCompat.checkSelfPermission(
             context,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
 
-        // on below line we are creating a variable for
-        // reading external storage permission
         val readStoragePermission = ContextCompat.checkSelfPermission(
             context,
             Manifest.permission.READ_EXTERNAL_STORAGE
         )
 
-        // on below line we are returning true if both the
-        // permissions are granted and returning false if permissions are not granted.
-        return writeStoragePermission == PackageManager.PERMISSION_GRANTED && readStoragePermission == PackageManager.PERMISSION_GRANTED
+        return writeStoragePermission == PackageManager.PERMISSION_GRANTED &&
+                readStoragePermission == PackageManager.PERMISSION_GRANTED
     }
 
-    // on below line we are creating a function to request permission.
     private fun requestPermission(activity: Activity) {
-
-        // on below line we are requesting read and write to
-        // storage permission for our application.
         ActivityCompat.requestPermissions(
             activity,
             arrayOf(
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ), 101
+            ), PERMISSION_REQUEST_CODE
         )
     }
 }
