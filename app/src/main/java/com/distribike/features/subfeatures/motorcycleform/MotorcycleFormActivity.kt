@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import com.distribike.features.subfeatures.form.main.forms.generalform.GeneralFormActivity
+import com.distribike.features.subfeatures.form.main.forms.wheelsform.WheelsFormActivity
 import com.distribike.features.subfeatures.form.scanner.main.CameraActivity
 import com.distribike.features.subfeatures.motorcycleform.viewmodel.MotorcycleFormViewModel
 import com.distribike.features.subfeatures.pdf.PDFActivity
@@ -38,8 +39,7 @@ class MotorcycleFormActivity : ComponentActivity() {
 
         viewModel.validateState.observe(this) { isClicked ->
             if (isClicked) {
-              //  startActivity(GeneralFormActivity.newInstance(this))
-                startActivity(PDFActivity.newInstance(this))
+                startActivity(GeneralFormActivity.newInstance(this))
             }
         }
     }

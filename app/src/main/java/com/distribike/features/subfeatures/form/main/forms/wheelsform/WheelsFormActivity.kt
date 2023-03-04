@@ -10,9 +10,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.TextField
 import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -21,10 +23,10 @@ import androidx.compose.ui.unit.sp
 import com.distribike.features.subfeatures.form.main.component.Step
 import com.distribike.features.subfeatures.form.main.component.StepState
 import com.distribike.features.subfeatures.form.main.component.Stepper
-import com.distribike.features.subfeatures.form.main.forms.breaksform.BreaksFormActivity
 import com.distribike.features.subfeatures.form.main.forms.wheelsform.viewmodel.WheelsFormViewModel
 import com.distribike.features.subfeatures.form.main.model.FormModelUi
 import com.distribike.features.subfeatures.login.WorkerLottie
+import com.distribike.features.subfeatures.pdf.PDFActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,6 +43,13 @@ class WheelsFormActivity : ComponentActivity() {
 
         setContent {
             val data = viewModel.viewState.observeAsState(FormModelUi(sections = listOf()))
+
+            var additionalInfo by remember {
+                mutableStateOf("")
+            }
+            var additionalInfo2 by remember {
+                mutableStateOf("")
+            }
 
             Column {
                 Spacer(modifier = Modifier.padding(20.dp))
@@ -78,26 +87,26 @@ class WheelsFormActivity : ComponentActivity() {
                                     Column {
                                         Row {
                                             Text(
-                                                text = "Avant",
+                                                text = "Roue avant",
                                                 modifier = Modifier
                                                     .wrapContentWidth()
                                                     .padding(5.dp)
                                             )
                                             TextField(
-                                                value = "",
-                                                onValueChange = { /* TODO */ }
+                                                value = additionalInfo,
+                                                onValueChange = { additionalInfo = it }
                                             )
                                         }
                                         Row {
                                             Text(
-                                                text = "Arrière",
+                                                text = "Roue arrière",
                                                 modifier = Modifier
                                                     .wrapContentWidth()
                                                     .padding(5.dp)
                                             )
                                             TextField(
-                                                value = "",
-                                                onValueChange = { /* TODO */ }
+                                                value = additionalInfo2,
+                                                onValueChange = { additionalInfo2 = it }
                                             )
                                         }
                                     }
@@ -113,12 +122,24 @@ class WheelsFormActivity : ComponentActivity() {
                         currentStep = currentStep,
                         nextButton = {
                             Button(
-                                enabled = true, // TODO enable only if additional info are filled
+                                enabled = if (currentStep.value < data.value.sections[2].tasks.size) {
+                                    if (data.value.sections[2].tasks[currentStep.value].additionalInfo == "NEEDED") {
+                                        additionalInfo.isNotEmpty() && additionalInfo2.isNotEmpty()
+                                    } else {
+                                        true
+                                    }
+                                } else {
+                                    true
+                                },
                                 onClick = {
                                     viewModel.saveCurrentStepState(
                                         state = StepState.COMPLETE,
-                                        currentStep = currentStep.value
+                                        currentStep = currentStep.value,
+                                        additionalInfo = additionalInfo.ifEmpty { null },
+                                        additionalInfo2 = additionalInfo2.ifEmpty { null }
                                     )
+                                    additionalInfo = ""
+                                    additionalInfo2 = ""
                                     if (currentStep.value < steps.size) {
                                         steps.getOrNull(currentStep.value)?.state?.value =
                                             StepState.COMPLETE
@@ -133,12 +154,24 @@ class WheelsFormActivity : ComponentActivity() {
                         },
                         passButton = {
                             Button(
-                                enabled = true, // TODO enable only if additional info is filled
+                                enabled = if (currentStep.value < data.value.sections[2].tasks.size) {
+                                    if (data.value.sections[2].tasks[currentStep.value].additionalInfo2 == "NEEDED") {
+                                        additionalInfo.isNotEmpty() && additionalInfo2.isNotEmpty()
+                                    } else {
+                                        true
+                                    }
+                                } else {
+                                    true
+                                },
                                 onClick = {
                                     viewModel.saveCurrentStepState(
-                                        state = StepState.PASS,
-                                        currentStep = currentStep.value
+                                        state = StepState.COMPLETE,
+                                        currentStep = currentStep.value,
+                                        additionalInfo = additionalInfo.ifEmpty { null },
+                                        additionalInfo2 = additionalInfo2.ifEmpty { null }
                                     )
+                                    additionalInfo = ""
+                                    additionalInfo2 = ""
                                     if (currentStep.value < steps.size) {
                                         steps.getOrNull(currentStep.value)?.state?.value =
                                             StepState.PASS
@@ -158,6 +191,8 @@ class WheelsFormActivity : ComponentActivity() {
                                         state = StepState.TODO,
                                         currentStep = currentStep.value
                                     )
+                                    additionalInfo = ""
+                                    additionalInfo2 = ""
                                     if (currentStep.value > 0) {
                                         steps.getOrNull(currentStep.value)?.state?.value =
                                             StepState.TODO
@@ -176,7 +211,8 @@ class WheelsFormActivity : ComponentActivity() {
                                 enabled = viewModel.shouldEnableNextButton.observeAsState(false).value,
                                 onClick = {
                                     finish()
-                                    startActivity(BreaksFormActivity.newInstance(context = applicationContext))
+                                    // startActivity(BreaksFormActivity.newInstance(context = applicationContext))
+                                    startActivity(PDFActivity.newInstance(context = applicationContext))
                                 }) {
                                 Text(
                                     text = "Section suivante".uppercase(),

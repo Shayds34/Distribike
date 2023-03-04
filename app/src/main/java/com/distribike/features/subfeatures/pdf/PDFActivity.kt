@@ -203,7 +203,7 @@ class PDFActivity : ComponentActivity() {
         // Initialize MotorcycleForm Information
         val pageHeight = 1680
         val pageWidth = 1188
-        val dataFormat = SimpleDateFormat("dd/M/yyyy hh:mm:ss", Locale.FRANCE)
+        val dataFormat = SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.FRANCE)
         val currentDate = dataFormat.format(Date())
         val name = "NOM PRENOM"
         val codePrep = "555555"
@@ -212,8 +212,6 @@ class PDFActivity : ComponentActivity() {
         val concessionName = "MOTO ARLES SARL TEST"
         val concessionCode = "1055577"
         val position = "921127"
-        val frontWheelPressure = "20"
-        val backWheelPressure = "25"
         val articulation = "5"
         val markLeft = "2"
         val markRight = "5"
@@ -300,9 +298,7 @@ class PDFActivity : ComponentActivity() {
         canvas1.drawText(concessionName, 831F, 227F, textPaint)
         canvas1.drawText(concessionCode, 831F, 267F, textPaint)
         canvas1.drawText(position, 762F, 312F, textPaint)
-        canvas1.drawText(frontWheelPressure, 782F, 955F, textPaint)
-        canvas1.drawText(backWheelPressure, 925F, 955F, textPaint)
-        canvas1.drawText("$articulation cm", 370F, 1393F, textPaint)
+       canvas1.drawText("$articulation cm", 370F, 1393F, textPaint)
         canvas1.drawText(markLeft, 750F, 1462F, textPaint)
         canvas1.drawText(markRight, 900F, 1462F, textPaint)
 
@@ -315,18 +311,28 @@ class PDFActivity : ComponentActivity() {
         // GENERAL
         // On initialise un position Y (top) d'origine,
         // Et chaque fois que l'on dessine une nouvelle ligne, on ajoute +30
-        var generalOriginPostionY = 450f
+        var generalOriginPositionY = 450f
         sections.generalSteps?.stepModelUis?.forEach {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledBitmap5, checkPositionX, generalOriginPostionY, imagePaint)
-                    generalOriginPostionY += 30f
+                    canvas5.drawBitmap(
+                        scaledBitmap5,
+                        checkPositionX,
+                        generalOriginPositionY,
+                        imagePaint
+                    )
+                    generalOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledBitmap6, passPositionX, generalOriginPostionY, imagePaint)
-                    generalOriginPostionY += 30f
+                    canvas6.drawBitmap(
+                        scaledBitmap6,
+                        passPositionX,
+                        generalOriginPositionY,
+                        imagePaint
+                    )
+                    generalOriginPositionY += 30f
                 }
             }
         }
@@ -337,11 +343,21 @@ class PDFActivity : ComponentActivity() {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledBitmap5, checkPositionX, batteryOriginPositionY, imagePaint)
+                    canvas5.drawBitmap(
+                        scaledBitmap5,
+                        checkPositionX,
+                        batteryOriginPositionY,
+                        imagePaint
+                    )
                     batteryOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledBitmap6, passPositionX, batteryOriginPositionY, imagePaint)
+                    canvas6.drawBitmap(
+                        scaledBitmap6,
+                        passPositionX,
+                        batteryOriginPositionY,
+                        imagePaint
+                    )
                     batteryOriginPositionY += 30f
                 }
             }
@@ -349,15 +365,33 @@ class PDFActivity : ComponentActivity() {
 
         var wheelsOriginPositionY = 900f
         sections.wheelsAndTiresSteps?.stepEntityModels?.map {
+            when (it.additionalInfo) {
+                null -> { /* do nothing */ }
+                else ->  canvas1.drawText(it.additionalInfo, 782F, 955F, textPaint)
+            }
+            when (it.additionalInfo2) {
+                null -> { /* do nothing */ }
+                else -> canvas1.drawText(it.additionalInfo2, 925F, 955F, textPaint)
+            }
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledBitmap5, checkPositionX, wheelsOriginPositionY, imagePaint)
+                    canvas5.drawBitmap(
+                        scaledBitmap5,
+                        checkPositionX,
+                        wheelsOriginPositionY,
+                        imagePaint
+                    )
                     wheelsOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledBitmap6, passPositionX, wheelsOriginPositionY, imagePaint)
+                    canvas6.drawBitmap(
+                        scaledBitmap6,
+                        passPositionX,
+                        wheelsOriginPositionY,
+                        imagePaint
+                    )
                     wheelsOriginPositionY += 30f
                 }
             }
@@ -369,11 +403,21 @@ class PDFActivity : ComponentActivity() {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledBitmap5, checkPositionX, breaksOriginPositionY, imagePaint)
+                    canvas5.drawBitmap(
+                        scaledBitmap5,
+                        checkPositionX,
+                        breaksOriginPositionY,
+                        imagePaint
+                    )
                     breaksOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledBitmap6, passPositionX, breaksOriginPositionY, imagePaint)
+                    canvas6.drawBitmap(
+                        scaledBitmap6,
+                        passPositionX,
+                        breaksOriginPositionY,
+                        imagePaint
+                    )
                     breaksOriginPositionY += 30f
                 }
             }
@@ -437,11 +481,21 @@ class PDFActivity : ComponentActivity() {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledBitmap5, checkPositionX, coolingOriginPositionY, imagePaint)
+                    canvas5.drawBitmap(
+                        scaledBitmap5,
+                        checkPositionX,
+                        coolingOriginPositionY,
+                        imagePaint
+                    )
                     coolingOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledBitmap6, passPositionX, coolingOriginPositionY, imagePaint)
+                    canvas6.drawBitmap(
+                        scaledBitmap6,
+                        passPositionX,
+                        coolingOriginPositionY,
+                        imagePaint
+                    )
                     coolingOriginPositionY += 30f
                 }
             }
@@ -471,11 +525,21 @@ class PDFActivity : ComponentActivity() {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas7.drawBitmap(scaledBitmap7, checkPositionX, engineOriginPositionY, imagePaint)
+                    canvas7.drawBitmap(
+                        scaledBitmap7,
+                        checkPositionX,
+                        engineOriginPositionY,
+                        imagePaint
+                    )
                     engineOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas8.drawBitmap(scaledBitmap8, passPositionX, engineOriginPositionY, imagePaint)
+                    canvas8.drawBitmap(
+                        scaledBitmap8,
+                        passPositionX,
+                        engineOriginPositionY,
+                        imagePaint
+                    )
                     engineOriginPositionY += 30f
                 }
             }
@@ -496,7 +560,12 @@ class PDFActivity : ComponentActivity() {
                     poweringOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas8.drawBitmap(scaledBitmap8, passPositionX, poweringOriginPositionY, imagePaint)
+                    canvas8.drawBitmap(
+                        scaledBitmap8,
+                        passPositionX,
+                        poweringOriginPositionY,
+                        imagePaint
+                    )
                     poweringOriginPositionY += 30f
                 }
             }
@@ -508,11 +577,21 @@ class PDFActivity : ComponentActivity() {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas7.drawBitmap(scaledBitmap7, checkPositionX, clutchOriginPositionY, imagePaint)
+                    canvas7.drawBitmap(
+                        scaledBitmap7,
+                        checkPositionX,
+                        clutchOriginPositionY,
+                        imagePaint
+                    )
                     clutchOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas8.drawBitmap(scaledBitmap8, passPositionX, clutchOriginPositionY, imagePaint)
+                    canvas8.drawBitmap(
+                        scaledBitmap8,
+                        passPositionX,
+                        clutchOriginPositionY,
+                        imagePaint
+                    )
                     clutchOriginPositionY += 30f
                 }
             }
@@ -524,11 +603,21 @@ class PDFActivity : ComponentActivity() {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas7.drawBitmap(scaledBitmap7, checkPositionX, othersOriginPositionY, imagePaint)
+                    canvas7.drawBitmap(
+                        scaledBitmap7,
+                        checkPositionX,
+                        othersOriginPositionY,
+                        imagePaint
+                    )
                     othersOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas8.drawBitmap(scaledBitmap8, passPositionX, othersOriginPositionY, imagePaint)
+                    canvas8.drawBitmap(
+                        scaledBitmap8,
+                        passPositionX,
+                        othersOriginPositionY,
+                        imagePaint
+                    )
                     othersOriginPositionY += 30f
                 }
             }
@@ -549,7 +638,12 @@ class PDFActivity : ComponentActivity() {
                     electricOriginPositionY += 31f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas8.drawBitmap(scaledBitmap8, passPositionX, electricOriginPositionY, imagePaint)
+                    canvas8.drawBitmap(
+                        scaledBitmap8,
+                        passPositionX,
+                        electricOriginPositionY,
+                        imagePaint
+                    )
                     electricOriginPositionY += 31f
                 }
             }
@@ -570,7 +664,12 @@ class PDFActivity : ComponentActivity() {
                     steeringOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas8.drawBitmap(scaledBitmap8, passPositionX, steeringOriginPositionY, imagePaint)
+                    canvas8.drawBitmap(
+                        scaledBitmap8,
+                        passPositionX,
+                        steeringOriginPositionY,
+                        imagePaint
+                    )
                     steeringOriginPositionY += 30f
                 }
             }
@@ -592,10 +691,14 @@ class PDFActivity : ComponentActivity() {
         pdfDocument.finishPage(myPage3)
 
         // Set the name of our PDF file and its path.
-        val file = File(
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath,
-            "N°CHASSIS.pdf"
-        )
+        //val file = File(
+        //    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath,
+        //    "N°CHASSIS.pdf"
+        //)
+
+        // To test on EMULATOR
+        val file = File(Environment.getExternalStorageDirectory(), "GFG.pdf")
+
 
         try {
             // Write PDF file to that location.
