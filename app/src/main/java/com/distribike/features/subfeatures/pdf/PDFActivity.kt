@@ -1,6 +1,5 @@
 package com.distribike.features.subfeatures.pdf
 
-
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -9,13 +8,11 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.graphics.pdf.PdfDocument
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -24,7 +21,6 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -45,10 +41,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.*
 
-@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class PDFActivity : ComponentActivity() {
 
@@ -59,70 +53,34 @@ class PDFActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
-
             Surface(
-                // on below line we are specifying
-               // modifier and color for our app
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colors.background
-
-            )
-
-
-            {
-
-
-
-                // on below line we are specifying theme as scaffold.
+            ) {
                 Scaffold(
-
-                    // in scaffold we are specifying top bar.
                     topBar = {
-
-                        // inside top bar we are specifying background color.
-                        TopAppBar(backgroundColor = Green,
-
-                            // along with that we are specifying
-                            // title for our top bar.
+                        TopAppBar(
+                            backgroundColor = Green,
                             title = {
-
-                                // in the top bar we are specifying tile as a text
                                 Text(
-
-                                    // on below line we are specifying
-                                    // text to display in top app bar.
                                     text = "PDF",
-
-                                    // on below line we are specifying
-                                    // modifier to fill max width.
                                     modifier = Modifier.fillMaxWidth(),
-
-                                    // on below line we are
-                                    // specifying text alignment.
                                     textAlign = TextAlign.Center,
-
-                                    // on below line we are
-                                    // specifying color for our text.
-                                    color = Color.White
+                                    color = White
                                 )
                             }
                         )
                     }
                 ) {
-
-                    // on below line we are calling pdf generator
-                    // method for generating a pdf file.
                     PDFGenerator()
                 }
             }
         }
     }
 
-    // on below line we are calling on
-// request permission result method.
     @Deprecated("Deprecated in Java")
+    @Suppress("DEPRECATION")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -130,23 +88,11 @@ class PDFActivity : ComponentActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        // on below line we are checking if the
-        // request code is equal to permission code.
         if (requestCode == 101) {
-
-            // on below line we are checking if result size is > 0
-            if (grantResults.size > 0) {
-
-                // on below line we are checking if both the permissions are granted.
+            if (grantResults.isNotEmpty()) {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-
-                    // if permissions are granted we are displaying a toast message.
                     Toast.makeText(this, "Permission Granted..", Toast.LENGTH_SHORT).show()
-
                 } else {
-
-                    // if permissions are not granted we are
-                    // displaying a toast message as permission denied.
                     Toast.makeText(this, "Permission Denied..", Toast.LENGTH_SHORT).show()
                     finish()
                 }
@@ -154,73 +100,35 @@ class PDFActivity : ComponentActivity() {
         }
     }
 
-    // on below line we are creating a
-    // pdf generator composable function for ui.
     @Composable
     fun PDFGenerator() {
-        // on below line we are creating a variable for
-        // our context and activity and initializing it.
         val context = LocalContext.current
         val activity = (LocalContext.current as? Activity)
 
         val viewModel = hiltViewModel<PDFViewModel>()
-
         val sections = viewModel.formRecordLiveData.observeAsState(PDFModelUi())
 
-        // on below line we are checking permission
         if (checkPermissions(context)) {
-            // if permission is granted we are displaying a toast message.
             Toast.makeText(context, "Permissions Granted..", Toast.LENGTH_SHORT).show()
         } else {
-            // if the permission is not granted
-            // we are calling request permission method.
             requestPermission(activity!!)
         }
 
-        // on below line we are creating a column for our ui.
         Column(
-
-
-            // in this column we are adding a modifier for our
-            // column and specifying max width, height and size.
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
                 .fillMaxSize()
-
-                // on below line we are adding padding
-                // from all sides to our column.
                 .padding(6.dp),
-
-            // on below line we are adding vertical
-            // arrangement for our column as center
-         //   verticalArrangement = Arrangement.Center,
-
-            // on below line we are adding
-            // horizontal alignment for our column.
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             Spacer(modifier = Modifier.height(50.dp))
 
             Text(
-                // on below line we are setting text to our text
                 text = "Validation du PDI",
-
-                // on below line we are
-                // setting color for our text
                 color = Green,
-
-                // on below line we are setting
-                // font weight for our text
                 fontWeight = FontWeight.Bold,
-
-                // on below line we are setting
-                // alignment for our text as center.
                 textAlign = TextAlign.Center,
-
-                // on below line we are
-                // setting font size for our text
                 fontSize = 40.sp
             )
 
@@ -230,56 +138,32 @@ class PDFActivity : ComponentActivity() {
                 modifier = Modifier
                     .height(540.dp)
                     .width(580.dp)
-
             )
 
-
-
-
-            // on below line we are adding
-            // spacer between text and a button.
             Spacer(modifier = Modifier.height(50.dp))
 
-            // on the below line we are creating a button.
             androidx.compose.material3.Button(
-                // on below line we are adding a modifier
-                // to it and specifying max width to it.
                 colors = ButtonDefaults.buttonColors(containerColor = Green),
                 modifier = Modifier
                     .fillMaxWidth()
-
-                    // on below line we are adding
-                    // padding for our button.
                     .padding(horizontal = 150.dp),
-
-                // on below line we are adding
-                // on click for our button.
                 onClick = {
-
-
-
-                    // inside on click we are calling our
-                    // generate PDF method to generate our PDF
-                    if (sections != null) {
-                        generatePDF(
-                            context = context,
-                            sections = sections.value
-                        )
-                    }
+                    generatePDF(
+                        context = context,
+                        sections = sections.value
+                    )
                 }) {
 
-                // on the below line we are displaying a text for our button.
-                Text(modifier = Modifier
-                    .padding(10.dp),
+                Text(
+                    modifier = Modifier
+                        .padding(10.dp),
                     color = White,
                     fontSize = 22.sp,
-                    text = "Ouvrir/Envoyer/Imprimer PDF")
+                    text = "Ouvrir/Envoyer/Imprimer PDF"
+                )
             }
-            // on below line we are adding
-            // spacer between text and a button.
 
             Spacer(modifier = Modifier.height(80.dp))
-
 
             androidx.compose.material3.Button(
                 // on below line we are adding a modifier
@@ -287,143 +171,112 @@ class PDFActivity : ComponentActivity() {
                 colors = ButtonDefaults.buttonColors(containerColor = RedDark),
                 modifier = Modifier
                     .fillMaxWidth()
-
-                    // on below line we are adding
-                    // padding for our button.
                     .padding(horizontal = 150.dp),
-
-                // on below line we are adding
-                // on click for our button.
                 onClick = {
                     finish()
                     startActivity(MotorcycleFormActivity.newInstance(context = applicationContext))
                 }
-
-            )
-
-            {
-
-                // on the below line we are displaying a text for our button.
-                Text(modifier = Modifier
-                    .padding(10.dp),
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(10.dp),
                     color = White,
                     fontSize = 22.sp,
-                    text = "Commencer un nouveau châssis")
-
-
+                    text = "Commencer un nouveau châssis"
+                )
             }
         }
-
     }
 
-    // on below line we are creating a generate PDF
-// method which is use to generate our PDF file.
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
-    fun generatePDF(context: Context, sections: PDFModelUi) {
+    private fun generatePDF(context: Context, sections: PDFModelUi) {
 
-        // declaring width and height
-        // for our PDF file.
-        var pageHeight = 1680
-        var pageWidth = 1188
-        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
-        val currentDate = sdf.format(Date())
-        var name = "NOM PRENOM"
-        var codeprep = "555555"
-        var model = "CMX500"
-        var chassis = "JH25ML14578912314"
-        var concess = "MOTO ARLES SARL TEST"
-        var codeconcess = "1055577"
-        var position = "921127"
-        var avbar = "20"
-        var arbar = "25"
-        var debattement = "5"
-        var markgauche = "2"
-        var markdroite = "5"
+        // Initialize MotorcycleForm Information
+        val pageHeight = 1680
+        val pageWidth = 1188
+        val dataFormat = SimpleDateFormat("dd/M/yyyy hh:mm:ss", Locale.FRANCE)
+        val currentDate = dataFormat.format(Date())
+        val name = "NOM PRENOM"
+        val codePrep = "555555"
+        val model = "CMX500"
+        val chassis = "JH25ML14578912314"
+        val concessionName = "MOTO ARLES SARL TEST"
+        val concessionCode = "1055577"
+        val position = "921127"
+        val frontWheelPressure = "20"
+        val backWheelPressure = "25"
+        val articulation = "5"
+        val markLeft = "2"
+        val markRight = "5"
 
-        // creating a bitmap variable
-        // for storing our images
-        //lateinit var bmp: Bitmap
-        //lateinit var scaledbmp: Bitmap
+        lateinit var scaledBitmap2: Bitmap
 
-        lateinit var bmp2: Bitmap
-        lateinit var scaledbmp2: Bitmap
+        lateinit var scaledBitmap3: Bitmap
 
-        lateinit var bmp3: Bitmap
-        lateinit var scaledbmp3: Bitmap
+        lateinit var scaledBitmap4: Bitmap
 
-        lateinit var bmp4: Bitmap
-        lateinit var scaledbmp4: Bitmap
+        lateinit var scaledBitmap5: Bitmap
 
-        lateinit var bmp5: Bitmap
-        lateinit var scaledbmp5: Bitmap
+        lateinit var scaledBitmap6: Bitmap
 
-        lateinit var bmp6: Bitmap
-        lateinit var scaledbmp6: Bitmap
+        lateinit var scaledBitmap7: Bitmap
 
-        lateinit var bmp7: Bitmap
-        lateinit var scaledbmp7: Bitmap
+        lateinit var scaledBitmap8: Bitmap
 
-        lateinit var bmp8: Bitmap
-        lateinit var scaledbmp8: Bitmap
+        // Creating an object variable for our PDF document.
+        val pdfDocument = PdfDocument()
 
-        // creating an object variable
-        // for our PDF document.
-        var pdfDocument: PdfDocument = PdfDocument()
+        // Two variables for paint:
+        // paint is for drawing shapes
+        // textPaint is for adding text in our PDF file.
+        val paint = Paint()
+        val textPaint = Paint()
 
-        // two variables for paint "paint" is used
-        // for drawing shapes and we will use "title"
-        // for adding text in our PDF file.
-        var paint: Paint = Paint()
-        var title: Paint = Paint()
+        // On below line we are initializing our bitmap and scaled bitmap.
 
-        // on below line we are initializing our bitmap and scaled bitmap.
-        //bmp = BitmapFactory.decodeResource(context.resources, R.drawable.honda1)
-        //scaledbmp = Bitmap.createScaledBitmap(bmp, 90, 90, false)
+        val bmp2: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.page3)
+        scaledBitmap2 = Bitmap.createScaledBitmap(bmp2, 1188, 1680, false)
 
-        bmp2 = BitmapFactory.decodeResource(context.resources, R.drawable.page3)
-        scaledbmp2 = Bitmap.createScaledBitmap(bmp2, 1188, 1680, false)
+        val bmp3: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.page2)
+        scaledBitmap3 = Bitmap.createScaledBitmap(bmp3, 1188, 1680, false)
 
-        bmp3 = BitmapFactory.decodeResource(context.resources, R.drawable.page2)
-        scaledbmp3 = Bitmap.createScaledBitmap(bmp3, 1188, 1680, false)
+        val bmp4: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.page1)
+        scaledBitmap4 = Bitmap.createScaledBitmap(bmp4, 1188, 1680, false)
 
-        bmp4 = BitmapFactory.decodeResource(context.resources, R.drawable.page1)
-        scaledbmp4 = Bitmap.createScaledBitmap(bmp4, 1188, 1680, false)
+        val bmp5: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.check)
+        scaledBitmap5 = Bitmap.createScaledBitmap(bmp5, 30, 28, false)
 
-        bmp5 = BitmapFactory.decodeResource(context.resources, R.drawable.check)
-        scaledbmp5 = Bitmap.createScaledBitmap(bmp5, 30, 28, false)
+        val bmp6: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.pass)
+        scaledBitmap6 = Bitmap.createScaledBitmap(bmp6, 30, 28, false)
 
-        bmp6 = BitmapFactory.decodeResource(context.resources, R.drawable.pass)
-        scaledbmp6 = Bitmap.createScaledBitmap(bmp6, 30, 28, false)
+        val bmp7: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.check)
+        scaledBitmap7 = Bitmap.createScaledBitmap(bmp7, 30, 28, false)
 
-        bmp7 = BitmapFactory.decodeResource(context.resources, R.drawable.check)
-        scaledbmp7 = Bitmap.createScaledBitmap(bmp7, 30, 28, false)
-
-        bmp8 = BitmapFactory.decodeResource(context.resources, R.drawable.pass)
-        scaledbmp8 = Bitmap.createScaledBitmap(bmp8, 30, 28, false)
+        val bmp8: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.pass)
+        scaledBitmap8 = Bitmap.createScaledBitmap(bmp8, 30, 28, false)
 
 
         // we are adding page info to our PDF file
         // in which we will be passing our pageWidth,
         // pageHeight and number of pages and after that
         // we are calling it to create our PDF.
-        var myPageInfo: PdfDocument.PageInfo? =
+        val myPageInfo: PdfDocument.PageInfo? =
             PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create()
 
-        var myPageInfo2: PdfDocument.PageInfo? =
+        val myPageInfo2: PdfDocument.PageInfo? =
             PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 2).create()
 
-        var myPageInfo3: PdfDocument.PageInfo? =
+        val myPageInfo3: PdfDocument.PageInfo? =
             PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 3).create()
         // below line is used for setting
         // start page for our PDF file.
-        var myPage: PdfDocument.Page = pdfDocument.startPage(myPageInfo)
+        val myPage: PdfDocument.Page = pdfDocument.startPage(myPageInfo)
 
         // creating a variable for canvas
         // from our page of PDF.
-        var canvas1: Canvas = myPage.canvas
-        var canvas4: Canvas = myPage.canvas
-        var canvas5: Canvas = myPage.canvas
-        var canvas6: Canvas = myPage.canvas
+        val canvas1: Canvas = myPage.canvas
+        val canvas4: Canvas = myPage.canvas
+        val canvas5: Canvas = myPage.canvas
+        val canvas6: Canvas = myPage.canvas
 
         // below line is used to draw our image on our PDF file.
         // the first parameter of our drawbitmap method is
@@ -432,25 +285,25 @@ class PDFActivity : ComponentActivity() {
         // third parameter is position from top and last
         // one is our variable for paint.
 
-        canvas4.drawBitmap(scaledbmp4, 0F, 0F, paint)
+        canvas4.drawBitmap(scaledBitmap4, 0F, 0F, paint)
 
         //GENERAL
         //canvas5.drawBitmap(scaledbmp5, 100F, 450F, paint)
-        title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL))
-        title.textSize = 20F
-        title.setColor(ContextCompat.getColor(context, R.color.black))
-        canvas1.drawText(name, 255F, 139F, title)
-        canvas1.drawText(codeprep, 255F, 180F, title)
-        canvas1.drawText(model, 702F, 139F, title)
-        canvas1.drawText(chassis, 730F, 182F, title)
-        canvas1.drawText(concess, 831F, 227F, title)
-        canvas1.drawText(codeconcess, 831F, 267F, title)
-        canvas1.drawText(position, 762F, 312F, title)
-        canvas1.drawText(avbar, 782F, 955F, title)
-        canvas1.drawText(arbar, 925F, 955F, title)
-        canvas1.drawText(debattement+" cm", 370F, 1393F, title)
-        canvas1.drawText(markgauche, 750F, 1462F, title)
-        canvas1.drawText(markdroite, 900F, 1462F, title)
+        textPaint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
+        textPaint.textSize = 20F
+        textPaint.color = ContextCompat.getColor(context, R.color.black)
+        canvas1.drawText(name, 255F, 139F, textPaint)
+        canvas1.drawText(codePrep, 255F, 180F, textPaint)
+        canvas1.drawText(model, 702F, 139F, textPaint)
+        canvas1.drawText(chassis, 730F, 182F, textPaint)
+        canvas1.drawText(concessionName, 831F, 227F, textPaint)
+        canvas1.drawText(concessionCode, 831F, 267F, textPaint)
+        canvas1.drawText(position, 762F, 312F, textPaint)
+        canvas1.drawText(frontWheelPressure, 782F, 955F, textPaint)
+        canvas1.drawText(backWheelPressure, 925F, 955F, textPaint)
+        canvas1.drawText("$articulation cm", 370F, 1393F, textPaint)
+        canvas1.drawText(markLeft, 750F, 1462F, textPaint)
+        canvas1.drawText(markRight, 900F, 1462F, textPaint)
 
         // GLOBAL POSITION
         // Normalement ces positions ne devraient jamais changer,
@@ -463,13 +316,14 @@ class PDFActivity : ComponentActivity() {
         var generalOriginPostionY = 450f
         sections.generalSteps?.stepModelUis?.forEach {
             when (it.stepStateUseCaseModel) {
-                PDFModelUi.State.NONE -> { /* nothing to do */ }
+                PDFModelUi.State.NONE -> { /* nothing to do */
+                }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledbmp5, checkPositionX, generalOriginPostionY, paint)
+                    canvas5.drawBitmap(scaledBitmap5, checkPositionX, generalOriginPostionY, paint)
                     generalOriginPostionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledbmp6, passPositionX, generalOriginPostionY, paint)
+                    canvas6.drawBitmap(scaledBitmap6, passPositionX, generalOriginPostionY, paint)
                     generalOriginPostionY += 30f
                 }
             }
@@ -478,13 +332,14 @@ class PDFActivity : ComponentActivity() {
         var batteryOriginPositionY = 720f
         sections.batterySteps?.stepModelUis?.map {
             when (it.stepStateUseCaseModel) {
-                PDFModelUi.State.NONE -> { /* nothing to do */ }
+                PDFModelUi.State.NONE -> { /* nothing to do */
+                }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledbmp5, checkPositionX, batteryOriginPositionY, paint)
+                    canvas5.drawBitmap(scaledBitmap5, checkPositionX, batteryOriginPositionY, paint)
                     batteryOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledbmp6, passPositionX, batteryOriginPositionY, paint)
+                    canvas6.drawBitmap(scaledBitmap6, passPositionX, batteryOriginPositionY, paint)
                     batteryOriginPositionY += 30f
                 }
             }
@@ -493,13 +348,14 @@ class PDFActivity : ComponentActivity() {
         var wheelsOriginPositionY = 900f
         sections.wheelsAndTiresSteps?.stepEntityModels?.map {
             when (it.stepStateUseCaseModel) {
-                PDFModelUi.State.NONE -> { /* nothing to do */ }
+                PDFModelUi.State.NONE -> { /* nothing to do */
+                }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledbmp5, checkPositionX, wheelsOriginPositionY, paint)
+                    canvas5.drawBitmap(scaledBitmap5, checkPositionX, wheelsOriginPositionY, paint)
                     wheelsOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledbmp6, passPositionX, wheelsOriginPositionY, paint)
+                    canvas6.drawBitmap(scaledBitmap6, passPositionX, wheelsOriginPositionY, paint)
                     wheelsOriginPositionY += 30f
                 }
             }
@@ -508,13 +364,14 @@ class PDFActivity : ComponentActivity() {
         var breaksOriginPositionY = 1085f
         sections.breaksSteps?.stepEntityModels?.map {
             when (it.stepStateUseCaseModel) {
-                PDFModelUi.State.NONE -> { /* nothing to do */ }
+                PDFModelUi.State.NONE -> { /* nothing to do */
+                }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledbmp5, checkPositionX, breaksOriginPositionY, paint)
+                    canvas5.drawBitmap(scaledBitmap5, checkPositionX, breaksOriginPositionY, paint)
                     breaksOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledbmp6, passPositionX, breaksOriginPositionY, paint)
+                    canvas6.drawBitmap(scaledBitmap6, passPositionX, breaksOriginPositionY, paint)
                     breaksOriginPositionY += 30f
                 }
             }
@@ -523,13 +380,24 @@ class PDFActivity : ComponentActivity() {
         var suspensionsOriginPositionY = 1255f
         sections.suspensionSteps?.stepEntityModels?.map {
             when (it.stepStateUseCaseModel) {
-                PDFModelUi.State.NONE -> { /* nothing to do */ }
+                PDFModelUi.State.NONE -> { /* nothing to do */
+                }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledbmp5, checkPositionX, suspensionsOriginPositionY, paint)
+                    canvas5.drawBitmap(
+                        scaledBitmap5,
+                        checkPositionX,
+                        suspensionsOriginPositionY,
+                        paint
+                    )
                     suspensionsOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledbmp6, passPositionX, suspensionsOriginPositionY, paint)
+                    canvas6.drawBitmap(
+                        scaledBitmap6,
+                        passPositionX,
+                        suspensionsOriginPositionY,
+                        paint
+                    )
                     suspensionsOriginPositionY += 30f
                 }
             }
@@ -538,13 +406,24 @@ class PDFActivity : ComponentActivity() {
         var transmissionOriginPositionY = 1340f
         sections.transmissionSteps?.stepEntityModels?.map {
             when (it.stepStateUseCaseModel) {
-                PDFModelUi.State.NONE -> { /* nothing to do */ }
+                PDFModelUi.State.NONE -> { /* nothing to do */
+                }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledbmp5, checkPositionX, transmissionOriginPositionY, paint)
+                    canvas5.drawBitmap(
+                        scaledBitmap5,
+                        checkPositionX,
+                        transmissionOriginPositionY,
+                        paint
+                    )
                     transmissionOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledbmp6, passPositionX, transmissionOriginPositionY, paint)
+                    canvas6.drawBitmap(
+                        scaledBitmap6,
+                        passPositionX,
+                        transmissionOriginPositionY,
+                        paint
+                    )
                     transmissionOriginPositionY += 30f
                 }
             }
@@ -553,22 +432,18 @@ class PDFActivity : ComponentActivity() {
         var coolingOriginPositionY = 1510f
         sections.coolingSystemSteps?.stepEntityModels?.map {
             when (it.stepStateUseCaseModel) {
-                PDFModelUi.State.NONE -> { /* nothing to do */ }
+                PDFModelUi.State.NONE -> { /* nothing to do */
+                }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas5.drawBitmap(scaledbmp5, checkPositionX, coolingOriginPositionY, paint)
+                    canvas5.drawBitmap(scaledBitmap5, checkPositionX, coolingOriginPositionY, paint)
                     coolingOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas6.drawBitmap(scaledbmp6, passPositionX, coolingOriginPositionY, paint)
+                    canvas6.drawBitmap(scaledBitmap6, passPositionX, coolingOriginPositionY, paint)
                     coolingOriginPositionY += 30f
                 }
             }
         }
-
-        // TODO: et ainsi de suite pour toutes les sections présentes dans [sections...]
-
-
-
 
         // after adding all attributes to our
         // PDF file we will be finishing our page.
@@ -576,14 +451,14 @@ class PDFActivity : ComponentActivity() {
 
         // below line is used for setting
         // start page for our PDF file.
-        var myPage2: PdfDocument.Page = pdfDocument.startPage(myPageInfo2)
+        val myPage2: PdfDocument.Page = pdfDocument.startPage(myPageInfo2)
 
         // creating a variable for canvas
         // from our page of PDF.
-        var canvas: Canvas = myPage2.canvas
-        var canvas2: Canvas = myPage2.canvas
-        var canvas7: Canvas = myPage2.canvas
-        var canvas8: Canvas = myPage2.canvas
+        val canvas: Canvas = myPage2.canvas
+        val canvas2: Canvas = myPage2.canvas
+        val canvas7: Canvas = myPage2.canvas
+        val canvas8: Canvas = myPage2.canvas
 
         // below line is used to draw our image on our PDF file.
         // the first parameter of our drawbitmap method is
@@ -591,27 +466,28 @@ class PDFActivity : ComponentActivity() {
         // second parameter is position from left
         // third parameter is position from top and last
         // one is our variable for paint.
-        canvas2.drawBitmap(scaledbmp3, 0F, 0F, paint)
+        canvas2.drawBitmap(scaledBitmap3, 0F, 0F, paint)
 
         // after adding all attributes to our
         // PDF file we will be finishing our page.
 
-        title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL))
-        title.textSize = 20F
-        title.setColor(ContextCompat.getColor(context, R.color.black))
-        canvas.drawText(currentDate, 830F, 1300F, title)
-        canvas.drawText(name, 830F, 1400F, title)
+        textPaint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
+        textPaint.textSize = 20F
+        textPaint.color = ContextCompat.getColor(context, R.color.black)
+        canvas.drawText(currentDate, 830F, 1300F, textPaint)
+        canvas.drawText(name, 830F, 1400F, textPaint)
 
         var engineOriginPositionY = 90f
         sections.engineSteps?.stepEntityModels?.map {
             when (it.stepStateUseCaseModel) {
-                PDFModelUi.State.NONE -> { /* nothing to do */ }
+                PDFModelUi.State.NONE -> { /* nothing to do */
+                }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas7.drawBitmap(scaledbmp7, checkPositionX, engineOriginPositionY, paint)
+                    canvas7.drawBitmap(scaledBitmap7, checkPositionX, engineOriginPositionY, paint)
                     engineOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas8.drawBitmap(scaledbmp8, passPositionX, engineOriginPositionY, paint)
+                    canvas8.drawBitmap(scaledBitmap8, passPositionX, engineOriginPositionY, paint)
                     engineOriginPositionY += 30f
                 }
             }
@@ -620,13 +496,19 @@ class PDFActivity : ComponentActivity() {
         var poweringOriginPositionY = 215f
         sections.poweringSteps?.stepEntityModels?.map {
             when (it.stepStateUseCaseModel) {
-                PDFModelUi.State.NONE -> { /* nothing to do */ }
+                PDFModelUi.State.NONE -> { /* nothing to do */
+                }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas7.drawBitmap(scaledbmp7, checkPositionX, poweringOriginPositionY, paint)
+                    canvas7.drawBitmap(
+                        scaledBitmap7,
+                        checkPositionX,
+                        poweringOriginPositionY,
+                        paint
+                    )
                     poweringOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas8.drawBitmap(scaledbmp8, passPositionX, poweringOriginPositionY, paint)
+                    canvas8.drawBitmap(scaledBitmap8, passPositionX, poweringOriginPositionY, paint)
                     poweringOriginPositionY += 30f
                 }
             }
@@ -635,13 +517,14 @@ class PDFActivity : ComponentActivity() {
         var clutchOriginPositionY = 330f
         sections.clutchSteps?.stepEntityModels?.map {
             when (it.stepStateUseCaseModel) {
-                PDFModelUi.State.NONE -> { /* nothing to do */ }
+                PDFModelUi.State.NONE -> { /* nothing to do */
+                }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas7.drawBitmap(scaledbmp7, checkPositionX, clutchOriginPositionY, paint)
+                    canvas7.drawBitmap(scaledBitmap7, checkPositionX, clutchOriginPositionY, paint)
                     clutchOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas8.drawBitmap(scaledbmp8, passPositionX, clutchOriginPositionY, paint)
+                    canvas8.drawBitmap(scaledBitmap8, passPositionX, clutchOriginPositionY, paint)
                     clutchOriginPositionY += 30f
                 }
             }
@@ -650,13 +533,14 @@ class PDFActivity : ComponentActivity() {
         var othersOriginPositionY = 500f
         sections.othersSteps?.stepEntityModels?.map {
             when (it.stepStateUseCaseModel) {
-                PDFModelUi.State.NONE -> { /* nothing to do */ }
+                PDFModelUi.State.NONE -> { /* nothing to do */
+                }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas7.drawBitmap(scaledbmp7, checkPositionX, othersOriginPositionY, paint)
+                    canvas7.drawBitmap(scaledBitmap7, checkPositionX, othersOriginPositionY, paint)
                     othersOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas8.drawBitmap(scaledbmp8, passPositionX, othersOriginPositionY, paint)
+                    canvas8.drawBitmap(scaledBitmap8, passPositionX, othersOriginPositionY, paint)
                     othersOriginPositionY += 30f
                 }
             }
@@ -665,13 +549,19 @@ class PDFActivity : ComponentActivity() {
         var electricOriginPositionY = 680f
         sections.electricSystemSteps?.stepEntityModels?.map {
             when (it.stepStateUseCaseModel) {
-                PDFModelUi.State.NONE -> { /* nothing to do */ }
+                PDFModelUi.State.NONE -> { /* nothing to do */
+                }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas7.drawBitmap(scaledbmp7, checkPositionX, electricOriginPositionY, paint)
+                    canvas7.drawBitmap(
+                        scaledBitmap7,
+                        checkPositionX,
+                        electricOriginPositionY,
+                        paint
+                    )
                     electricOriginPositionY += 31f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas8.drawBitmap(scaledbmp8, passPositionX, electricOriginPositionY, paint)
+                    canvas8.drawBitmap(scaledBitmap8, passPositionX, electricOriginPositionY, paint)
                     electricOriginPositionY += 31f
                 }
             }
@@ -680,13 +570,19 @@ class PDFActivity : ComponentActivity() {
         var steeringOriginPositionY = 1045f
         sections.steeringSteps?.stepEntityModels?.map {
             when (it.stepStateUseCaseModel) {
-                PDFModelUi.State.NONE -> { /* nothing to do */ }
+                PDFModelUi.State.NONE -> { /* nothing to do */
+                }
                 PDFModelUi.State.COMPLETE -> {
-                    canvas7.drawBitmap(scaledbmp7, checkPositionX, steeringOriginPositionY, paint)
+                    canvas7.drawBitmap(
+                        scaledBitmap7,
+                        checkPositionX,
+                        steeringOriginPositionY,
+                        paint
+                    )
                     steeringOriginPositionY += 30f
                 }
                 PDFModelUi.State.PASS -> {
-                    canvas8.drawBitmap(scaledbmp8, passPositionX, steeringOriginPositionY, paint)
+                    canvas8.drawBitmap(scaledBitmap8, passPositionX, steeringOriginPositionY, paint)
                     steeringOriginPositionY += 30f
                 }
             }
@@ -696,26 +592,25 @@ class PDFActivity : ComponentActivity() {
         // Et chaque fois que l'on dessine une nouvelle ligne, on ajoute +30
 
 
-
         pdfDocument.finishPage(myPage2)
 
         // below line is used for setting
         // start page for our PDF file.
-        var myPage3: PdfDocument.Page = pdfDocument.startPage(myPageInfo3)
+        val myPage3: PdfDocument.Page = pdfDocument.startPage(myPageInfo3)
 
         // creating a variable for canvas
         // from our page of PDF.
-        var canvas3: Canvas = myPage3.canvas
-        var canvas9: Canvas = myPage3.canvas
+        val canvas3: Canvas = myPage3.canvas
+        val canvas9: Canvas = myPage3.canvas
         // below line is used to draw our image on our PDF file.
         // the first parameter of our drawbitmap method is
         // our bitmap
         // second parameter is position from left
         // third parameter is position from top and last
         // one is our variable for paint.
-        canvas3.drawBitmap(scaledbmp2, 0F, 0F, paint)
-        canvas9.drawText(model, 695F, 195F, title)
-        canvas9.drawText(chassis, 725F, 238F, title)
+        canvas3.drawBitmap(scaledBitmap2, 0F, 0F, paint)
+        canvas9.drawText(model, 695F, 195F, textPaint)
+        canvas9.drawText(chassis, 725F, 238F, textPaint)
 
         // after adding all attributes to our
         // PDF file we will be finishing our page.
@@ -723,7 +618,10 @@ class PDFActivity : ComponentActivity() {
 
         // below line is used to set the name of
         // our PDF file and its path.
-        val file: File = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath, "N°CHASSIS.pdf")
+        val file = File(
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath,
+            "N°CHASSIS.pdf"
+        )
 
         try {
             // after creating a file name we will
@@ -746,53 +644,53 @@ class PDFActivity : ComponentActivity() {
         pdfDocument.close()
         val uri = FileProvider.getUriForFile(
             context,
-            BuildConfig.APPLICATION_ID + ".provider", file)
+            BuildConfig.APPLICATION_ID + ".provider", file
+        )
         val sendintent = Intent(Intent.ACTION_SEND)
 
-            sendintent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            sendintent.putExtra(Intent.EXTRA_SUBJECT, "PDI")
-            sendintent.putExtra(Intent.EXTRA_STREAM, uri)
-            sendintent.setDataAndType(uri, "application/pdf")
+        sendintent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        sendintent.putExtra(Intent.EXTRA_SUBJECT, "PDI")
+        sendintent.putExtra(Intent.EXTRA_STREAM, uri)
+        sendintent.setDataAndType(uri, "application/pdf")
 
         val openintent = Intent(Intent.ACTION_VIEW)
         openintent.setDataAndType(uri, "application/pdf")
         openintent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
-        val chooserIntent = Intent.createChooser(openintent,"Selectionner l'application")
+        val chooserIntent = Intent.createChooser(openintent, "Selectionner l'application")
 
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(sendintent))
 
         context.startActivity(chooserIntent)
 
 // a garder ouvrir unique
-      //  val uri = FileProvider.getUriForFile(
-      //      context,
-      //      BuildConfig.APPLICATION_ID + ".provider", file)
-     //   val intent = Intent(Intent.ACTION_VIEW).apply {
-      //      addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-      //      addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-       //     setDataAndType(uri, "application/pdf")
+        //  val uri = FileProvider.getUriForFile(
+        //      context,
+        //      BuildConfig.APPLICATION_ID + ".provider", file)
+        //   val intent = Intent(Intent.ACTION_VIEW).apply {
+        //      addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        //      addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        //     setDataAndType(uri, "application/pdf")
 
 
-       // }
+        // }
         //context.startActivity(Intent.createChooser(intent, "Selectionner l'application"))
-
 
 
     }
 
-    fun checkPermissions(context: Context): Boolean {
+    private fun checkPermissions(context: Context): Boolean {
         // on below line we are creating a variable for both of our permissions.
 
         // on below line we are creating a variable for writing to external storage permission
-        var writeStoragePermission = ContextCompat.checkSelfPermission(
+        val writeStoragePermission = ContextCompat.checkSelfPermission(
             context,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
 
         // on below line we are creating a variable for
         // reading external storage permission
-        var readStoragePermission = ContextCompat.checkSelfPermission(
+        val readStoragePermission = ContextCompat.checkSelfPermission(
             context,
             Manifest.permission.READ_EXTERNAL_STORAGE
         )
@@ -803,7 +701,7 @@ class PDFActivity : ComponentActivity() {
     }
 
     // on below line we are creating a function to request permission.
-    fun requestPermission(activity: Activity) {
+    private fun requestPermission(activity: Activity) {
 
         // on below line we are requesting read and write to
         // storage permission for our application.
