@@ -3,15 +3,12 @@ package com.distribike.features.subfeatures.form.scanner.main
 import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -55,7 +52,6 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
         fun newInstance(context: Context) = Intent(context, CameraActivity::class.java)
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -87,7 +83,6 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
         val context = LocalContext.current
         val lifecycleOwner = LocalLifecycleOwner.current
         var preview by remember { mutableStateOf<Preview?>(null) }
-        val barCodeVal = remember { mutableStateOf("") }
 
         Box(modifier = Modifier.fillMaxWidth()) {
 
@@ -123,11 +118,7 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
                     val barcodeAnalyser = BarcodeAnalyser { barcodes ->
                         barcodes.forEach { barcode ->
                             barcode.rawValue?.let { barcodeValue ->
-                                barCodeVal.value = barcodeValue
-
-                                // TODO Gérer le résultat ici
                                 viewModel.showDialog(barcodeValue)
-                                Toast.makeText(context, barcodeValue, Toast.LENGTH_SHORT).show()
                             }
                         }
                     }

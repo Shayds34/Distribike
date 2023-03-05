@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,7 +27,6 @@ import androidx.compose.ui.unit.toSize
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.*
 import com.distribike.R
-import com.distribike.features.subfeatures.form.scanner.main.viewmodel.CameraViewModel
 import com.distribike.features.subfeatures.motorcycleform.viewmodel.MotorcycleFormViewModel
 import com.distribike.ui.theme.Green
 import com.distribike.ui.theme.RedDark
@@ -54,11 +54,6 @@ fun MotorcycleForm() {
 @Composable
 fun TabletMotorcycleForm() {
     val viewModel = hiltViewModel<MotorcycleFormViewModel>()
-    val cameraSharedViewModel = hiltViewModel<CameraViewModel>()
-
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
-    val screenHeight = configuration.screenHeightDp.dp
 
     var username by remember {
         mutableStateOf("")
@@ -76,7 +71,7 @@ fun TabletMotorcycleForm() {
         mutableStateOf("")
     }
 
-    var chassis = cameraSharedViewModel.chassisState.collectAsState()
+    val chassis = viewModel.barcodeLiveData.observeAsState("")
 
     var nomConcession by remember {
         mutableStateOf("")
@@ -93,10 +88,34 @@ fun TabletMotorcycleForm() {
     }
 
     var expanded2 by remember { mutableStateOf(false) }
-    val suggestions2 = listOf("ABDOULBAKI Abdou","ALBALADEJO Michel","AQUENI Antoine","BARRON Paco","BROUILLARD Alain","BRUEL Louis","CROISSIAU Steven","DELUCHE Eric","FAVEDE Laurent","FROTTIER Ryad","GONZALES Emmanuel","GRANON David","LOPES Arnaud","LOPES Lucas","LOPEZ Arnaud","MASVIDAL Christian","MATHERON Antoine","MATHIEU Anthony","PERE Bastien","PUJALTE Johan","RASSE Laurent","ROULET Julien","SEDIQUI Said")
-    var selectedText2 by remember { mutableStateOf("") }
+    val suggestions2 = listOf(
+        "ABDOULBAKI Abdou",
+        "ALBALADEJO Michel",
+        "AQUENI Antoine",
+        "BARRON Paco",
+        "BROUILLARD Alain",
+        "BRUEL Louis",
+        "CROISSIAU Steven",
+        "DELUCHE Eric",
+        "FAVEDE Laurent",
+        "FROTTIER Ryad",
+        "GONZALES Emmanuel",
+        "GRANON David",
+        "LOPES Arnaud",
+        "LOPES Lucas",
+        "LOPEZ Arnaud",
+        "MASVIDAL Christian",
+        "MATHERON Antoine",
+        "MATHIEU Anthony",
+        "PERE Bastien",
+        "PUJALTE Johan",
+        "RASSE Laurent",
+        "ROULET Julien",
+        "SEDIQUI Said"
+    )
+    /// var selectedText2 by remember { mutableStateOf("") }
 
-    var textfieldSize by remember { mutableStateOf(Size.Zero)}
+    var textfieldSize by remember { mutableStateOf(Size.Zero) }
 
     val icon = if (expanded2)
         Icons.Filled.ArrowDropUp //it requires androidx.compose.material:material-icons-extended
@@ -104,10 +123,31 @@ fun TabletMotorcycleForm() {
         Icons.Filled.ArrowDropDown
 
     var expanded by remember { mutableStateOf(false) }
-    val suggestions = listOf("ADV350","ADV750","CB500F","CB500X","CB650R","CB750","CBR1000","CBR500R","CBR650R","CMX1100","CMX500","CRF1100","CRF300L","GL1800","NC750X","NSS125","NSS750","NT1100","ST125","WW125")
-    var selectedText by remember { mutableStateOf("") }
+    val suggestions = listOf(
+        "ADV350",
+        "ADV750",
+        "CB500F",
+        "CB500X",
+        "CB650R",
+        "CB750",
+        "CBR1000",
+        "CBR500R",
+        "CBR650R",
+        "CMX1100",
+        "CMX500",
+        "CRF1100",
+        "CRF300L",
+        "GL1800",
+        "NC750X",
+        "NSS125",
+        "NSS750",
+        "NT1100",
+        "ST125",
+        "WW125"
+    )
+    // var selectedText by remember { mutableStateOf("") }
 
-    var textfieldSize2 by remember { mutableStateOf(Size.Zero)}
+    var textFieldSize2 by remember { mutableStateOf(Size.Zero) }
 
     val icon2 = if (expanded)
         Icons.Filled.ArrowDropUp //it requires androidx.compose.material:material-icons-extended
@@ -175,28 +215,28 @@ fun TabletMotorcycleForm() {
                         .padding(horizontal = 150.dp)
                         .onGloballyPositioned { coordinates ->
                             //This value is used to assign to the DropDown the same width
-                            textfieldSize2 = coordinates.size.toSize()
+                            textFieldSize2 = coordinates.size.toSize()
                         },
-                    label = {Text("")},
+                    label = { Text("") },
 
                     textStyle = TextStyle.Default.copy(fontSize = 28.sp),
                     trailingIcon = {
-                        Icon(icon,"contentDescription",
+                        Icon(icon, "contentDescription",
                             Modifier.clickable { expanded2 = !expanded2 })
-                    } )
-                            DropdownMenu(
-                            expanded = expanded2,
+                    })
+                DropdownMenu(
+                    expanded = expanded2,
                     onDismissRequest = { expanded2 = false },
                     modifier = Modifier
-                        .width(with(LocalDensity.current){textfieldSize2.width.toDp()})
+                        .width(with(LocalDensity.current) { textFieldSize2.width.toDp() })
                 ) {
                     suggestions2.forEach { label ->
                         DropdownMenuItem(onClick = {
                             username = label
                             expanded2 = false
                         },
-                            text ={
-                                Text(text=label)
+                            text = {
+                                Text(text = label)
                             }
                         )
                     }
@@ -254,11 +294,11 @@ fun TabletMotorcycleForm() {
                             //This value is used to assign to the DropDown the same width
                             textfieldSize = coordinates.size.toSize()
                         },
-                    label = {Text("")},
+                    label = { Text("") },
 
                     textStyle = TextStyle.Default.copy(fontSize = 28.sp),
-                            trailingIcon = {
-                        Icon(icon,"contentDescription",
+                    trailingIcon = {
+                        Icon(icon, "contentDescription",
                             Modifier.clickable { expanded = !expanded })
                     }
                 )
@@ -267,15 +307,15 @@ fun TabletMotorcycleForm() {
                     expanded = expanded,
                     onDismissRequest = { expanded = false },
                     modifier = Modifier
-                        .width(with(LocalDensity.current){textfieldSize.width.toDp()})
+                        .width(with(LocalDensity.current) { textfieldSize.width.toDp() })
                 ) {
                     suggestions.forEach { label ->
                         DropdownMenuItem(onClick = {
                             model = label
                             expanded = false
                         },
-                            text ={
-                                Text(text=label)
+                            text = {
+                                Text(text = label)
                             }
                         )
                     }
@@ -340,7 +380,7 @@ fun TabletMotorcycleForm() {
                     onValueChange = {
                         codeConcession = it
                         viewModel.onConcessionCodeEntered(it)
-                                    },
+                    },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -425,8 +465,6 @@ fun MobileMotorcycleForm() {
     val viewModel = hiltViewModel<MotorcycleFormViewModel>()
 
     val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
-    val screenHeight = configuration.screenHeightDp.dp
 
     var username by remember {
         mutableStateOf("")
@@ -438,12 +476,16 @@ fun MobileMotorcycleForm() {
     var model by remember {
         mutableStateOf("")
     }
-    var chassis by remember {
+    var numberChassis by remember {
         mutableStateOf("")
     }
+    val chassis = viewModel.barcodeLiveData.observeAsState("")
+
     var nomConcession by remember {
         mutableStateOf("")
     }
+    val concessionName = viewModel.concessionState.collectAsState()
+
     var codeConcession by remember {
         mutableStateOf("")
     }
@@ -574,8 +616,8 @@ fun MobileMotorcycleForm() {
         Spacer(modifier = Modifier.padding(4.dp))
 
         OutlinedTextField(
-            value = chassis,
-            onValueChange = { chassis = it },
+            value = chassis.value.ifEmpty { numberChassis },
+            onValueChange = { numberChassis = it },
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
@@ -583,7 +625,7 @@ fun MobileMotorcycleForm() {
             textStyle = TextStyle.Default.copy(fontSize = 16.sp)
         )
 
-        Spacer (modifier = Modifier.padding(4.dp))
+        Spacer(modifier = Modifier.padding(4.dp))
 
         Button(
             onClick = {

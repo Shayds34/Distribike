@@ -2,6 +2,8 @@ package com.distribike.features.subfeatures.form.scanner.main.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.distribike.features.subfeatures.form.scanner.entity.CameraEntity
 import com.distribike.modules.DispatchersName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -13,6 +15,7 @@ import javax.inject.Named
 
 @HiltViewModel
 class CameraViewModel @Inject constructor(
+    private val cameraEntity: CameraEntity,
     @Named(DispatchersName.UI_VIEWMODEL) private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
@@ -30,6 +33,7 @@ class CameraViewModel @Inject constructor(
 
     fun onConfirmationClicked(barcodeValue: String) {
         viewModelScope.launch(dispatcher) {
+            cameraEntity.saveCameraBarcode(barcodeValue)
             _chassisState.value = barcodeValue
         }
     }

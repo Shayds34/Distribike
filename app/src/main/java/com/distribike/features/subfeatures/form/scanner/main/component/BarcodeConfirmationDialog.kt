@@ -1,6 +1,5 @@
 package com.distribike.features.subfeatures.form.scanner.main.component
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -17,14 +16,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.distribike.R
 import com.distribike.features.subfeatures.form.scanner.main.viewmodel.CameraViewModel
 
 @Composable
@@ -32,7 +28,6 @@ fun BarcodeConfirmationDialog(
     negativeButtonColor: Color = Color(0xFFFF0000),
     positiveButtonColor: Color = Color(0xFF1C882A),
     spaceBetweenElements: Dp = 18.dp,
-    context: Context = LocalContext.current.applicationContext,
     viewModel: CameraViewModel = hiltViewModel()
 ) {
 
@@ -51,6 +46,17 @@ fun BarcodeConfirmationDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
+                    // Dialog Icon
+                    Icon(
+                        Icons.Rounded.CheckCircle,
+                        contentDescription = "Delete Icon",
+                        tint = positiveButtonColor,
+                        modifier = Modifier
+                            .background(color = Color.White, shape = CircleShape)
+                            .border(width = 2.dp, shape = CircleShape, color = positiveButtonColor)
+                            .padding(all = 16.dp)
+                            .align(alignment = Alignment.TopCenter)
+                    )
 
                     // text and buttons
                     Column(
@@ -89,31 +95,19 @@ fun BarcodeConfirmationDialog(
                                 buttonColor = negativeButtonColor,
                                 buttonText = "Annuler"
                             ) {
-                                viewModel.onConfirmationClicked(dialogOpen.value)
+                                viewModel.onCancelClicked(dialogOpen.value)
                             }
                             DialogButton(
                                 buttonColor = positiveButtonColor,
                                 buttonText = "Confirmer"
                             ) {
-                                viewModel.onCancelClicked(dialogOpen.value)
+                                viewModel.onConfirmationClicked(dialogOpen.value)
                             }
                         }
 
                         // If you decrease the Surface's width, increase this height
                         Spacer(modifier = Modifier.height(height = spaceBetweenElements * 2))
                     }
-
-                    // delete icon
-                    Icon(
-                        Icons.Rounded.CheckCircle,
-                        contentDescription = "Delete Icon",
-                        tint = positiveButtonColor,
-                        modifier = Modifier
-                            .background(color = Color.White, shape = CircleShape)
-                            .border(width = 2.dp, shape = CircleShape, color = positiveButtonColor)
-                            .padding(all = 16.dp)
-                            .align(alignment = Alignment.TopCenter)
-                    )
                 }
             }
         }
