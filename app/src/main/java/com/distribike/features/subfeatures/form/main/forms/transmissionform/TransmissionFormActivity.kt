@@ -122,13 +122,17 @@ class TransmissionFormActivity : ComponentActivity() {
                         nextButton = {
                             Button(
                                 enabled = if (currentStep.value < data.value.sections[5].tasks.size) {
-                                    if (data.value.sections[5].tasks[currentStep.value].additionalInfo == "NEEDED" ||
+                                    if (data.value.sections[5].tasks[currentStep.value].additionalInfo == "NEEDED" &&
                                         data.value.sections[5].tasks[currentStep.value].additionalInfo2 == "NEEDED"
                                     ) {
                                         additionalInfo.isNotEmpty() && additionalInfo2.isNotEmpty()
                                     } else {
                                         true
                                     }
+                                } else if (data.value.sections[5].tasks[currentStep.value].additionalInfo == "NEEDED" ||
+                                    data.value.sections[5].tasks[currentStep.value].additionalInfo2 == "NEEDED"
+                                ) {
+                                    additionalInfo.isNotEmpty() || additionalInfo2.isNotEmpty()
                                 } else {
                                     true
                                 },
