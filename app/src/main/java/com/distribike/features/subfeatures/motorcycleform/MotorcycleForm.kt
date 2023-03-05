@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.toSize
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.*
 import com.distribike.R
+import com.distribike.features.subfeatures.motorcycleform.model.MotorcycleFormModelUi
 import com.distribike.features.subfeatures.motorcycleform.viewmodel.MotorcycleFormViewModel
 import com.distribike.ui.theme.Green
 import com.distribike.ui.theme.RedDark
@@ -442,7 +443,17 @@ fun TabletMotorcycleForm() {
 
                 Button(
                     onClick = {
-                        viewModel.onValidateClicked()
+                        viewModel.onValidateClicked(
+                            MotorcycleFormModelUi(
+                                username = username,
+                                codePrep = codePrep,
+                                model = model,
+                                chassis = chassis.value.ifEmpty { numberChassis },
+                                concessionName = concessionName.value.ifEmpty { nomConcession },
+                                concessionCode = codeConcession,
+                                positionNumber = position
+                            )
+                        )
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Green),
                     modifier = Modifier
@@ -463,8 +474,6 @@ fun TabletMotorcycleForm() {
 @Composable
 fun MobileMotorcycleForm() {
     val viewModel = hiltViewModel<MotorcycleFormViewModel>()
-
-    val configuration = LocalConfiguration.current
 
     var username by remember {
         mutableStateOf("")
@@ -723,7 +732,17 @@ fun MobileMotorcycleForm() {
 
         Button(
             onClick = {
-                viewModel.onValidateClicked()
+                viewModel.onValidateClicked(
+                    MotorcycleFormModelUi(
+                        username = username,
+                        codePrep = codePrep,
+                        model = model,
+                        chassis = chassis.value.ifEmpty { numberChassis },
+                        concessionName = concessionName.value.ifEmpty { nomConcession },
+                        concessionCode = codeConcession,
+                        positionNumber = position
+                    )
+                )
             },
             colors = ButtonDefaults.buttonColors(containerColor = Green),
             modifier = Modifier

@@ -2,7 +2,9 @@ package com.distribike.features.subfeatures.motorcycleform.viewmodel
 
 import androidx.lifecycle.*
 import com.distribike.features.subfeatures.form.scanner.entity.CameraEntity
+import com.distribike.features.subfeatures.motorcycleform.model.MotorcycleFormModelUi
 import com.distribike.features.subfeatures.motorcycleform.usecase.MotorcycleFormUseCase
+import com.distribike.features.subfeatures.motorcycleform.usecase.mapper.MotorcycleFormUseCaseMapper
 import com.distribike.modules.DispatchersName
 import com.distribike.utils.asLiveData
 import com.distribike.utils.offer
@@ -19,6 +21,7 @@ import javax.inject.Named
 class MotorcycleFormViewModel @Inject constructor(
     private val useCase: MotorcycleFormUseCase,
     private val cameraEntity: CameraEntity,
+    private val mapper: MotorcycleFormUseCaseMapper,
     @Named(DispatchersName.UI_VIEWMODEL) val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
@@ -61,8 +64,9 @@ class MotorcycleFormViewModel @Inject constructor(
         }
     }
 
-    fun onValidateClicked() {
+    fun onValidateClicked(modelUi: MotorcycleFormModelUi) {
         viewModelScope.launch(dispatcher) {
+            useCase.storeMotorcycleData(mapper.mapToFormUseCaseModel(modelUi))
             _validateState.offer(true)
         }
     }

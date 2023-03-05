@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.distribike.features.subfeatures.form.entity.FormSaverEntity
 import com.distribike.features.subfeatures.form.entity.models.FormRecordEntityModel
+import com.distribike.features.subfeatures.motorcycleform.model.MotorcycleFormModelUi
 import com.distribike.features.subfeatures.pdf.mapper.PDFMapperUi
 import com.distribike.features.subfeatures.pdf.model.*
 import com.distribike.features.subfeatures.pdf.usecase.PDFUseCase
@@ -32,6 +33,14 @@ class PDFViewModel @Inject constructor(
         .flowOn(dispatcher)
         .mapLatest {
             mapper.mapToModelUi(it)
+        }
+        .distinctUntilChanged()
+        .asLiveData(dispatcher)
+
+    val motorcycleFormLiveData: LiveData<MotorcycleFormModelUi> = useCase.motorcycleResults
+        .flowOn(dispatcher)
+        .mapLatest {
+            mapper.mapToMotorcycleModelUi(it)
         }
         .distinctUntilChanged()
         .asLiveData(dispatcher)

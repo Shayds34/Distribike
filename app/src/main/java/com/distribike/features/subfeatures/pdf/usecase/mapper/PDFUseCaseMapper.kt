@@ -2,8 +2,9 @@ package com.distribike.features.subfeatures.pdf.usecase.mapper
 
 import com.distribike.features.subfeatures.form.entity.models.FormRecordEntityModel
 import com.distribike.features.subfeatures.form.entity.models.StepStateEntityModel
+import com.distribike.features.subfeatures.motorcycleform.entity.model.MotorcycleEntityModel
+import com.distribike.features.subfeatures.motorcycleform.usecase.model.MotorcycleUseCaseModel
 import com.distribike.features.subfeatures.pdf.usecase.model.*
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class PDFUseCaseMapper @Inject constructor() {
@@ -137,5 +138,17 @@ class PDFUseCaseMapper @Inject constructor() {
             StepStateEntityModel.COMPLETE -> StepStateUseCaseModel.COMPLETE
             StepStateEntityModel.PASS -> StepStateUseCaseModel.PASS
         }
+    }
+
+    fun mapMotorcycleEntityToUseCaseModel(result: MotorcycleEntityModel): MotorcycleUseCaseModel {
+        return MotorcycleUseCaseModel(
+            username = result.username ?: "",
+            codePrep = result.codePrep ?: "",
+            model = result.model ?: "",
+            chassis = result.chassis ?: "",
+            concessionName = result.concessionName ?: "",
+            concessionCode = result.concessionCode ?: "",
+            positionNumber = result.positionNumber ?: ""
+        )
     }
 }

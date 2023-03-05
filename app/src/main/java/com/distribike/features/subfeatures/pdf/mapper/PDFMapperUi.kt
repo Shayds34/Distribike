@@ -1,5 +1,7 @@
 package com.distribike.features.subfeatures.pdf.mapper
 
+import com.distribike.features.subfeatures.motorcycleform.model.MotorcycleFormModelUi
+import com.distribike.features.subfeatures.motorcycleform.usecase.model.MotorcycleUseCaseModel
 import com.distribike.features.subfeatures.pdf.model.*
 import com.distribike.features.subfeatures.pdf.usecase.model.PDFUseCaseModel
 import com.distribike.features.subfeatures.pdf.usecase.model.StepStateUseCaseModel
@@ -137,5 +139,17 @@ class PDFMapperUi @Inject constructor() {
             StepStateUseCaseModel.COMPLETE -> PDFModelUi.State.COMPLETE
             StepStateUseCaseModel.PASS -> PDFModelUi.State.PASS
         }
+    }
+
+    fun mapToMotorcycleModelUi(model: MotorcycleUseCaseModel): MotorcycleFormModelUi {
+        return MotorcycleFormModelUi(
+            username = model.username,
+            codePrep = model.codePrep,
+            model = model.model,
+            chassis = model.chassis,
+            concessionName = model.concessionName,
+            concessionCode = model.concessionCode,
+            positionNumber = model.positionNumber
+        )
     }
 }

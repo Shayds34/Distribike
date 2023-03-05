@@ -1,7 +1,8 @@
 package com.distribike.features.subfeatures.pdf.usecase
 
-import android.util.Log
 import com.distribike.features.subfeatures.form.entity.FormSaverEntity
+import com.distribike.features.subfeatures.motorcycleform.entity.MotorcycleEntity
+import com.distribike.features.subfeatures.motorcycleform.usecase.model.MotorcycleUseCaseModel
 import com.distribike.features.subfeatures.pdf.usecase.mapper.PDFUseCaseMapper
 import com.distribike.features.subfeatures.pdf.usecase.model.PDFUseCaseModel
 import com.distribike.modules.DispatchersName
@@ -19,12 +20,19 @@ import javax.inject.Named
 class PDFUseCaseImpl @Inject constructor(
     private val mapper: PDFUseCaseMapper,
     private val entity: FormSaverEntity,
+    private val motorcycleEntity: MotorcycleEntity,
     @Named(DispatchersName.DOMAIN) private val dispatcher: CoroutineDispatcher
 ) : PDFUseCase {
 
     override val pdfResults: Flow<PDFUseCaseModel> by lazy {
         entity.formRecord.mapLatest { result ->
             mapper.mapEntityToUseCaseModel(result)
+        }
+    }
+
+    override val motorcycleResults: Flow<MotorcycleUseCaseModel> by lazy {
+        motorcycleEntity.motorcycleForm.mapLatest { result ->
+            mapper.mapMotorcycleEntityToUseCaseModel(result)
         }
     }
 }

@@ -34,6 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.distribike.BuildConfig
 import com.distribike.R
 import com.distribike.features.subfeatures.motorcycleform.MotorcycleFormActivity
+import com.distribike.features.subfeatures.motorcycleform.model.MotorcycleFormModelUi
 import com.distribike.features.subfeatures.pdf.model.PDFModelUi
 import com.distribike.features.subfeatures.pdf.viewmodel.PDFViewModel
 import com.distribike.ui.theme.*
@@ -117,6 +118,17 @@ class PDFActivity : ComponentActivity() {
 
         val viewModel = hiltViewModel<PDFViewModel>()
         val sections = viewModel.formRecordLiveData.observeAsState(PDFModelUi())
+        val motorcycleForm = viewModel.motorcycleFormLiveData.observeAsState(
+            MotorcycleFormModelUi(
+                username = "",
+                codePrep = "",
+                model = "",
+                chassis = "",
+                concessionName = "",
+                concessionCode = "",
+                positionNumber = ""
+            )
+        )
 
         if (checkPermissions(context)) {
             Toast.makeText(context, PERMISSION_GRANTED, Toast.LENGTH_SHORT).show()
@@ -160,7 +172,8 @@ class PDFActivity : ComponentActivity() {
                 onClick = {
                     generatePDF(
                         context = context,
-                        sections = sections.value
+                        sections = sections.value,
+                        motorcycleForm = motorcycleForm
                     )
                 }) {
 
@@ -198,20 +211,24 @@ class PDFActivity : ComponentActivity() {
         }
     }
 
-    private fun generatePDF(context: Context, sections: PDFModelUi) {
+    private fun generatePDF(
+        context: Context,
+        sections: PDFModelUi,
+        motorcycleForm: State<MotorcycleFormModelUi>
+    ) {
 
         // Initialize MotorcycleForm Information
         val pageHeight = 1680
         val pageWidth = 1188
         val dataFormat = SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.FRANCE)
         val currentDate = dataFormat.format(Date())
-        val name = "NOM PRENOM"
-        val codePrep = "555555"
-        val model = "CMX500"
-        val chassis = "JH25ML14578912314"
-        val concessionName = "MOTO ARLES SARL TEST"
-        val concessionCode = "1055577"
-        val position = "921127"
+        val name = motorcycleForm.value.username
+        val codePrep = motorcycleForm.value.codePrep
+        val model = motorcycleForm.value.model
+        val chassis = motorcycleForm.value.chassis
+        val concessionName = motorcycleForm.value.concessionName
+        val concessionCode = motorcycleForm.value.concessionCode
+        val position = motorcycleForm.value.positionNumber
         val articulation = "5"
         val markLeft = "2"
         val markRight = "5"
