@@ -23,10 +23,10 @@ import androidx.compose.ui.unit.sp
 import com.distribike.features.subfeatures.form.main.component.Step
 import com.distribike.features.subfeatures.form.main.component.StepState
 import com.distribike.features.subfeatures.form.main.component.Stepper
+import com.distribike.features.subfeatures.form.main.forms.breaksform.BreaksFormActivity
 import com.distribike.features.subfeatures.form.main.forms.wheelsform.viewmodel.WheelsFormViewModel
 import com.distribike.features.subfeatures.form.main.model.FormModelUi
 import com.distribike.features.subfeatures.login.WorkerLottie
-import com.distribike.features.subfeatures.pdf.PDFActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -110,7 +110,6 @@ class WheelsFormActivity : ComponentActivity() {
                                             )
                                         }
                                     }
-
                                 }
                             }
                         }
@@ -154,21 +153,10 @@ class WheelsFormActivity : ComponentActivity() {
                         },
                         passButton = {
                             Button(
-                                enabled = if (currentStep.value < data.value.sections[2].tasks.size) {
-                                    if (data.value.sections[2].tasks[currentStep.value].additionalInfo2 == "NEEDED") {
-                                        additionalInfo.isNotEmpty() && additionalInfo2.isNotEmpty()
-                                    } else {
-                                        true
-                                    }
-                                } else {
-                                    true
-                                },
                                 onClick = {
                                     viewModel.saveCurrentStepState(
-                                        state = StepState.COMPLETE,
-                                        currentStep = currentStep.value,
-                                        additionalInfo = additionalInfo.ifEmpty { null },
-                                        additionalInfo2 = additionalInfo2.ifEmpty { null }
+                                        state = StepState.PASS,
+                                        currentStep = currentStep.value
                                     )
                                     additionalInfo = ""
                                     additionalInfo2 = ""
@@ -211,8 +199,7 @@ class WheelsFormActivity : ComponentActivity() {
                                 enabled = viewModel.shouldEnableNextButton.observeAsState(false).value,
                                 onClick = {
                                     finish()
-                                    // startActivity(BreaksFormActivity.newInstance(context = applicationContext))
-                                    startActivity(PDFActivity.newInstance(context = applicationContext))
+                                    startActivity(BreaksFormActivity.newInstance(context = applicationContext))
                                 }) {
                                 Text(
                                     text = "Section suivante".uppercase(),

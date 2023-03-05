@@ -216,7 +216,6 @@ class PDFActivity : ComponentActivity() {
         sections: PDFModelUi,
         motorcycleForm: State<MotorcycleFormModelUi>
     ) {
-
         // Initialize MotorcycleForm Information
         val pageHeight = 1680
         val pageWidth = 1188

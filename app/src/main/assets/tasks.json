@@ -138,17 +138,20 @@
         {
           "id": 1,
           "title": "Chaîne secondaire.",
-          "description": ""
+          "description": "Débattement",
+          "additional_info": "NEEDED"
         },
         {
           "id": 2,
-          "title": "Serrage au couple de la roue arrière | Marquage.",
+          "title": "Serrage au couple de la roue arrière + Marquage.",
           "description": ""
         },
         {
           "id": 3,
           "title": "Centrage de la roue arrière.",
-          "description": ""
+          "description": "Nombres de marques à droite / à gauche",
+          "additional_info": "NEEDED",
+          "additional_info_2": "NEEDED"
         }
       ]
     },
