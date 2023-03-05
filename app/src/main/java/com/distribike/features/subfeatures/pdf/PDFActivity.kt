@@ -314,7 +314,7 @@ class PDFActivity : ComponentActivity() {
         canvas1.drawText(concessionName, 831F, 227F, textPaint)
         canvas1.drawText(concessionCode, 831F, 267F, textPaint)
         canvas1.drawText(position, 762F, 312F, textPaint)
-        canvas1.drawText(sections.transmissionSteps?.stepEntityModels?.get(1)?.additionalInfo ?: "", 370F, 1393F, textPaint)
+        canvas1.drawText(sections.transmissionSteps?.stepEntityModels?.get(1)?.additionalInfo + " cm", 370F, 1393F, textPaint)
         canvas1.drawText(sections.transmissionSteps?.stepEntityModels?.get(3)?.additionalInfo ?: "", 750F, 1462F, textPaint)
         canvas1.drawText(sections.transmissionSteps?.stepEntityModels?.get(3)?.additionalInfo2 ?: "", 900F, 1462F, textPaint)
 
