@@ -16,6 +16,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.distribike.features.subfeatures.form.main.component.Step
 import com.distribike.features.subfeatures.form.main.component.StepState
 import com.distribike.features.subfeatures.form.main.component.Stepper
@@ -138,6 +139,10 @@ class BreaksFormActivity : ComponentActivity() {
                         },
                         steps = steps,
                         completeFormButton = {
+                            Row (
+                                horizontalArrangement = Arrangement.spacedBy(70.dp),
+                                modifier = Modifier.fillMaxWidth(),
+                            ){
                             Button(
                                 enabled = viewModel.shouldEnableNextButton.observeAsState(false).value,
                                 onClick = {
@@ -159,10 +164,11 @@ class BreaksFormActivity : ComponentActivity() {
                                 Text(
                                     text = "Section précédente".uppercase(),
                                     fontSize = 24.sp
+
                                 )
 
 
-                            }
+                            }}
                         }
                     )
                 }

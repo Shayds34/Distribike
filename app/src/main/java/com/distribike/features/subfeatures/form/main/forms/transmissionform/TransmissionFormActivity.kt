@@ -122,6 +122,7 @@ class TransmissionFormActivity : ComponentActivity() {
                     Stepper(
                         currentStep = currentStep,
                         nextButton = {
+
                             Button(
                                 enabled = if (currentStep.value < data.value.sections[5].tasks.size) {
                                     if (data.value.sections[5].tasks[currentStep.value].additionalInfo == "NEEDED"
@@ -198,6 +199,10 @@ class TransmissionFormActivity : ComponentActivity() {
                         },
                         steps = steps,
                         completeFormButton = {
+                            Row (
+                                horizontalArrangement = Arrangement.spacedBy(70.dp),
+                                modifier = Modifier.fillMaxWidth(),
+                            ){
                             Button(
                                 enabled = viewModel.shouldEnableNextButton.observeAsState(false).value,
                                 onClick = {
@@ -223,7 +228,7 @@ class TransmissionFormActivity : ComponentActivity() {
 
 
                             }
-                        }
+                        }}
                     )
                 }
             }

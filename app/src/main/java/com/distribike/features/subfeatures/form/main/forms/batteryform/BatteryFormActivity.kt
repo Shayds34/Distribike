@@ -137,6 +137,10 @@ class BatteryFormActivity : ComponentActivity() {
                         },
                         steps = steps,
                         completeFormButton = {
+                            Row (
+                                horizontalArrangement = Arrangement.spacedBy(70.dp),
+                                modifier = Modifier.fillMaxWidth(),
+                            ){
                             Button(
                                 enabled = viewModel.shouldEnableNextButton.observeAsState(false).value,
                                 onClick = {
@@ -163,7 +167,7 @@ class BatteryFormActivity : ComponentActivity() {
                                 
 
                             }
-                        }
+                        }}
                     )
                 }
             }
