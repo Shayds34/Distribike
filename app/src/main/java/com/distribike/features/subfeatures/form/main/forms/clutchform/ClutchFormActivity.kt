@@ -21,7 +21,9 @@ import com.distribike.features.subfeatures.form.main.component.Step
 import com.distribike.features.subfeatures.form.main.component.StepState
 import com.distribike.features.subfeatures.form.main.component.Stepper
 import com.distribike.features.subfeatures.form.main.forms.clutchform.viewmodel.ClutchFormViewModel
+import com.distribike.features.subfeatures.form.main.forms.generalform.GeneralFormActivity
 import com.distribike.features.subfeatures.form.main.forms.othersform.OthersFormActivity
+import com.distribike.features.subfeatures.form.main.forms.poweringform.PoweringFormActivity
 import com.distribike.features.subfeatures.form.main.model.FormModelUi
 import com.distribike.features.subfeatures.login.WorkerLottie
 import dagger.hilt.android.AndroidEntryPoint
@@ -147,6 +149,20 @@ class ClutchFormActivity : ComponentActivity() {
                                     text = "Section suivante".uppercase(),
                                     fontSize = 24.sp
                                 )
+                            }
+                            Spacer(modifier = Modifier.padding(16.dp))
+                            Button(
+
+                                onClick = {
+                                    finish()
+                                    startActivity(PoweringFormActivity.newInstance(context = applicationContext))
+                                }) {
+                                Text(
+                                    text = "Section précédente".uppercase(),
+                                    fontSize = 24.sp
+                                )
+
+
                             }
                         }
                     )

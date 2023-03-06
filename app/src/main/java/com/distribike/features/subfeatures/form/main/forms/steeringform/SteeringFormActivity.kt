@@ -20,6 +20,8 @@ import androidx.compose.ui.unit.sp
 import com.distribike.features.subfeatures.form.main.component.Step
 import com.distribike.features.subfeatures.form.main.component.StepState
 import com.distribike.features.subfeatures.form.main.component.Stepper
+import com.distribike.features.subfeatures.form.main.forms.electricform.ElectricSystemFormActivity
+import com.distribike.features.subfeatures.form.main.forms.generalform.GeneralFormActivity
 import com.distribike.features.subfeatures.form.main.forms.steeringform.viewmodel.SteeringFormViewModel
 import com.distribike.features.subfeatures.form.main.model.FormModelUi
 import com.distribike.features.subfeatures.login.WorkerLottie
@@ -147,6 +149,20 @@ class SteeringFormActivity : ComponentActivity() {
                                     text = "Section suivante".uppercase(),
                                     fontSize = 24.sp
                                 )
+                            }
+                            Spacer(modifier = Modifier.padding(16.dp))
+                            Button(
+
+                                onClick = {
+                                    finish()
+                                    startActivity(ElectricSystemFormActivity.newInstance(context = applicationContext))
+                                }) {
+                                Text(
+                                    text = "Section précédente".uppercase(),
+                                    fontSize = 24.sp
+                                )
+
+
                             }
                         }
                     )

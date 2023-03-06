@@ -20,6 +20,8 @@ import com.distribike.features.subfeatures.form.main.component.Step
 import com.distribike.features.subfeatures.form.main.component.StepState
 import com.distribike.features.subfeatures.form.main.component.Stepper
 import com.distribike.features.subfeatures.form.main.forms.clutchform.ClutchFormActivity
+import com.distribike.features.subfeatures.form.main.forms.engineform.EngineFormActivity
+import com.distribike.features.subfeatures.form.main.forms.generalform.GeneralFormActivity
 import com.distribike.features.subfeatures.form.main.forms.poweringform.viewmodel.PoweringFormViewModel
 import com.distribike.features.subfeatures.form.main.model.FormModelUi
 import com.distribike.features.subfeatures.login.WorkerLottie
@@ -146,6 +148,20 @@ class PoweringFormActivity : ComponentActivity() {
                                     text = "Section suivante".uppercase(),
                                     fontSize = 24.sp
                                 )
+                            }
+                            Spacer(modifier = Modifier.padding(16.dp))
+                            Button(
+
+                                onClick = {
+                                    finish()
+                                    startActivity(EngineFormActivity.newInstance(context = applicationContext))
+                                }) {
+                                Text(
+                                    text = "Section précédente".uppercase(),
+                                    fontSize = 24.sp
+                                )
+
+
                             }
                         }
                     )

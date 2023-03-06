@@ -148,6 +148,7 @@ class GeneralFormActivity : ComponentActivity() {
                                     fontSize = 24.sp
                                 )
                             }
+
                         }
                     )
                 }

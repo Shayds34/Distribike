@@ -22,6 +22,8 @@ import com.distribike.features.subfeatures.form.main.component.StepState
 import com.distribike.features.subfeatures.form.main.component.Stepper
 import com.distribike.features.subfeatures.form.main.forms.coolingform.viewmodel.CoolingFormViewModel
 import com.distribike.features.subfeatures.form.main.forms.engineform.EngineFormActivity
+import com.distribike.features.subfeatures.form.main.forms.generalform.GeneralFormActivity
+import com.distribike.features.subfeatures.form.main.forms.transmissionform.TransmissionFormActivity
 import com.distribike.features.subfeatures.form.main.model.FormModelUi
 import com.distribike.features.subfeatures.login.WorkerLottie
 import dagger.hilt.android.AndroidEntryPoint
@@ -147,6 +149,20 @@ class CoolingFormActivity : ComponentActivity() {
                                     text = "Section suivante".uppercase(),
                                     fontSize = 24.sp
                                 )
+                            }
+                            Spacer(modifier = Modifier.padding(16.dp))
+                            Button(
+
+                                onClick = {
+                                    finish()
+                                    startActivity(TransmissionFormActivity.newInstance(context = applicationContext))
+                                }) {
+                                Text(
+                                    text = "Section précédente".uppercase(),
+                                    fontSize = 24.sp
+                                )
+
+
                             }
                         }
                     )
