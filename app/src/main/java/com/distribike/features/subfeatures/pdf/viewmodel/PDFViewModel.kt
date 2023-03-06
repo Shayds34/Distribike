@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.distribike.features.subfeatures.form.entity.FormSaverEntity
 import com.distribike.features.subfeatures.form.entity.models.FormRecordEntityModel
+import com.distribike.features.subfeatures.motorcycleform.entity.MotorcycleEntity
 import com.distribike.features.subfeatures.motorcycleform.model.MotorcycleFormModelUi
 import com.distribike.features.subfeatures.pdf.mapper.PDFMapperUi
 import com.distribike.features.subfeatures.pdf.model.*
@@ -26,6 +27,8 @@ import javax.inject.Named
 class PDFViewModel @Inject constructor(
     private val useCase: PDFUseCase,
     private val mapper: PDFMapperUi,
+    private val motorcycleEntity: MotorcycleEntity,
+    private val formRecordEntity: FormSaverEntity,
     @Named(DispatchersName.UI_VIEWMODEL) val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
@@ -44,4 +47,9 @@ class PDFViewModel @Inject constructor(
         }
         .distinctUntilChanged()
         .asLiveData(dispatcher)
+
+    fun clearEntities() {
+        motorcycleEntity.clearExceptUserName()
+        formRecordEntity.clear()
+    }
 }

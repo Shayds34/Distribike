@@ -7,4 +7,6 @@ interface CameraEntity {
     val cameraBarcode: StateFlow<String>
 
     fun saveCameraBarcode(barcode: String)
+
+    fun clear()
 }

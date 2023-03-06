@@ -172,4 +172,6 @@ interface FormSaverEntity {
         additionalInfo: String?,
         additionalInfo2: String?
     )
+
+    fun clear()
 }

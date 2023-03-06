@@ -15,4 +15,8 @@ class CameraEntityImpl @Inject constructor(
     override fun saveCameraBarcode(barcode: String) {
         _cameraBarcode.value = barcode
     }
+
+    override fun clear() {
+        _cameraBarcode.value = ""
+    }
 }

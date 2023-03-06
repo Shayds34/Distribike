@@ -2,6 +2,7 @@ package com.distribike.features.subfeatures.motorcycleform.viewmodel
 
 import androidx.lifecycle.*
 import com.distribike.features.subfeatures.form.scanner.entity.CameraEntity
+import com.distribike.features.subfeatures.motorcycleform.entity.MotorcycleEntity
 import com.distribike.features.subfeatures.motorcycleform.model.MotorcycleFormModelUi
 import com.distribike.features.subfeatures.motorcycleform.usecase.MotorcycleFormUseCase
 import com.distribike.features.subfeatures.motorcycleform.usecase.mapper.MotorcycleFormUseCaseMapper
@@ -20,6 +21,7 @@ import javax.inject.Named
 @HiltViewModel
 class MotorcycleFormViewModel @Inject constructor(
     private val useCase: MotorcycleFormUseCase,
+    private val entity: MotorcycleEntity,
     private val cameraEntity: CameraEntity,
     private val mapper: MotorcycleFormUseCaseMapper,
     @Named(DispatchersName.UI_VIEWMODEL) val dispatcher: CoroutineDispatcher
@@ -33,6 +35,16 @@ class MotorcycleFormViewModel @Inject constructor(
 
     private val _concessionState = MutableStateFlow("")
     val concessionState = _concessionState.asStateFlow()
+
+    private val userNameFlow: Flow<String> by lazy {
+           entity.motorcycleForm.mapLatest { it.username ?: "" }
+    }
+
+    val usernameLiveData: LiveData<String> = userNameFlow
+        .flowOn(dispatcher)
+        .mapLatest { it }
+        .distinctUntilChanged()
+        .asLiveData(dispatcher)
 
     private val barcodeFlow: Flow<String> by lazy {
         cameraEntity.cameraBarcode
@@ -74,6 +86,12 @@ class MotorcycleFormViewModel @Inject constructor(
     fun onScanClicked() {
         viewModelScope.launch(dispatcher) {
             _scanState.offer(true)
+        }
+    }
+
+    fun clearChassis() {
+        viewModelScope.launch(dispatcher) {
+            cameraEntity.clear()
         }
     }
 

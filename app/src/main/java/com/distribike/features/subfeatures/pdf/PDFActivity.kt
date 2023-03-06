@@ -196,6 +196,7 @@ class PDFActivity : ComponentActivity() {
                     .fillMaxWidth()
                     .padding(horizontal = 150.dp),
                 onClick = {
+                    viewModel.clearEntities()
                     finish()
                     startActivity(MotorcycleFormActivity.newInstance(context = applicationContext))
                 }

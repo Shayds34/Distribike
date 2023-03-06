@@ -23,4 +23,15 @@ class MotorcycleEntityImpl @Inject constructor() : MotorcycleEntity {
             positionNumber = model.positionNumber
         )
     }
+
+    override fun clearExceptUserName() {
+        _motorcycleForm.value = _motorcycleForm.value.copy(
+            codePrep = null,
+            model = null,
+            chassis = null,
+            concessionName = null,
+            concessionCode = null,
+            positionNumber = null
+        )
+    }
 }

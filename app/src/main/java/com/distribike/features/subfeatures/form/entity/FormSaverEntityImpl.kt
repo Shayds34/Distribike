@@ -39,6 +39,13 @@ class FormSaverEntityImpl @Inject constructor(
         )
     }
 
+    /**
+     * Clear all data to start a new form.
+     */
+    override fun clear() {
+        _formRecord.value = FormRecordEntityModel()
+    }
+
     //region GENERAL SECTION
     /**
      * Used to know is every step has been COMPLETED or PASS

@@ -3,6 +3,7 @@ package com.distribike.features.subfeatures.motorcycleform
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
@@ -12,6 +13,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -20,6 +22,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,7 +41,6 @@ fun MotorcycleFormPreview() {
     MotorcycleForm()
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MotorcycleForm() {
     val configuration = LocalConfiguration.current
@@ -57,7 +59,7 @@ fun TabletMotorcycleForm() {
     val viewModel = hiltViewModel<MotorcycleFormViewModel>()
 
     var username by remember {
-        mutableStateOf("")
+        mutableStateOf(viewModel.usernameLiveData.value ?: "")
     }
 
     var codePrep by remember {
@@ -222,7 +224,7 @@ fun TabletMotorcycleForm() {
                             textFieldSize2 = coordinates.size.toSize()
                         },
                     label = { Text("") },
-
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                     textStyle = TextStyle.Default.copy(fontSize = 28.sp),
                     trailingIcon = {
                         Icon(icon, "contentDescription",
@@ -268,7 +270,8 @@ fun TabletMotorcycleForm() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 150.dp),
-                    textStyle = TextStyle.Default.copy(fontSize = 28.sp)
+                    textStyle = TextStyle.Default.copy(fontSize = 28.sp),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
                 )
 
                 Spacer(modifier = Modifier.padding(8.dp))
@@ -299,7 +302,7 @@ fun TabletMotorcycleForm() {
                             textfieldSize = coordinates.size.toSize()
                         },
                     label = { Text("") },
-
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                     textStyle = TextStyle.Default.copy(fontSize = 28.sp),
                     trailingIcon = {
                         Icon(icon, "contentDescription",
@@ -345,9 +348,11 @@ fun TabletMotorcycleForm() {
                     onValueChange = { numberChassis = it },
                     singleLine = true,
                     modifier = Modifier
+                        .onFocusChanged { viewModel.clearChassis() }
                         .fillMaxWidth()
                         .padding(horizontal = 150.dp),
-                    textStyle = TextStyle.Default.copy(fontSize = 28.sp)
+                    textStyle = TextStyle.Default.copy(fontSize = 28.sp),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
                 )
 
                 Button(
@@ -389,7 +394,8 @@ fun TabletMotorcycleForm() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 150.dp),
-                    textStyle = TextStyle.Default.copy(fontSize = 28.sp)
+                    textStyle = TextStyle.Default.copy(fontSize = 28.sp),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
                 )
 
                 Spacer(modifier = Modifier.padding(8.dp))
@@ -414,7 +420,8 @@ fun TabletMotorcycleForm() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 150.dp),
-                    textStyle = TextStyle.Default.copy(fontSize = 28.sp)
+                    textStyle = TextStyle.Default.copy(fontSize = 28.sp),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 )
 
                 Spacer(modifier = Modifier.padding(8.dp))
@@ -439,7 +446,8 @@ fun TabletMotorcycleForm() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 150.dp),
-                    textStyle = TextStyle.Default.copy(fontSize = 28.sp)
+                    textStyle = TextStyle.Default.copy(fontSize = 28.sp),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 )
 
                 Spacer(modifier = Modifier.padding(8.dp))

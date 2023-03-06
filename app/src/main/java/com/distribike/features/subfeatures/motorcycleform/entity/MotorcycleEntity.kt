@@ -8,4 +8,5 @@ interface MotorcycleEntity {
     val motorcycleForm: StateFlow<MotorcycleEntityModel>
 
     fun storeMotorcycleForm(model: MotorcycleEntityModel)
+    fun clearExceptUserName()
 }
