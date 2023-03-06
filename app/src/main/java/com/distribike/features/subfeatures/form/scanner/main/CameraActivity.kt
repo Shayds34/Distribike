@@ -20,6 +20,8 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Close
+import com.distribike.ui.theme.CutOutShape
+import androidx.compose.material.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -139,6 +141,14 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
                     }
                 }, ContextCompat.getMainExecutor(context))
             })
+            Surface(
+                shape = CutOutShape(),
+                color = Color.Black.copy(alpha = 0.55f),
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+
+            }
 
             Column {
                 Row(
