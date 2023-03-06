@@ -141,6 +141,7 @@ fun TabletMotorcycleForm() {
         "GL1800",
         "NC750X",
         "NSS125",
+        "NSS300",
         "NSS750",
         "NT1100",
         "ST125",
@@ -154,6 +155,8 @@ fun TabletMotorcycleForm() {
         Icons.Filled.ArrowDropUp //it requires androidx.compose.material:material-icons-extended
     else
         Icons.Filled.ArrowDropDown
+
+
 
     Column(
         modifier = Modifier

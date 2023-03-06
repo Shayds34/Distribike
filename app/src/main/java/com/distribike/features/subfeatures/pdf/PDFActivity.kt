@@ -206,7 +206,9 @@ class PDFActivity : ComponentActivity() {
                     color = White,
                     fontSize = 22.sp,
                     text = "Commencer un nouveau châssis"
+
                 )
+
             }
         }
     }
@@ -314,7 +316,7 @@ class PDFActivity : ComponentActivity() {
         canvas1.drawText(concessionName, 831F, 227F, textPaint)
         canvas1.drawText(concessionCode, 831F, 267F, textPaint)
         canvas1.drawText(position, 762F, 312F, textPaint)
-        canvas1.drawText(sections.transmissionSteps?.stepEntityModels?.get(1)?.additionalInfo + " cm", 370F, 1393F, textPaint)
+        canvas1.drawText(sections.transmissionSteps?.stepEntityModels?.get(1)?.additionalInfo + " mm", 370F, 1393F, textPaint)
         canvas1.drawText(sections.transmissionSteps?.stepEntityModels?.get(3)?.additionalInfo ?: "", 750F, 1462F, textPaint)
         canvas1.drawText(sections.transmissionSteps?.stepEntityModels?.get(3)?.additionalInfo2 ?: "", 900F, 1462F, textPaint)
 
@@ -707,13 +709,11 @@ class PDFActivity : ComponentActivity() {
         pdfDocument.finishPage(myPage3)
 
         // Set the name of our PDF file and its path.
-        //val file = File(
-        //    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath,
-        //    "N°CHASSIS.pdf"
+        val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath,"$chassis $position.pdf")
         //)
 
         // To test on EMULATOR
-        val file = File(Environment.getExternalStorageDirectory(), "$chassis.pdf")
+       // val file = File(Environment.getExternalStorageDirectory(), "$chassis.pdf")
 
 
         try {
@@ -733,7 +733,7 @@ class PDFActivity : ComponentActivity() {
         // Send function
         val sendIntent = Intent(Intent.ACTION_SEND)
         sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "$chassis.pdf")
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "$chassis $position.pdf")
         sendIntent.putExtra(Intent.EXTRA_STREAM, uri)
         sendIntent.setDataAndType(uri, FLAG_FILE_TYPE)
 
