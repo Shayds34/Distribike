@@ -733,7 +733,7 @@ class PDFActivity : ComponentActivity() {
         // Send function
         val sendIntent = Intent(Intent.ACTION_SEND)
         sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "PDI")
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "$chassis.pdf")
         sendIntent.putExtra(Intent.EXTRA_STREAM, uri)
         sendIntent.setDataAndType(uri, FLAG_FILE_TYPE)
 
