@@ -348,26 +348,41 @@ fun TabletMotorcycleForm() {
                     onValueChange = { numberChassis = it },
                     singleLine = true,
                     modifier = Modifier
-                        .onFocusChanged { viewModel.clearChassis() }
                         .fillMaxWidth()
                         .padding(horizontal = 150.dp),
                     textStyle = TextStyle.Default.copy(fontSize = 28.sp),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
                 )
 
+                Row (
+                    horizontalArrangement = Arrangement.spacedBy(20.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 280.dp),
+
+                ){
                 Button(
                     onClick = {
                         viewModel.onScanClicked()
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = RedDark),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 340.dp),
+
                 ) {
                     Text(
                         text = "Scanner", fontSize = 16.sp
                     )
                 }
+                Button(
+                    onClick = {
+                        viewModel.clearChassis()
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = RedDark),
+
+                ) {
+                    Text(
+                        text = "Reset", fontSize = 16.sp
+                    )
+                }}
 
                 Spacer(modifier = Modifier.padding(8.dp))
 
