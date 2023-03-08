@@ -83,7 +83,9 @@ class PDFActivity : ComponentActivity() {
                     }
                 ) {
                     PDFGenerator()
+
                 }
+
             }
         }
     }
@@ -109,6 +111,7 @@ class PDFActivity : ComponentActivity() {
                 }
             }
         }
+
     }
 
     @Composable
@@ -135,11 +138,7 @@ class PDFActivity : ComponentActivity() {
         } else {
             requestPermission(activity!!)
         }
-        generatePDF(
-            context = context,
-            sections = sections.value,
-            motorcycleForm = motorcycleForm
-        )
+
 
         Column(
             modifier = Modifier
@@ -175,6 +174,10 @@ class PDFActivity : ComponentActivity() {
                     .fillMaxWidth()
                     .padding(horizontal = 150.dp),
                 onClick = {
+                    generatePDF(
+                        context = context,
+                        sections = sections.value,
+                        motorcycleForm = motorcycleForm)
                     Gdrive(
                         context = context,
                         sections = sections.value,
@@ -201,7 +204,11 @@ class PDFActivity : ComponentActivity() {
                     .fillMaxWidth()
                     .padding(horizontal = 150.dp),
                 onClick = {
-                Print(
+                    generatePDF(
+                        context = context,
+                        sections = sections.value,
+                        motorcycleForm = motorcycleForm)
+                    Print(
                     context = context,
                     sections = sections.value,
                     motorcycleForm = motorcycleForm
