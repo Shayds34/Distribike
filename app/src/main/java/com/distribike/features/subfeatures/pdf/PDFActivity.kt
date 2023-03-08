@@ -197,6 +197,7 @@ class PDFActivity : ComponentActivity() {
                     .padding(horizontal = 150.dp),
                 onClick = {
                     viewModel.clearEntities()
+                    viewModel.clearChassis()
                     finish()
                     startActivity(MotorcycleFormActivity.newInstance(context = applicationContext))
                 }
