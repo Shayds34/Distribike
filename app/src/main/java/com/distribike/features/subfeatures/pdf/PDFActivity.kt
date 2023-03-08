@@ -187,7 +187,7 @@ class PDFActivity : ComponentActivity() {
                         .padding(10.dp),
                     color = White,
                     fontSize = 22.sp,
-                    text = "Envoyer Gdrive"
+                    text = "Etape 1: Envoyer Gdrive"
                 )
             }
 
@@ -196,7 +196,7 @@ class PDFActivity : ComponentActivity() {
             androidx.compose.material3.Button(
                 // on below line we are adding a modifier
                 // to it and specifying max width to it.
-                colors = ButtonDefaults.buttonColors(containerColor = Green),
+                colors = ButtonDefaults.buttonColors(containerColor = Blue),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 150.dp),
@@ -213,7 +213,7 @@ class PDFActivity : ComponentActivity() {
                         .padding(10.dp),
                     color = White,
                     fontSize = 22.sp,
-                    text = "Ouvrir/Imprimer"
+                    text = "Etape 2: Ouvrir/Imprimer"
 
                 )
 
