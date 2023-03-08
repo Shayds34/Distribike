@@ -92,29 +92,30 @@ fun TabletMotorcycleForm() {
 
     var expanded2 by remember { mutableStateOf(false) }
     val suggestions2 = listOf(
-        "ABDOULBAKI Abdou",
+        "AGUENI Antoine",
         "ALBALADEJO Michel",
-        "AQUENI Antoine",
+        "BARRON Christophe",
         "BARRON Paco",
+        "BLEUX Anthony",
         "BROUILLARD Alain",
-        "BRUEL Louis",
+        "CORSI Alexandre",
         "CROISSIAU Steven",
         "DELUCHE Eric",
         "FAVEDE Laurent",
         "FROTTIER Ryad",
-        "GONZALES Emmanuel",
-        "GRANON David",
-        "LOPES Arnaud",
-        "LOPES Lucas",
+        "FRUNZA Thomas",
+        "GONZALEZ Emmanuel",
+        "IACONIS Axel",
         "LOPEZ Arnaud",
+        "LOPEZ Lucas",
         "MASVIDAL Christian",
-        "MATHERON Antoine",
-        "MATHIEU Anthony",
         "PERE Bastien",
-        "PUJALTE Johan",
         "RASSE Laurent",
         "ROULET Julien",
-        "SEDIQUI Said"
+        "SEDIQUI Said",
+        "VIGNERON Alexandre",
+        "ZAHI Lyes"
+
     )
     /// var selectedText2 by remember { mutableStateOf("") }
 

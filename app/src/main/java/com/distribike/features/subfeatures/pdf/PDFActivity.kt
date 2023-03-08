@@ -135,6 +135,11 @@ class PDFActivity : ComponentActivity() {
         } else {
             requestPermission(activity!!)
         }
+        generatePDF(
+            context = context,
+            sections = sections.value,
+            motorcycleForm = motorcycleForm
+        )
 
         Column(
             modifier = Modifier
@@ -170,7 +175,7 @@ class PDFActivity : ComponentActivity() {
                     .fillMaxWidth()
                     .padding(horizontal = 150.dp),
                 onClick = {
-                    generatePDF(
+                    Gdrive(
                         context = context,
                         sections = sections.value,
                         motorcycleForm = motorcycleForm
@@ -182,11 +187,38 @@ class PDFActivity : ComponentActivity() {
                         .padding(10.dp),
                     color = White,
                     fontSize = 22.sp,
-                    text = "Ouvrir/Envoyer/Imprimer PDF"
+                    text = "Envoyer Gdrive"
                 )
             }
 
-            Spacer(modifier = Modifier.height(80.dp))
+            Spacer(modifier = Modifier.height(70.dp))
+
+            androidx.compose.material3.Button(
+                // on below line we are adding a modifier
+                // to it and specifying max width to it.
+                colors = ButtonDefaults.buttonColors(containerColor = Green),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 150.dp),
+                onClick = {
+                Print(
+                    context = context,
+                    sections = sections.value,
+                    motorcycleForm = motorcycleForm
+                )
+                }
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(10.dp),
+                    color = White,
+                    fontSize = 22.sp,
+                    text = "Ouvrir/Imprimer"
+
+                )
+
+            }
+            Spacer(modifier = Modifier.height(70.dp))
 
             androidx.compose.material3.Button(
                 // on below line we are adding a modifier
@@ -728,26 +760,26 @@ class PDFActivity : ComponentActivity() {
         }
         // Close PDF file.
         pdfDocument.close()
-        val uri = FileProvider.getUriForFile(
-            context,
-            BuildConfig.APPLICATION_ID + ".provider", file
-        )
+       // val uri = FileProvider.getUriForFile(
+       //     context,
+      //      BuildConfig.APPLICATION_ID + ".provider", file
+      //  )
         // Send function
-        val sendIntent = Intent(Intent.ACTION_SEND)
-        sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "$chassis $position.pdf")
-        sendIntent.putExtra(Intent.EXTRA_STREAM, uri)
-        sendIntent.setDataAndType(uri, FLAG_FILE_TYPE)
+     //   val sendIntent = Intent(Intent.ACTION_SEND)
+     //  sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+     //   sendIntent.putExtra(Intent.EXTRA_SUBJECT, "$chassis $position.pdf")
+     //   sendIntent.putExtra(Intent.EXTRA_STREAM, uri)
+    //    sendIntent.setDataAndType(uri, FLAG_FILE_TYPE)
 
         // Open function
-        val openIntent = Intent(Intent.ACTION_VIEW)
-        openIntent.setDataAndType(uri, FLAG_FILE_TYPE)
-        openIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+     //   val openIntent = Intent(Intent.ACTION_VIEW)
+     //   openIntent.setDataAndType(uri, FLAG_FILE_TYPE)
+     //   openIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
         // Pick function
-        val chooserIntent = Intent.createChooser(openIntent, "Selectionner l'application")
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(sendIntent))
-        context.startActivity(chooserIntent)
+     //   val chooserIntent = Intent.createChooser(openIntent, "Selectionner l'application")
+     //   chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(sendIntent))
+     //   context.startActivity(chooserIntent)
 
         // A garder ouvrir unique
         //  val uri = FileProvider.getUriForFile(
@@ -784,5 +816,43 @@ class PDFActivity : ComponentActivity() {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             ), PERMISSION_REQUEST_CODE
         )
+    }
+    private fun Gdrive(
+                       context: Context,
+                       sections: PDFModelUi,
+                       motorcycleForm: State<MotorcycleFormModelUi>
+    ) {
+        val chassis = motorcycleForm.value.chassis
+        val position = motorcycleForm.value.positionNumber
+        val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath,"$chassis $position.pdf")
+        val uri = FileProvider.getUriForFile(
+        context,
+        BuildConfig.APPLICATION_ID + ".provider", file)
+        val intent = Intent(Intent.ACTION_SEND).apply {
+        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            putExtra(Intent.EXTRA_SUBJECT, "$chassis $position.pdf")
+            putExtra(Intent.EXTRA_STREAM, uri)
+            setDataAndType(uri, FLAG_FILE_TYPE)
+        }
+        context.startActivity(Intent.createChooser(intent, "Selectionner l'application"))
+    }
+    private fun Print(
+        context: Context,
+        sections: PDFModelUi,
+        motorcycleForm: State<MotorcycleFormModelUi>
+    ) {
+        val chassis = motorcycleForm.value.chassis
+        val position = motorcycleForm.value.positionNumber
+        val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath,"$chassis $position.pdf")
+        val uri = FileProvider.getUriForFile(
+           context,
+            BuildConfig.APPLICATION_ID + ".provider", file)
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            setDataAndType(uri, "application/pdf")
+           }
+            context.startActivity(Intent.createChooser(intent, "Selectionner l'application"))
     }
 }
