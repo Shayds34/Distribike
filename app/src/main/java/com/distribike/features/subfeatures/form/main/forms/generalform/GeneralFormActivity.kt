@@ -23,6 +23,7 @@ import com.distribike.features.subfeatures.form.main.forms.batteryform.BatteryFo
 import com.distribike.features.subfeatures.form.main.model.FormModelUi
 import com.distribike.features.subfeatures.form.main.forms.generalform.viewmodel.GeneralFormViewModel
 import com.distribike.features.subfeatures.login.WorkerLottie
+import com.distribike.features.subfeatures.motorcycleform.MotorcycleFormActivity
 import com.distribike.features.subfeatures.pdf.PDFActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -137,6 +138,10 @@ class GeneralFormActivity : ComponentActivity() {
                         },
                         steps = steps,
                         completeFormButton = {
+                            Row (
+                                horizontalArrangement = Arrangement.spacedBy(70.dp),
+                                modifier = Modifier.fillMaxWidth(),
+                            ){
                             Button(
                                 enabled = viewModel.shouldEnableNextButton.observeAsState(false).value,
                                 onClick = {
@@ -148,8 +153,21 @@ class GeneralFormActivity : ComponentActivity() {
                                     fontSize = 24.sp
                                 )
                             }
+                            Spacer(modifier = Modifier.padding(16.dp))
+                            Button(
 
-                        }
+                                onClick = {
+                                    finish()
+                                    startActivity(MotorcycleFormActivity.newInstance(context = applicationContext))
+                                }) {
+                                Text(
+                                    text = "Retour Formulaire".uppercase(),
+                                    fontSize = 24.sp
+                                )
+
+
+                            }
+                        }}
                     )
                 }
             }
