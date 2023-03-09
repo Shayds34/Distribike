@@ -258,6 +258,7 @@ fun TabletMotorcycleForm() {
                     text = "Code Prep:",
                     style = TextStyle(
                         fontWeight = FontWeight.Bold, letterSpacing = 1.sp
+
                     ),
                     fontSize = 22.sp
                 )
@@ -265,7 +266,7 @@ fun TabletMotorcycleForm() {
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
-                    value = codePrep,
+                    value = codePrep.uppercase(),
                     onValueChange = { codePrep = it },
                     singleLine = true,
                     modifier = Modifier
@@ -273,6 +274,7 @@ fun TabletMotorcycleForm() {
                         .padding(horizontal = 150.dp),
                     textStyle = TextStyle.Default.copy(fontSize = 28.sp),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+
                 )
 
                 Spacer(modifier = Modifier.padding(8.dp))
@@ -291,7 +293,7 @@ fun TabletMotorcycleForm() {
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
-                    value = model,
+                    value = model.uppercase(),
                     onValueChange = { model = it },
                     singleLine = true,
 
@@ -345,7 +347,7 @@ fun TabletMotorcycleForm() {
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
-                    value = chassis.value.ifEmpty { numberChassis },
+                    value = chassis.value.ifEmpty { numberChassis.uppercase() },
                     onValueChange = { numberChassis = it },
                     singleLine = true,
                     modifier = Modifier
@@ -401,7 +403,7 @@ fun TabletMotorcycleForm() {
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
-                    value = codeConcession,
+                    value = codeConcession.uppercase(),
                     onValueChange = {
                         codeConcession = it
                         viewModel.onConcessionCodeEntered(it)
@@ -430,7 +432,7 @@ fun TabletMotorcycleForm() {
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
-                    value = concessionName.value.ifEmpty { nomConcession },
+                    value = concessionName.value.ifEmpty { nomConcession.uppercase() },
                     onValueChange = { nomConcession = it },
                     singleLine = true,
                     modifier = Modifier
@@ -456,7 +458,7 @@ fun TabletMotorcycleForm() {
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
-                    value = position,
+                    value = position.uppercase(),
                     onValueChange = { position = it },
                     singleLine = true,
                     modifier = Modifier
