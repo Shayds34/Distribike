@@ -1,6 +1,7 @@
 package com.distribike.features.subfeatures.form.scanner.main
 
 import android.Manifest
+import android.app.ActionBar.LayoutParams
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -89,10 +90,9 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
                     PreviewView(AndroidViewContext).apply {
                         this.scaleType = PreviewView.ScaleType.FILL_CENTER
                         layoutParams = ViewGroup.LayoutParams(
-                            200,
-                            600,
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT,
                         )
-                        layoutDirection = View.LAYOUT_DIRECTION_LTR
                         implementationMode = PreviewView.ImplementationMode.PERFORMANCE
                     }
                 },
