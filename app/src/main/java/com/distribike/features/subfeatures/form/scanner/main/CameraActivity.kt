@@ -86,8 +86,9 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
         val lifecycleOwner = LocalLifecycleOwner.current
         var preview by remember { mutableStateOf<Preview?>(null) }
 
-        Box(modifier = Modifier.size(600.dp,300.dp)) {
-
+        Box(
+            modifier = Modifier.size(700.dp, 250.dp)
+        ) {
             AndroidView(factory = { AndroidViewContext ->
                 PreviewView(AndroidViewContext).apply {
                     this.scaleType = PreviewView.ScaleType.FILL_CENTER
@@ -97,7 +98,7 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
                     )
                     implementationMode = PreviewView.ImplementationMode.COMPATIBLE
                 }
-            }, modifier = Modifier.fillMaxSize(), update = { previewView ->
+            }, modifier = Modifier.fillMaxSize().align(alignment = Alignment.Center), update = { previewView ->
                 val cameraSelector: CameraSelector =
                     CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK)
                         .build()
@@ -141,14 +142,14 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
                     }
                 }, ContextCompat.getMainExecutor(context))
             })
-            Surface(
-                shape = CutOutShape(),
-                color = Color.Black.copy(alpha = 0.55f),
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-
-            }
+            // Surface(
+            //     shape = CutOutShape(),
+            //     color = Color.Black.copy(alpha = 0.55f),
+            //     modifier = Modifier
+            //         .fillMaxSize()
+            // ) {
+//
+            // }
 
             Column {
                 Row(

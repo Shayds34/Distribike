@@ -75,13 +75,8 @@ class PDFViewModel @Inject constructor(
     }
 
     sealed class StepState {
-
         object Step1 : StepState()
-
         object Step2 : StepState()
-
         object Step3 : StepState()
-
     }
-
 }
