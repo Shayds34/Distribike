@@ -13,7 +13,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -59,8 +58,10 @@ fun TabletMotorcycleForm() {
     val viewModel = hiltViewModel<MotorcycleFormViewModel>()
 
     var username by remember {
-        mutableStateOf(viewModel.usernameLiveData.value ?: "")
+        mutableStateOf("")
     }
+
+    val savedUsername = viewModel.usernameLiveData.observeAsState("")
 
     var codePrep by remember {
         mutableStateOf("")
@@ -115,7 +116,6 @@ fun TabletMotorcycleForm() {
         "SEDIQUI Said",
         "VIGNERON Alexandre",
         "ZAHI Lyes"
-
     )
     /// var selectedText2 by remember { mutableStateOf("") }
 
@@ -158,8 +158,6 @@ fun TabletMotorcycleForm() {
         Icons.Filled.ArrowDropUp //it requires androidx.compose.material:material-icons-extended
     else
         Icons.Filled.ArrowDropDown
-
-
 
     Column(
         modifier = Modifier
@@ -214,7 +212,7 @@ fun TabletMotorcycleForm() {
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
-                    value = username,
+                    value = savedUsername.value.ifEmpty { username },
                     onValueChange = { username = it },
                     singleLine = true,
                     modifier = Modifier
@@ -357,35 +355,36 @@ fun TabletMotorcycleForm() {
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
                 )
 
-                Row (
+                Row(
                     horizontalArrangement = Arrangement.spacedBy(20.dp),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 280.dp),
 
-                ){
-                Button(
-                    onClick = {
-                        viewModel.onScanClicked()
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = RedDark),
+                    ) {
+                    Button(
+                        onClick = {
+                            viewModel.onScanClicked()
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = RedDark),
 
-                ) {
-                    Text(
-                        text = "Scanner", fontSize = 16.sp
-                    )
+                        ) {
+                        Text(
+                            text = "Scanner", fontSize = 16.sp
+                        )
+                    }
+                    Button(
+                        onClick = {
+                            viewModel.clearChassis()
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = RedDark),
+
+                        ) {
+                        Text(
+                            text = "Reset", fontSize = 16.sp
+                        )
+                    }
                 }
-                Button(
-                    onClick = {
-                        viewModel.clearChassis()
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = RedDark),
-
-                ) {
-                    Text(
-                        text = "Reset", fontSize = 16.sp
-                    )
-                }}
 
                 Spacer(modifier = Modifier.padding(8.dp))
 
