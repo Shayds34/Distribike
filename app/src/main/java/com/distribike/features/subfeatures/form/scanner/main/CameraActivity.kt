@@ -4,7 +4,9 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.LayoutDirection
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -90,6 +92,7 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
                             600,
                             200,
                         )
+                        layoutDirection = View.LAYOUT_DIRECTION_LTR
                         implementationMode = PreviewView.ImplementationMode.COMPATIBLE
                     }
                 },
@@ -123,7 +126,7 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
 
                         val imageAnalysis: ImageAnalysis = ImageAnalysis.Builder()
                             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                            .setTargetResolution(android.util.Size(600, 200)).build().also {
+                            .setTargetResolution(android.util.Size(width, height)).build().also {
                                 it.setAnalyzer(cameraExecutor, barcodeAnalyser)
                             }
 
