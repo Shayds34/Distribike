@@ -7,8 +7,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.LayoutDirection
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -89,9 +91,10 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
                 factory = { AndroidViewContext ->
                     PreviewView(AndroidViewContext).apply {
                         this.scaleType = PreviewView.ScaleType.FILL_CENTER
-                        layoutParams = ViewGroup.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.MATCH_PARENT,
+                        layoutParams = FrameLayout.LayoutParams(
+                            600,
+                            200,
+                            Gravity.CENTER
                         )
                         implementationMode = PreviewView.ImplementationMode.PERFORMANCE
                     }
