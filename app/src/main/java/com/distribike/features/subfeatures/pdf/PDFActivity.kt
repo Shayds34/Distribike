@@ -83,9 +83,7 @@ class PDFActivity : ComponentActivity() {
                     }
                 ) {
                     PDFGenerator()
-
                 }
-
             }
         }
     }
@@ -133,12 +131,13 @@ class PDFActivity : ComponentActivity() {
             )
         )
 
+        val currentStep = viewModel.stepState.observeAsState(PDFViewModel.StepState.Step1)
+
         if (checkPermissions(context)) {
             Toast.makeText(context, PERMISSION_GRANTED, Toast.LENGTH_SHORT).show()
         } else {
             requestPermission(activity!!)
         }
-
 
         Column(
             modifier = Modifier
@@ -174,6 +173,7 @@ class PDFActivity : ComponentActivity() {
                     .fillMaxWidth()
                     .padding(horizontal = 150.dp),
                 onClick = {
+                    viewModel.setNextStep(step = PDFViewModel.StepState.Step2)
                     generatePDF(
                         context = context,
                         sections = sections.value,
@@ -184,7 +184,6 @@ class PDFActivity : ComponentActivity() {
                         sections = sections.value,
                         motorcycleForm = motorcycleForm
                     )
-                    viewModel.setNextStep(step = PDFViewModel.StepState.PRINT_PDF)
                 }) {
 
                 Text(
@@ -205,8 +204,9 @@ class PDFActivity : ComponentActivity() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 150.dp),
-                enabled = viewModel.stepState.value == PDFViewModel.StepState.PRINT_PDF,
+                enabled = currentStep.value == PDFViewModel.StepState.Step2,
                 onClick = {
+                    viewModel.setNextStep(step = PDFViewModel.StepState.Step3)
                     generatePDF(
                         context = context,
                         sections = sections.value,
@@ -217,7 +217,6 @@ class PDFActivity : ComponentActivity() {
                         sections = sections.value,
                         motorcycleForm = motorcycleForm
                     )
-                    viewModel.setNextStep(step = PDFViewModel.StepState.RESTART_PDF)
                 }
             ) {
                 Text(
@@ -238,7 +237,7 @@ class PDFActivity : ComponentActivity() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 150.dp),
-                enabled = viewModel.stepState.value == PDFViewModel.StepState.RESTART_PDF,
+                enabled = currentStep.value == PDFViewModel.StepState.Step3,
                 onClick = {
                     viewModel.clearEntities()
                     viewModel.clearChassis()

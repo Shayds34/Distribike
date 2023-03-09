@@ -65,7 +65,7 @@ class PDFViewModel @Inject constructor(
         }
     }
 
-    private val _stepState = MutableLiveData(StepState.GENERATE_PDF)
+    private val _stepState = MutableLiveData<StepState>()
     val stepState = _stepState.asLiveData()
 
     fun setNextStep(step: StepState) {
@@ -74,10 +74,14 @@ class PDFViewModel @Inject constructor(
         }
     }
 
-    enum class StepState {
-        GENERATE_PDF, // initial state only
-        PRINT_PDF,
-        RESTART_PDF
+    sealed class StepState {
+
+        object Step1 : StepState()
+
+        object Step2 : StepState()
+
+        object Step3 : StepState()
+
     }
 
 }
