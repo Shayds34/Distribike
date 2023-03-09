@@ -34,4 +34,10 @@ class MotorcycleEntityImpl @Inject constructor() : MotorcycleEntity {
             positionNumber = null
         )
     }
+
+    override fun clearUsername() {
+        _motorcycleForm.value = _motorcycleForm.value.copy(
+            username = null
+        )
+    }
 }

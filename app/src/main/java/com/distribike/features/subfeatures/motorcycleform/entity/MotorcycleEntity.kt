@@ -9,4 +9,5 @@ interface MotorcycleEntity {
 
     fun storeMotorcycleForm(model: MotorcycleEntityModel)
     fun clearExceptUserName()
+    fun clearUsername()
 }

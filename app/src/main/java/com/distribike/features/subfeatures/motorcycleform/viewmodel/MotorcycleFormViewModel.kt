@@ -95,4 +95,10 @@ class MotorcycleFormViewModel @Inject constructor(
         }
     }
 
+    fun clearUsername() {
+        viewModelScope.launch(dispatcher) {
+            entity.clearUsername()
+        }
+    }
+
 }
