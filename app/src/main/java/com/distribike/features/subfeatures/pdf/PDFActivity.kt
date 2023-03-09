@@ -204,7 +204,7 @@ class PDFActivity : ComponentActivity() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 150.dp),
-                enabled = currentStep.value == PDFViewModel.StepState.Step2,
+                enabled = currentStep.value != PDFViewModel.StepState.Step1,
                 onClick = {
                     viewModel.setNextStep(step = PDFViewModel.StepState.Step3)
                     generatePDF(
