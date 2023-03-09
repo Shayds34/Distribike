@@ -2,6 +2,7 @@ package com.distribike.features.subfeatures.pdf.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -14,6 +15,8 @@ import com.distribike.features.subfeatures.pdf.mapper.PDFMapperUi
 import com.distribike.features.subfeatures.pdf.model.*
 import com.distribike.features.subfeatures.pdf.usecase.PDFUseCase
 import com.distribike.modules.DispatchersName
+import com.distribike.utils.asLiveData
+import com.distribike.utils.offer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -60,6 +63,21 @@ class PDFViewModel @Inject constructor(
         viewModelScope.launch(dispatcher) {
             cameraEntity.clear()
         }
+    }
+
+    private val _stepState = MutableLiveData(StepState.GENERATE_PDF)
+    val stepState = _stepState.asLiveData()
+
+    fun setNextStep(step: StepState) {
+        viewModelScope.launch(dispatcher) {
+            _stepState.offer(step)
+        }
+    }
+
+    enum class StepState {
+        GENERATE_PDF, // initial state only
+        PRINT_PDF,
+        RESTART_PDF
     }
 
 }

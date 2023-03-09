@@ -177,12 +177,14 @@ class PDFActivity : ComponentActivity() {
                     generatePDF(
                         context = context,
                         sections = sections.value,
-                        motorcycleForm = motorcycleForm)
+                        motorcycleForm = motorcycleForm
+                    )
                     Gdrive(
                         context = context,
                         sections = sections.value,
                         motorcycleForm = motorcycleForm
                     )
+                    viewModel.setNextStep(step = PDFViewModel.StepState.PRINT_PDF)
                 }) {
 
                 Text(
@@ -203,16 +205,19 @@ class PDFActivity : ComponentActivity() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 150.dp),
+                enabled = viewModel.stepState.value == PDFViewModel.StepState.PRINT_PDF,
                 onClick = {
                     generatePDF(
                         context = context,
                         sections = sections.value,
-                        motorcycleForm = motorcycleForm)
+                        motorcycleForm = motorcycleForm
+                    )
                     Print(
-                    context = context,
-                    sections = sections.value,
-                    motorcycleForm = motorcycleForm
-                )
+                        context = context,
+                        sections = sections.value,
+                        motorcycleForm = motorcycleForm
+                    )
+                    viewModel.setNextStep(step = PDFViewModel.StepState.RESTART_PDF)
                 }
             ) {
                 Text(
@@ -221,10 +226,9 @@ class PDFActivity : ComponentActivity() {
                     color = White,
                     fontSize = 22.sp,
                     text = "Etape 2: Ouvrir/Imprimer"
-
                 )
-
             }
+
             Spacer(modifier = Modifier.height(70.dp))
 
             androidx.compose.material3.Button(
@@ -234,6 +238,7 @@ class PDFActivity : ComponentActivity() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 150.dp),
+                enabled = viewModel.stepState.value == PDFViewModel.StepState.RESTART_PDF,
                 onClick = {
                     viewModel.clearEntities()
                     viewModel.clearChassis()
@@ -247,9 +252,7 @@ class PDFActivity : ComponentActivity() {
                     color = White,
                     fontSize = 22.sp,
                     text = "Commencer un nouveau châssis"
-
                 )
-
             }
         }
     }
@@ -357,9 +360,24 @@ class PDFActivity : ComponentActivity() {
         canvas1.drawText(concessionName, 831F, 227F, textPaint)
         canvas1.drawText(concessionCode, 831F, 267F, textPaint)
         canvas1.drawText(position, 762F, 312F, textPaint)
-        canvas1.drawText(sections.transmissionSteps?.stepEntityModels?.get(1)?.additionalInfo + " mm", 370F, 1393F, textPaint)
-        canvas1.drawText(sections.transmissionSteps?.stepEntityModels?.get(3)?.additionalInfo ?: "", 750F, 1462F, textPaint)
-        canvas1.drawText(sections.transmissionSteps?.stepEntityModels?.get(3)?.additionalInfo2 ?: "", 900F, 1462F, textPaint)
+        canvas1.drawText(
+            sections.transmissionSteps?.stepEntityModels?.get(1)?.additionalInfo + " mm",
+            370F,
+            1393F,
+            textPaint
+        )
+        canvas1.drawText(
+            sections.transmissionSteps?.stepEntityModels?.get(3)?.additionalInfo ?: "",
+            750F,
+            1462F,
+            textPaint
+        )
+        canvas1.drawText(
+            sections.transmissionSteps?.stepEntityModels?.get(3)?.additionalInfo2 ?: "",
+            900F,
+            1462F,
+            textPaint
+        )
 
         // GLOBAL POSITION
         // Normalement ces positions ne devraient jamais changer,
@@ -425,11 +443,13 @@ class PDFActivity : ComponentActivity() {
         var wheelsOriginPositionY = 900f
         sections.wheelsAndTiresSteps?.stepEntityModels?.map {
             when (it.additionalInfo) {
-                null -> { /* do nothing */ }
-                else ->  canvas1.drawText(it.additionalInfo, 782F, 955F, textPaint)
+                null -> { /* do nothing */
+                }
+                else -> canvas1.drawText(it.additionalInfo, 782F, 955F, textPaint)
             }
             when (it.additionalInfo2) {
-                null -> { /* do nothing */ }
+                null -> { /* do nothing */
+                }
                 else -> canvas1.drawText(it.additionalInfo2, 925F, 955F, textPaint)
             }
             when (it.stepStateUseCaseModel) {
@@ -750,11 +770,14 @@ class PDFActivity : ComponentActivity() {
         pdfDocument.finishPage(myPage3)
 
         // Set the name of our PDF file and its path.
-        val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath,"$chassis $position.pdf")
+        val file = File(
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath,
+            "$chassis $position.pdf"
+        )
         //)
 
         // To test on EMULATOR
-       // val file = File(Environment.getExternalStorageDirectory(), "$chassis.pdf")
+        // val file = File(Environment.getExternalStorageDirectory(), "$chassis.pdf")
 
 
         try {
@@ -767,26 +790,26 @@ class PDFActivity : ComponentActivity() {
         }
         // Close PDF file.
         pdfDocument.close()
-       // val uri = FileProvider.getUriForFile(
-       //     context,
-      //      BuildConfig.APPLICATION_ID + ".provider", file
-      //  )
+        // val uri = FileProvider.getUriForFile(
+        //     context,
+        //      BuildConfig.APPLICATION_ID + ".provider", file
+        //  )
         // Send function
-     //   val sendIntent = Intent(Intent.ACTION_SEND)
-     //  sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-     //   sendIntent.putExtra(Intent.EXTRA_SUBJECT, "$chassis $position.pdf")
-     //   sendIntent.putExtra(Intent.EXTRA_STREAM, uri)
-    //    sendIntent.setDataAndType(uri, FLAG_FILE_TYPE)
+        //   val sendIntent = Intent(Intent.ACTION_SEND)
+        //  sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        //   sendIntent.putExtra(Intent.EXTRA_SUBJECT, "$chassis $position.pdf")
+        //   sendIntent.putExtra(Intent.EXTRA_STREAM, uri)
+        //    sendIntent.setDataAndType(uri, FLAG_FILE_TYPE)
 
         // Open function
-     //   val openIntent = Intent(Intent.ACTION_VIEW)
-     //   openIntent.setDataAndType(uri, FLAG_FILE_TYPE)
-     //   openIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        //   val openIntent = Intent(Intent.ACTION_VIEW)
+        //   openIntent.setDataAndType(uri, FLAG_FILE_TYPE)
+        //   openIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
         // Pick function
-     //   val chooserIntent = Intent.createChooser(openIntent, "Selectionner l'application")
-     //   chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(sendIntent))
-     //   context.startActivity(chooserIntent)
+        //   val chooserIntent = Intent.createChooser(openIntent, "Selectionner l'application")
+        //   chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(sendIntent))
+        //   context.startActivity(chooserIntent)
 
         // A garder ouvrir unique
         //  val uri = FileProvider.getUriForFile(
@@ -824,26 +847,32 @@ class PDFActivity : ComponentActivity() {
             ), PERMISSION_REQUEST_CODE
         )
     }
+
     private fun Gdrive(
-                       context: Context,
-                       sections: PDFModelUi,
-                       motorcycleForm: State<MotorcycleFormModelUi>
+        context: Context,
+        sections: PDFModelUi,
+        motorcycleForm: State<MotorcycleFormModelUi>
     ) {
         val chassis = motorcycleForm.value.chassis
         val position = motorcycleForm.value.positionNumber
-        val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath,"$chassis $position.pdf")
+        val file = File(
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath,
+            "$chassis $position.pdf"
+        )
         val uri = FileProvider.getUriForFile(
-        context,
-        BuildConfig.APPLICATION_ID + ".provider", file)
+            context,
+            BuildConfig.APPLICATION_ID + ".provider", file
+        )
         val intent = Intent(Intent.ACTION_SEND).apply {
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             putExtra(Intent.EXTRA_SUBJECT, "$chassis $position.pdf")
             putExtra(Intent.EXTRA_STREAM, uri)
             setDataAndType(uri, FLAG_FILE_TYPE)
         }
         context.startActivity(Intent.createChooser(intent, "Selectionner l'application"))
     }
+
     private fun Print(
         context: Context,
         sections: PDFModelUi,
@@ -851,15 +880,19 @@ class PDFActivity : ComponentActivity() {
     ) {
         val chassis = motorcycleForm.value.chassis
         val position = motorcycleForm.value.positionNumber
-        val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath,"$chassis $position.pdf")
+        val file = File(
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath,
+            "$chassis $position.pdf"
+        )
         val uri = FileProvider.getUriForFile(
-           context,
-            BuildConfig.APPLICATION_ID + ".provider", file)
-            val intent = Intent(Intent.ACTION_VIEW).apply {
+            context,
+            BuildConfig.APPLICATION_ID + ".provider", file
+        )
+        val intent = Intent(Intent.ACTION_VIEW).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             setDataAndType(uri, "application/pdf")
-           }
-            context.startActivity(Intent.createChooser(intent, "Selectionner l'application"))
+        }
+        context.startActivity(Intent.createChooser(intent, "Selectionner l'application"))
     }
 }
