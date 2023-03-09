@@ -226,9 +226,12 @@ fun TabletMotorcycleForm() {
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                     textStyle = TextStyle.Default.copy(fontSize = 28.sp),
                     trailingIcon = {
-                        viewModel.clearUsername()
                         Icon(icon, "contentDescription",
-                            Modifier.clickable { expanded2 = !expanded2 })
+                            Modifier.clickable {
+                                viewModel.clearUsername()
+                                expanded2 = !expanded2
+                            }
+                        )
                     })
                 DropdownMenu(
                     expanded = expanded2,
