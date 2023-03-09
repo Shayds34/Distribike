@@ -99,7 +99,6 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
                         implementationMode = PreviewView.ImplementationMode.PERFORMANCE
                     }
                 },
-                modifier = Modifier.size(600.dp, 200.dp),
                 update = { previewView ->
                     val cameraSelector: CameraSelector =
                         CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK)
