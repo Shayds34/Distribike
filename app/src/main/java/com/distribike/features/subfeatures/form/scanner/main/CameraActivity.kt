@@ -89,8 +89,8 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
                     PreviewView(AndroidViewContext).apply {
                         this.scaleType = PreviewView.ScaleType.FILL_CENTER
                         layoutParams = ViewGroup.LayoutParams(
-                            600,
                             200,
+                            600,
                         )
                         layoutDirection = View.LAYOUT_DIRECTION_LTR
                         implementationMode = PreviewView.ImplementationMode.PERFORMANCE
