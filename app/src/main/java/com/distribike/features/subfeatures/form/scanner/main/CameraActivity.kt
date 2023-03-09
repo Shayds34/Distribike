@@ -87,7 +87,7 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
         var preview by remember { mutableStateOf<Preview?>(null) }
 
         Box(
-            modifier = Modifier.size(700.dp, 250.dp)
+            modifier = Modifier.fillMaxWidth()
         ) {
             AndroidView(factory = { AndroidViewContext ->
                 PreviewView(AndroidViewContext).apply {
@@ -98,7 +98,7 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
                     )
                     implementationMode = PreviewView.ImplementationMode.COMPATIBLE
                 }
-            }, modifier = Modifier.fillMaxSize().align(alignment = Alignment.Center), update = { previewView ->
+            }, modifier = Modifier.size(700.dp, 250.dp).align(Alignment.Center), update = { previewView ->
                 val cameraSelector: CameraSelector =
                     CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK)
                         .build()
