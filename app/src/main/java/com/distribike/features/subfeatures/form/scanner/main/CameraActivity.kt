@@ -87,7 +87,8 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
         var preview by remember { mutableStateOf<Preview?>(null) }
 
         Box(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
         ) {
             AndroidView(factory = { AndroidViewContext ->
                 PreviewView(AndroidViewContext).apply {
@@ -98,7 +99,7 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
                     )
                     implementationMode = PreviewView.ImplementationMode.COMPATIBLE
                 }
-            }, modifier = Modifier.size(700.dp, 250.dp).align(Alignment.Center), update = { previewView ->
+            }, modifier = Modifier.size(600.dp, 200.dp).align(Alignment.Center), update = { previewView ->
                 val cameraSelector: CameraSelector =
                     CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK)
                         .build()
@@ -128,7 +129,7 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
 
                     val imageAnalysis: ImageAnalysis = ImageAnalysis.Builder()
                         .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                        .setTargetResolution(android.util.Size(width, height)).build().also {
+                        .setTargetResolution(android.util.Size(600, 200)).build().also {
                             it.setAnalyzer(cameraExecutor, barcodeAnalyser)
                         }
 
