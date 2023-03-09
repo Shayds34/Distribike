@@ -93,7 +93,7 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
                             200,
                         )
                         layoutDirection = View.LAYOUT_DIRECTION_LTR
-                        implementationMode = PreviewView.ImplementationMode.COMPATIBLE
+                        implementationMode = PreviewView.ImplementationMode.PERFORMANCE
                     }
                 },
                 update = { previewView ->
