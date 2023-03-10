@@ -86,7 +86,7 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
         val lifecycleOwner = LocalLifecycleOwner.current
         var preview by remember { mutableStateOf<Preview?>(null) }
 
-        Box(modifier = Modifier.size(600.dp,300.dp)) {
+        Box(modifier = Modifier.fillMaxSize()) {
 
             AndroidView(factory = { AndroidViewContext ->
                 PreviewView(AndroidViewContext).apply {
