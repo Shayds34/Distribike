@@ -108,7 +108,7 @@ fun TabletMotorcycleForm() {
         "GONZALEZ Emmanuel",
         "IACONIS Axel",
         "LOPEZ Arnaud",
-        "LOPEZ Lucas",
+        "LOPES Luca",
         "MASVIDAL Christian",
         "PERE Bastien",
         "RASSE Laurent",
@@ -144,7 +144,7 @@ fun TabletMotorcycleForm() {
         "GL1800",
         "NC750X",
         "NSS125",
-        "NSS300",
+        "NSS350",
         "NSS750",
         "NT1100",
         "ST125",
@@ -477,7 +477,7 @@ fun TabletMotorcycleForm() {
                     onClick = {
                         viewModel.onValidateClicked(
                             MotorcycleFormModelUi(
-                                username = username,
+                                username = savedUsername.value.ifEmpty { username },
                                 codePrep = codePrep,
                                 model = model,
                                 chassis = chassis.value.ifEmpty { numberChassis },
