@@ -81,9 +81,39 @@ class PDFActivity : ComponentActivity() {
                             }
                         )
                     }
-                ) {
+
+                )
+
+
+
+                {
+                    val context = LocalContext.current
+                    val activity = (LocalContext.current as? Activity)
+
+                    val viewModel = hiltViewModel<PDFViewModel>()
+                    val sections = viewModel.formRecordLiveData.observeAsState(PDFModelUi())
+                    val motorcycleForm = viewModel.motorcycleFormLiveData.observeAsState(
+                        MotorcycleFormModelUi(
+                            username = "",
+                            codePrep = "",
+                            model = "",
+                            chassis = "",
+                            concessionName = "",
+                            concessionCode = "",
+                            positionNumber = ""
+                        )
+                    )
+                    generatePDF(
+                        context = context,
+                        sections = sections.value,
+                        motorcycleForm = motorcycleForm
+                    )
                     PDFGenerator()
+
                 }
+
+
+
             }
         }
     }
@@ -174,11 +204,7 @@ class PDFActivity : ComponentActivity() {
                     .padding(horizontal = 150.dp),
                 onClick = {
                     viewModel.setNextStep(step = PDFViewModel.StepState.Step2)
-                    generatePDF(
-                        context = context,
-                        sections = sections.value,
-                        motorcycleForm = motorcycleForm
-                    )
+
                     Gdrive(
                         context = context,
                         sections = sections.value,
@@ -207,11 +233,7 @@ class PDFActivity : ComponentActivity() {
                 enabled = currentStep.value != PDFViewModel.StepState.Step1,
                 onClick = {
                     viewModel.setNextStep(step = PDFViewModel.StepState.Step3)
-                    generatePDF(
-                        context = context,
-                        sections = sections.value,
-                        motorcycleForm = motorcycleForm
-                    )
+
                     Print(
                         context = context,
                         sections = sections.value,
