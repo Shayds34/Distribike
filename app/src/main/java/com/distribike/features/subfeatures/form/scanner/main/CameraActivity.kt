@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Surface.ROTATION_180
+import android.view.Surface.ROTATION_90
 import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -91,13 +93,11 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
             AndroidView(factory = { AndroidViewContext ->
                 PreviewView(AndroidViewContext).apply {
                     this.scaleType = PreviewView.ScaleType.FILL_CENTER
-                    layoutParams = ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                    )
+
+
                     implementationMode = PreviewView.ImplementationMode.COMPATIBLE
                 }
-            }, modifier = Modifier.fillMaxSize(), update = { previewView ->
+            }, modifier = Modifier.size(550.dp).align(alignment = Alignment.Center), update = { previewView ->
                 val cameraSelector: CameraSelector =
                     CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK)
                         .build()
@@ -143,7 +143,7 @@ class CameraActivity : ComponentActivity(), LifecycleOwner {
             })
             Surface(
                 shape = CutOutShape(),
-                color = Color.Black.copy(alpha = 0.55f),
+                color = Color.Black.copy(alpha = 1f),
                 modifier = Modifier
                     .fillMaxSize()
             ) {
