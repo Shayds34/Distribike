@@ -84,36 +84,9 @@ class PDFActivity : ComponentActivity() {
 
                 )
 
-
-
                 {
-                    val context = LocalContext.current
-                    val activity = (LocalContext.current as? Activity)
-
-                    val viewModel = hiltViewModel<PDFViewModel>()
-                    val sections = viewModel.formRecordLiveData.observeAsState(PDFModelUi())
-                    val motorcycleForm = viewModel.motorcycleFormLiveData.observeAsState(
-                        MotorcycleFormModelUi(
-                            username = "",
-                            codePrep = "",
-                            model = "",
-                            chassis = "",
-                            concessionName = "",
-                            concessionCode = "",
-                            positionNumber = ""
-                        )
-                    )
-                    generatePDF(
-                        context = context,
-                        sections = sections.value,
-                        motorcycleForm = motorcycleForm
-                    )
                     PDFGenerator()
-
                 }
-
-
-
             }
         }
     }
@@ -205,6 +178,12 @@ class PDFActivity : ComponentActivity() {
                 onClick = {
                     viewModel.setNextStep(step = PDFViewModel.StepState.Step2)
 
+
+                    generatePDF(
+                        context = context,
+                        sections = sections.value,
+                        motorcycleForm = motorcycleForm
+                    )
                     Gdrive(
                         context = context,
                         sections = sections.value,
