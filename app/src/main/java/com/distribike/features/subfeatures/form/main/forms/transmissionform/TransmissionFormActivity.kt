@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.TextField
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -29,6 +30,8 @@ import com.distribike.features.subfeatures.form.main.forms.suspensionsform.Suspe
 import com.distribike.features.subfeatures.form.main.forms.transmissionform.viewmodel.TransmissionFormViewModel
 import com.distribike.features.subfeatures.form.main.model.FormModelUi
 import com.distribike.features.subfeatures.login.WorkerLottie
+import com.distribike.ui.theme.Green
+import com.distribike.ui.theme.RedDark
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -123,7 +126,8 @@ class TransmissionFormActivity : ComponentActivity() {
                         currentStep = currentStep,
                         nextButton = {
 
-                            Button(
+                            androidx.compose.material3.Button(
+                                colors = ButtonDefaults.buttonColors(containerColor = Green),
                                 enabled = if (currentStep.value < data.value.sections[5].tasks.size) {
                                     if (data.value.sections[5].tasks[currentStep.value].additionalInfo == "NEEDED"
                                     ) {
@@ -156,7 +160,8 @@ class TransmissionFormActivity : ComponentActivity() {
                             }
                         },
                         passButton = {
-                            Button(
+                            androidx.compose.material3.Button(
+                                colors = ButtonDefaults.buttonColors(containerColor = RedDark),
                                 onClick = {
                                     viewModel.saveCurrentStepState(
                                         state = StepState.PASS,
@@ -177,7 +182,8 @@ class TransmissionFormActivity : ComponentActivity() {
                             }
                         },
                         previousButton = {
-                            Button(
+                            androidx.compose.material3.Button(
+                                colors = ButtonDefaults.buttonColors(containerColor = RedDark),
                                 onClick = {
                                     viewModel.saveCurrentStepState(
                                         state = StepState.TODO,
@@ -203,7 +209,8 @@ class TransmissionFormActivity : ComponentActivity() {
                                 horizontalArrangement = Arrangement.spacedBy(70.dp),
                                 modifier = Modifier.fillMaxWidth(),
                             ){
-                            Button(
+                                androidx.compose.material3.Button(
+                                    colors = ButtonDefaults.buttonColors(containerColor = Green),
                                 enabled = viewModel.shouldEnableNextButton.observeAsState(false).value,
                                 onClick = {
                                     finish()
@@ -215,7 +222,8 @@ class TransmissionFormActivity : ComponentActivity() {
                                 )
                             }
                             Spacer(modifier = Modifier.padding(16.dp))
-                            Button(
+                                androidx.compose.material3.Button(
+                                    colors = ButtonDefaults.buttonColors(containerColor = RedDark),
 
                                 onClick = {
                                     finish()
@@ -223,7 +231,7 @@ class TransmissionFormActivity : ComponentActivity() {
                                 }) {
                                 Text(
                                     text = "Section précédente".uppercase(),
-                                    fontSize = 24.sp
+                                    fontSize = 22.sp
                                 )
 
 

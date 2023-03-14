@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -26,6 +27,8 @@ import com.distribike.features.subfeatures.form.main.forms.suspensionsform.Suspe
 import com.distribike.features.subfeatures.form.main.forms.wheelsform.WheelsFormActivity
 import com.distribike.features.subfeatures.form.main.model.FormModelUi
 import com.distribike.features.subfeatures.login.WorkerLottie
+import com.distribike.ui.theme.Green
+import com.distribike.ui.theme.RedDark
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -81,7 +84,9 @@ class BreaksFormActivity : ComponentActivity() {
                     Stepper(
                         currentStep = currentStep,
                         nextButton = {
-                            Button(
+                            androidx.compose.material3.Button(
+                                colors = ButtonDefaults.buttonColors(containerColor = Green),
+
                                 onClick = {
                                     viewModel.saveCurrentStepState(
                                         state = StepState.COMPLETE,
@@ -100,7 +105,8 @@ class BreaksFormActivity : ComponentActivity() {
                             }
                         },
                         passButton = {
-                            Button(
+                            androidx.compose.material3.Button(
+                                colors = ButtonDefaults.buttonColors(containerColor = RedDark),
                                 onClick = {
                                     viewModel.saveCurrentStepState(
                                         state = StepState.PASS,
@@ -119,7 +125,8 @@ class BreaksFormActivity : ComponentActivity() {
                             }
                         },
                         previousButton = {
-                            Button(
+                            androidx.compose.material3.Button(
+                                colors = ButtonDefaults.buttonColors(containerColor = RedDark),
                                 onClick = {
                                     viewModel.saveCurrentStepState(
                                         state = StepState.TODO,
@@ -143,7 +150,8 @@ class BreaksFormActivity : ComponentActivity() {
                                 horizontalArrangement = Arrangement.spacedBy(70.dp),
                                 modifier = Modifier.fillMaxWidth(),
                             ){
-                            Button(
+                                androidx.compose.material3.Button(
+                                colors = ButtonDefaults.buttonColors(containerColor = Green),
                                 enabled = viewModel.shouldEnableNextButton.observeAsState(false).value,
                                 onClick = {
                                     finish()
@@ -155,7 +163,8 @@ class BreaksFormActivity : ComponentActivity() {
                                 )
                             }
                             Spacer(modifier = Modifier.padding(16.dp))
-                            Button(
+                                androidx.compose.material3.Button(
+                                colors = ButtonDefaults.buttonColors(containerColor = RedDark),
 
                                 onClick = {
                                     finish()
@@ -163,7 +172,7 @@ class BreaksFormActivity : ComponentActivity() {
                                 }) {
                                 Text(
                                     text = "Section précédente".uppercase(),
-                                    fontSize = 24.sp
+                                    fontSize = 22.sp
 
                                 )
 
