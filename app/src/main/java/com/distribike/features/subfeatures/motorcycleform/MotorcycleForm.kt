@@ -137,6 +137,7 @@ fun TabletMotorcycleForm() {
         "CBR1000",
         "CBR500R",
         "CBR650R",
+        "CL500",
         "CMX1100",
         "CMX500",
         "CRF1100",
@@ -148,7 +149,8 @@ fun TabletMotorcycleForm() {
         "NSS750",
         "NT1100",
         "ST125",
-        "WW125"
+        "WW125",
+        "XL750"
     )
     // var selectedText by remember { mutableStateOf("") }
 
