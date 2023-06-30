@@ -95,10 +95,9 @@ fun TabletMotorcycleForm() {
     val suggestions2 = listOf(
         "AGUENI Antoine",
         "ALBALADEJO Michel",
-        "BARRON Christophe",
         "BARRON Paco",
-        "BLEUX Anthony",
         "BROUILLARD Alain",
+        "BRUEL Louis",
         "CORSI Alexandre",
         "CROISSIAU Steven",
         "DELUCHE Eric",
@@ -110,10 +109,10 @@ fun TabletMotorcycleForm() {
         "LOPEZ Arnaud",
         "LOPES Luca",
         "MASVIDAL Christian",
+        "MAHFOUD Youness",
         "PERE Bastien",
         "RASSE Laurent",
         "ROULET Julien",
-        "SEDIQUI Said",
         "VIGNERON Alexandre",
         "ZAHI Lyes"
     )
