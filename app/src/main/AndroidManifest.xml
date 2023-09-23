@@ -46,7 +46,7 @@
         <activity
             android:name="com.distribike.features.subfeatures.form.scanner.main.CameraActivity"
             android:exported="true"
-            android:theme="@style/Theme.Distribike">
+            android:theme="@style/Theme.AppCompat.NoActionBar">
 
         </activity>
         <activity

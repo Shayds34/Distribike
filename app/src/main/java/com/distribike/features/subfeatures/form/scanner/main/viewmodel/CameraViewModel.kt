@@ -1,10 +1,12 @@
 package com.distribike.features.subfeatures.form.scanner.main.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.distribike.features.subfeatures.form.scanner.entity.CameraEntity
 import com.distribike.modules.DispatchersName
+import com.distribike.utils.asLiveData
+import com.distribike.utils.offer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +27,32 @@ class CameraViewModel @Inject constructor(
     private val _dialogState = MutableStateFlow("")
     val dialogState = _dialogState.asStateFlow()
 
+    private val _viewState = MutableLiveData<CameraModelUi>()
+    val viewState = _viewState.asLiveData()
+
+    data class CameraModelUi(
+        val state: State = State.Init
+    ) {
+        sealed class State {
+            /**
+             * Used to display the heartbeat animation
+             * for the camera reticule
+             */
+            object Init : State()
+
+            /**
+             * Used to display the loading animation
+             * for the camera reticule
+             */
+            object Loading : State()
+
+            /**
+             * Used to save the validated barcode
+             */
+            object Success : State()
+        }
+    }
+
     fun showDialog(barcodeValue: String) {
         viewModelScope.launch(dispatcher) {
             _dialogState.emit(barcodeValue)
@@ -41,6 +69,32 @@ class CameraViewModel @Inject constructor(
     fun onCancelClicked(barcodeValue: String) {
         viewModelScope.launch(dispatcher) {
             // TODO
+        }
+    }
+
+    fun onShowReticuleAnimation() {
+        viewModelScope.launch(dispatcher) {
+            _viewState.offer(CameraModelUi(state = CameraModelUi.State.Init))
+        }
+    }
+
+    fun onScannedBarcodeLoadingFinished() {
+        viewModelScope.launch(dispatcher) {
+            _viewState.offer(CameraModelUi(state = CameraModelUi.State.Success))
+        }
+    }
+
+    fun handleSuccess() {
+        viewModelScope.launch(dispatcher) {
+            // Reset to Init state, otherwise it could stay in Success state.
+            _viewState.offer(CameraModelUi(state = CameraModelUi.State.Init))
+        }
+    }
+
+    fun onBarcodeFound(barcodeValue: String) {
+        viewModelScope.launch(dispatcher) {
+            cameraEntity.saveCameraBarcode(barcodeValue)
+            _viewState.offer(CameraModelUi(state = CameraModelUi.State.Loading))
         }
     }
 }

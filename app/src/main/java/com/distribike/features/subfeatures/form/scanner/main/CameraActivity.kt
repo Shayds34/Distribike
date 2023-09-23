@@ -1,190 +1,296 @@
 package com.distribike.features.subfeatures.form.scanner.main
 
 import android.Manifest
+import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
-import android.view.Surface.ROTATION_180
-import android.view.Surface.ROTATION_90
-import android.view.ViewGroup
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.core.AspectRatio
+import androidx.camera.core.CameraControl
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageCapture
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.twotone.Close
-import com.distribike.ui.theme.CutOutShape
-import androidx.compose.material.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.LifecycleOwner
-import com.distribike.features.subfeatures.form.scanner.main.component.BarcodeConfirmationDialog
+import com.distribike.databinding.ActivityCameraScannerBinding
+import com.distribike.features.subfeatures.form.scanner.main.cameraviews.CameraGraphicOverlay
+import com.distribike.features.subfeatures.form.scanner.main.cameraviews.CameraLoadingGraphic
+import com.distribike.features.subfeatures.form.scanner.main.cameraviews.CameraReticuleAnimator
+import com.distribike.features.subfeatures.form.scanner.main.cameraviews.CameraReticuleGraphic
 import com.distribike.features.subfeatures.form.scanner.main.viewmodel.CameraViewModel
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.rememberPermissionState
 import com.google.common.util.concurrent.ListenableFuture
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.ExecutionException
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import kotlin.math.abs
+import kotlin.math.ln
+import kotlin.math.max
+import kotlin.math.min
 
-@OptIn(ExperimentalPermissionsApi::class)
 @AndroidEntryPoint
-class CameraActivity : ComponentActivity(), LifecycleOwner {
-
-    private val viewModel: CameraViewModel by viewModels()
+class CameraActivity : AppCompatActivity() {
 
     companion object {
+        private const val LOADING_ANIMATION_DURATION = 750L
+        const val DESIRED_WIDTH_CROP_PERCENT = 15
+        const val DESIRED_HEIGHT_CROP_PERCENT = 90
+
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+
         fun newInstance(context: Context) = Intent(context, CameraActivity::class.java)
     }
 
+    private var _binding: ActivityCameraScannerBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
+    private var cameraControl: CameraControl? = null
+    private lateinit var cameraExecutor: ExecutorService
+
+    private lateinit var previewView: PreviewView
+    private lateinit var graphicOverlay: CameraGraphicOverlay
+
+    private lateinit var cameraReticuleAnimator: CameraReticuleAnimator
+    private lateinit var loadingAnimator: ValueAnimator
+    private var screenWidth: Int = 0
+    private var screenHeight: Int = 0
+
+    private val viewModel: CameraViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            Column(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                val cameraPermissionState =
-                    rememberPermissionState(permission = Manifest.permission.CAMERA)
 
-                Button(onClick = { cameraPermissionState.launchPermissionRequest() }) {
-                    Text(text = "Camera Permissions")
+        _binding = ActivityCameraScannerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        previewView = binding.previewView
+        graphicOverlay = binding.overlay
+
+        screenWidth = Resources.getSystem().displayMetrics.widthPixels
+        screenHeight = Resources.getSystem().displayMetrics.heightPixels
+
+        cameraExecutor = Executors.newSingleThreadExecutor()
+
+        if (allPermissionsGranted()) {
+            previewView.post {
+                startCamera()
+            }
+        } else {
+            requestPermissions(REQUIRED_PERMISSIONS, 10)
+        }
+
+        setupButtons()
+        initObservers()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 10) {
+            if (allPermissionsGranted()) {
+                previewView.post { startCamera() }
+            } else {
+                Toast.makeText(
+                    this.applicationContext,
+                    "Veuillez autoriser les permissions de la Caméra.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    }
+
+    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(
+            this.applicationContext, it
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun setupButtons() {
+        binding.closeButton.setOnClickListener {
+            finish()
+        }
+    }
+
+    private fun initObservers() {
+        viewModel.viewState.observe(this) { modelUi ->
+            when (modelUi.state) {
+                CameraViewModel.CameraModelUi.State.Init -> {
+                    binding.previewViewBottomText.text =
+                        "Placer le code à barre dans la zone rectangulaire"
+                    startHeartbeatAnimation()
                 }
 
-                CameraPreview()
+                CameraViewModel.CameraModelUi.State.Loading -> {
+                    // Should play loading animation for a few seconds.
+                    // This loading has no value but to let the user
+                    // know that something is happening with the scanned barcode.
+                    binding.previewViewBottomText.text = "Analyse du code à barre en cours..."
+                    startLoadingAnimation()
+                }
 
-                BarcodeConfirmationDialog()
-
-                if (viewModel.chassisState.collectAsState().value.isNotEmpty()) {
+                CameraViewModel.CameraModelUi.State.Success -> {
+                    // Should validate the Barcode and navigate back
+                    loadingAnimator.cancel()
+                    viewModel.handleSuccess()
                     finish()
                 }
             }
         }
     }
 
-    @Composable
-    fun CameraPreview(
-        viewModel: CameraViewModel = hiltViewModel()
-    ) {
-        val context = LocalContext.current
-        val lifecycleOwner = LocalLifecycleOwner.current
-        var preview by remember { mutableStateOf<Preview?>(null) }
+    private fun startCamera() {
+        cameraProviderFuture = ProcessCameraProvider.getInstance(this.applicationContext)
+        cameraProviderFuture.addListener({
+            val cameraProvider = try {
+                cameraProviderFuture.get()
+            } catch (e: ExecutionException) {
+                throw IllegalStateException("Camera initialization failed.", e.cause)
+            }
+            bindPreviewCamera(cameraProvider)
+        }, ContextCompat.getMainExecutor(this.applicationContext))
+    }
 
-        Box(modifier = Modifier.fillMaxSize()) {
+    private fun bindPreviewCamera(cameraProvider: ProcessCameraProvider?) {
+        val metrics = DisplayMetrics().also { previewView.display.getRealMetrics(it) }
+        val screenAspectRatio = aspectRatio(metrics.widthPixels, metrics.heightPixels)
 
-            AndroidView(factory = { AndroidViewContext ->
-                PreviewView(AndroidViewContext).apply {
-                    this.scaleType = PreviewView.ScaleType.FILL_CENTER
+        val rotation = previewView.display.rotation
 
+        val preview = Preview.Builder()
+            .setTargetAspectRatio(screenAspectRatio)
+            .setTargetRotation(rotation)
+            .build()
 
-                    implementationMode = PreviewView.ImplementationMode.COMPATIBLE
-                }
-            }, modifier = Modifier.size(550.dp).align(alignment = Alignment.Center), update = { previewView ->
-                val cameraSelector: CameraSelector =
-                    CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                        .build()
-                val cameraExecutor: ExecutorService = Executors.newSingleThreadExecutor()
-                val cameraProviderFuture: ListenableFuture<ProcessCameraProvider> =
-                    ProcessCameraProvider.getInstance(context)
+        val imageCapture = ImageCapture.Builder().build()
 
-                cameraProviderFuture.addListener({
-                    preview = Preview.Builder().build().also {
-                        it.setSurfaceProvider(previewView.surfaceProvider)
-                    }
+        val cameraSelector =
+            CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
 
-                    val screenWidth = applicationContext.resources.displayMetrics.widthPixels
-                    val screenHeight = applicationContext.resources.displayMetrics.heightPixels
-
-                    val width = screenHeight / 2
-                    val height = screenWidth / 2
-
-                    val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-                    val barcodeAnalyser = BarcodeAnalyser { barcodes ->
-                        barcodes.forEach { barcode ->
-                            barcode.rawValue?.let { barcodeValue ->
-                                viewModel.showDialog(barcodeValue)
+        val imageAnalyser = ImageAnalysis.Builder()
+            .setTargetAspectRatio(screenAspectRatio)
+            .setTargetRotation(rotation)
+            .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+            .build()
+            .also {
+                it.setAnalyzer(
+                    cameraExecutor,
+                    BarcodeAnalyser(
+                        onBarcodeDetected = { barcodes ->
+                            barcodes.forEach { barcode ->
+                                barcode.rawValue?.let { barcodeValue ->
+                                    viewModel.onBarcodeFound(barcodeValue)
+                                }
                             }
-                        }
-                    }
-
-                    val imageAnalysis: ImageAnalysis = ImageAnalysis.Builder()
-                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                        .setTargetResolution(android.util.Size(width, height)).build().also {
-                            it.setAnalyzer(cameraExecutor, barcodeAnalyser)
-                        }
-
-                    try {
-                        cameraProvider.unbindAll()
-                        cameraProvider.bindToLifecycle(
-                            lifecycleOwner, cameraSelector, preview, imageAnalysis
-                        )
-                    } catch (e: Exception) {
-                        Log.d("TAG", "CameraPreview: ${e.localizedMessage}")
-                    }
-                }, ContextCompat.getMainExecutor(context))
-            })
-            Surface(
-                shape = CutOutShape(),
-                color = Color.Black.copy(alpha = 1f),
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-
+                        },
+                        widthCropPercent = DESIRED_WIDTH_CROP_PERCENT,
+                        heightCropPercent = DESIRED_HEIGHT_CROP_PERCENT
+                    )
+                )
             }
 
-            Column {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    IconButton(onClick = {
-                        finish()
-                    }) {
-                        Icon(
-                            imageVector = Icons.TwoTone.Close,
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
+        try {
+            // Unbind use cases before rebinding
+            cameraProvider?.unbindAll()
 
-                    Text(
-                        text = "Scanner de code à barres", color = Color.White, fontSize = 20.sp
-                    )
-                }
+            // Bind use cases to camera
+            val camera = cameraProvider?.bindToLifecycle(
+                this,
+                cameraSelector,
+                preview,
+                imageAnalyser,
+                imageCapture
+            )
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 24.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(
-                        text = "Placer le code à barre à scanner à l'intérieur du rectangle.",
-                        color = Color.White,
-                        fontSize = 12.sp
-                    )
+            // Starts reticule animation
+            viewModel.onShowReticuleAnimation()
+            cameraControl = camera?.cameraControl
+            // Starts camera preview
+            preview.setSurfaceProvider(previewView.surfaceProvider)
+        } catch (e: Exception) {
+            Log.e("CameraActivity", "Use case binding failed.")
+        }
+    }
+
+    private fun aspectRatio(width: Int, height: Int): Int {
+        val previewRatio = ln(max(width, height).toDouble() / min(width, height))
+        if (abs(previewRatio - ln(4.0 / 3.0)) <= abs(previewRatio - ln(16.0 / 9.0))) {
+            return AspectRatio.RATIO_4_3
+        }
+        return AspectRatio.RATIO_16_9
+    }
+
+    private fun startLoadingAnimation() {
+        // Before loading starts we want to Pause the camera:
+        cameraProviderFuture.get()?.unbindAll()
+        // Cancel the heartbeat animation:
+        cameraReticuleAnimator.cancel()
+        // Start the loading animation:
+        loadingAnimator = createLoadingAnimator()
+        loadingAnimator.start()
+        // Provide the new graphic to the canvas:
+        graphicOverlay.clear()
+        graphicOverlay.add(
+            CameraLoadingGraphic(
+                context = this.applicationContext,
+                screenWidth = screenWidth,
+                screenHeight = screenHeight,
+                animator = loadingAnimator
+            )
+        )
+        graphicOverlay.invalidate()
+    }
+
+    private fun createLoadingAnimator(): ValueAnimator {
+        return ValueAnimator.ofFloat(0f, 1f).apply {
+            duration = LOADING_ANIMATION_DURATION
+            addUpdateListener {
+                if ((animatedValue as Float) >= 1f) {
+                    graphicOverlay.clear()
+                    viewModel.onScannedBarcodeLoadingFinished()
+                } else {
+                    graphicOverlay.invalidate()
                 }
             }
         }
-
     }
 
+    private fun startHeartbeatAnimation() {
+        cameraReticuleAnimator = CameraReticuleAnimator(graphicOverlay)
+        cameraReticuleAnimator.start()
+        graphicOverlay.clear()
+        graphicOverlay.add(
+            CameraReticuleGraphic(
+                context = this.applicationContext,
+                screenWidth = screenWidth,
+                screenHeight = screenHeight,
+                animator = cameraReticuleAnimator
+            )
+        )
+        graphicOverlay.invalidate()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        allPermissionsGranted()
+    }
+
+    override fun onDestroy() {
+        cameraControl = null
+        cameraExecutor.shutdown()
+        _binding = null
+        super.onDestroy()
+    }
 }
