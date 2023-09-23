@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-feature
         android:name="android.hardware.camera.any"
@@ -12,17 +14,17 @@
     <application
         android:name=".DistribikeApplication"
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.Distribike"
-        tools:targetApi="31">
+        tools:targetApi="29">
         <activity
             android:name="com.distribike.features.main.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.Distribike">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -36,7 +38,7 @@
 
         </activity>
         <activity
-            android:name="com.distribike.features.subfeatures.form.main.FormActivity"
+            android:name="com.distribike.features.subfeatures.form.main.forms.generalform.GeneralFormActivity"
             android:exported="true"
             android:theme="@style/Theme.Distribike">
 
@@ -44,9 +46,42 @@
         <activity
             android:name="com.distribike.features.subfeatures.form.scanner.main.CameraActivity"
             android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+
+        </activity>
+        <activity
+            android:name="com.distribike.features.subfeatures.pdf.PDFActivity"
+            android:exported="true"
             android:theme="@style/Theme.Distribike">
 
         </activity>
+        <activity
+            android:name="com.distribike.features.subfeatures.form.main.forms.batteryform.BatteryFormActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Distribike">
+
+        </activity>
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.breaksform.BreaksFormActivity" />
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.clutchform.ClutchFormActivity" />
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.coolingform.CoolingFormActivity" />
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.electricform.ElectricSystemFormActivity" />
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.engineform.EngineFormActivity" />
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.othersform.OthersFormActivity" />
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.poweringform.PoweringFormActivity" />
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.steeringform.SteeringFormActivity" />
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.transmissionform.TransmissionFormActivity" />
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.wheelsform.WheelsFormActivity" />
+        <activity android:name="com.distribike.features.subfeatures.form.main.forms.suspensionsform.SuspensionsFormActivity" />
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
     </application>
 
 </manifest>

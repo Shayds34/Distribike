@@ -3,11 +3,13 @@ package com.distribike.features.subfeatures.motorcycleform
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -19,6 +21,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,6 +29,7 @@ import androidx.compose.ui.unit.toSize
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.*
 import com.distribike.R
+import com.distribike.features.subfeatures.motorcycleform.model.MotorcycleFormModelUi
 import com.distribike.features.subfeatures.motorcycleform.viewmodel.MotorcycleFormViewModel
 import com.distribike.ui.theme.Green
 import com.distribike.ui.theme.RedDark
@@ -36,7 +40,6 @@ fun MotorcycleFormPreview() {
     MotorcycleForm()
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MotorcycleForm() {
     val configuration = LocalConfiguration.current
@@ -54,40 +57,105 @@ fun MotorcycleForm() {
 fun TabletMotorcycleForm() {
     val viewModel = hiltViewModel<MotorcycleFormViewModel>()
 
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
-    val screenHeight = configuration.screenHeightDp.dp
-
     var username by remember {
         mutableStateOf("")
     }
 
+    val savedUsername = viewModel.usernameLiveData.observeAsState("")
+
     var codePrep by remember {
         mutableStateOf("")
     }
+
     var model by remember {
         mutableStateOf("")
     }
-    var chassis by remember {
+
+    var numberChassis by remember {
         mutableStateOf("")
     }
+
+    val chassis = viewModel.barcodeLiveData.observeAsState("")
+
     var nomConcession by remember {
         mutableStateOf("")
     }
+
+    val concessionName = viewModel.concessionState.collectAsState()
+
     var codeConcession by remember {
         mutableStateOf("")
     }
+
     var position by remember {
         mutableStateOf("")
     }
 
+    var expanded2 by remember { mutableStateOf(false) }
+    val suggestions2 = listOf(
+        "AGUENI Antoine",
+        "ALBALADEJO Michel",
+        "BARRON Paco",
+        "BROUILLARD Alain",
+        "BRUEL Louis",
+        "CORSI Alexandre",
+        "CROISSIAU Steven",
+        "DELUCHE Eric",
+        "FAVEDE Laurent",
+        "FROTTIER Ryad",
+        "FRUNZA Thomas",
+        "GONZALEZ Emmanuel",
+        "IACONIS Axel",
+        "LOPEZ Arnaud",
+        "LOPES Luca",
+        "MASVIDAL Christian",
+        "MAHFOUD Youness",
+        "PERE Bastien",
+        "RASSE Laurent",
+        "ROULET Julien",
+        "VIGNERON Alexandre",
+        "ZAHI Lyes"
+    )
+    /// var selectedText2 by remember { mutableStateOf("") }
+
+    var textfieldSize by remember { mutableStateOf(Size.Zero) }
+
+    val icon = if (expanded2)
+        Icons.Filled.ArrowDropUp //it requires androidx.compose.material:material-icons-extended
+    else
+        Icons.Filled.ArrowDropDown
+
     var expanded by remember { mutableStateOf(false) }
-    val suggestions = listOf("ADV350","ADV750","CB500F","CB500X","CB650R","CB750","CBR1000","CBR500R","CBR650R","CMX1100","CMX500","CRF1100","CRF300L","GL1800","NC750X","NSS125","NSS750","NT1100","ST125","WW125")
-    var selectedText by remember { mutableStateOf("") }
+    val suggestions = listOf(
+        "ADV350",
+        "ADV750",
+        "CB500F",
+        "CB500X",
+        "CB650R",
+        "CB750",
+        "CBR1000",
+        "CBR500R",
+        "CBR650R",
+        "CL500",
+        "CMX1100",
+        "CMX500",
+        "CRF1100",
+        "CRF300L",
+        "GL1800",
+        "NC750X",
+        "NSS125",
+        "NSS350",
+        "NSS750",
+        "NT1100",
+        "ST125",
+        "WW125",
+        "XL750"
+    )
+    // var selectedText by remember { mutableStateOf("") }
 
-    var textfieldSize by remember { mutableStateOf(Size.Zero)}
+    var textFieldSize2 by remember { mutableStateOf(Size.Zero) }
 
-    val icon = if (expanded)
+    val icon2 = if (expanded)
         Icons.Filled.ArrowDropUp //it requires androidx.compose.material:material-icons-extended
     else
         Icons.Filled.ArrowDropDown
@@ -145,14 +213,44 @@ fun TabletMotorcycleForm() {
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
-                    value = username,
+                    value = savedUsername.value.ifEmpty { username },
                     onValueChange = { username = it },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 150.dp),
-                    textStyle = TextStyle.Default.copy(fontSize = 28.sp)
-                )
+                        .padding(horizontal = 150.dp)
+                        .onGloballyPositioned { coordinates ->
+                            //This value is used to assign to the DropDown the same width
+                            textFieldSize2 = coordinates.size.toSize()
+                        },
+                    label = { Text("") },
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                    textStyle = TextStyle.Default.copy(fontSize = 28.sp),
+                    trailingIcon = {
+                        Icon(icon, "contentDescription",
+                            Modifier.clickable {
+                                viewModel.clearUsername()
+                                expanded2 = !expanded2
+                            }
+                        )
+                    })
+                DropdownMenu(
+                    expanded = expanded2,
+                    onDismissRequest = { expanded2 = false },
+                    modifier = Modifier
+                        .width(with(LocalDensity.current) { textFieldSize2.width.toDp() })
+                ) {
+                    suggestions2.forEach { label ->
+                        DropdownMenuItem(onClick = {
+                            username = label
+                            expanded2 = false
+                        },
+                            text = {
+                                Text(text = label)
+                            }
+                        )
+                    }
+                }
 
                 Spacer(modifier = Modifier.padding(8.dp))
 
@@ -163,6 +261,7 @@ fun TabletMotorcycleForm() {
                     text = "Code Prep:",
                     style = TextStyle(
                         fontWeight = FontWeight.Bold, letterSpacing = 1.sp
+
                     ),
                     fontSize = 22.sp
                 )
@@ -170,13 +269,15 @@ fun TabletMotorcycleForm() {
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
-                    value = codePrep,
+                    value = codePrep.uppercase(),
                     onValueChange = { codePrep = it },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 150.dp),
-                    textStyle = TextStyle.Default.copy(fontSize = 28.sp)
+                    textStyle = TextStyle.Default.copy(fontSize = 28.sp),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+
                 )
 
                 Spacer(modifier = Modifier.padding(8.dp))
@@ -192,13 +293,10 @@ fun TabletMotorcycleForm() {
                     fontSize = 22.sp
                 )
 
-
-
-
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
-                    value = model,
+                    value = model.uppercase(),
                     onValueChange = { model = it },
                     singleLine = true,
 
@@ -209,11 +307,11 @@ fun TabletMotorcycleForm() {
                             //This value is used to assign to the DropDown the same width
                             textfieldSize = coordinates.size.toSize()
                         },
-                    label = {Text("")},
-
+                    label = { Text("") },
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                     textStyle = TextStyle.Default.copy(fontSize = 28.sp),
-                            trailingIcon = {
-                        Icon(icon,"contentDescription",
+                    trailingIcon = {
+                        Icon(icon, "contentDescription",
                             Modifier.clickable { expanded = !expanded })
                     }
                 )
@@ -222,15 +320,15 @@ fun TabletMotorcycleForm() {
                     expanded = expanded,
                     onDismissRequest = { expanded = false },
                     modifier = Modifier
-                        .width(with(LocalDensity.current){textfieldSize.width.toDp()})
+                        .width(with(LocalDensity.current) { textfieldSize.width.toDp() })
                 ) {
                     suggestions.forEach { label ->
                         DropdownMenuItem(onClick = {
                             model = label
                             expanded = false
                         },
-                            text ={
-                                Text(text=label)
+                            text = {
+                                Text(text = label)
                             }
                         )
                     }
@@ -252,53 +350,46 @@ fun TabletMotorcycleForm() {
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
-                    value = chassis,
-                    onValueChange = { chassis = it },
+                    value = chassis.value.ifEmpty { numberChassis.uppercase() },
+                    onValueChange = { numberChassis = it },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 150.dp),
-                    textStyle = TextStyle.Default.copy(fontSize = 28.sp)
+                    textStyle = TextStyle.Default.copy(fontSize = 28.sp),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
                 )
 
-                Button(
-                    onClick = {
-                        // TODO("SCAN")
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = RedDark),
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(20.dp),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 340.dp),
-                ) {
-                    Text(
-                        text = "Scanner", fontSize = 16.sp
-                    )
+                        .padding(horizontal = 280.dp),
+
+                    ) {
+                    Button(
+                        onClick = {
+                            viewModel.onScanClicked()
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = RedDark),
+
+                        ) {
+                        Text(
+                            text = "Scanner", fontSize = 16.sp
+                        )
+                    }
+                    Button(
+                        onClick = {
+                            viewModel.clearChassis()
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = RedDark),
+
+                        ) {
+                        Text(
+                            text = "Reset", fontSize = 16.sp
+                        )
+                    }
                 }
-
-                Spacer(modifier = Modifier.padding(8.dp))
-
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 150.dp),
-                    text = "Nom concessionnaire:",
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold, letterSpacing = 1.sp
-                    ),
-                    fontSize = 22.sp
-                )
-
-                Spacer(modifier = Modifier.padding(2.dp))
-
-                OutlinedTextField(
-                    value = nomConcession,
-                    onValueChange = { nomConcession = it },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 150.dp),
-                    textStyle = TextStyle.Default.copy(fontSize = 28.sp)
-                )
 
                 Spacer(modifier = Modifier.padding(8.dp))
 
@@ -316,13 +407,43 @@ fun TabletMotorcycleForm() {
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
-                    value = codeConcession,
-                    onValueChange = { codeConcession = it },
+                    value = codeConcession.uppercase(),
+                    onValueChange = {
+                        codeConcession = it
+                        viewModel.onConcessionCodeEntered(it)
+                    },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 150.dp),
-                    textStyle = TextStyle.Default.copy(fontSize = 28.sp)
+                    textStyle = TextStyle.Default.copy(fontSize = 28.sp),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+                )
+
+                Spacer(modifier = Modifier.padding(8.dp))
+
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 150.dp),
+                    text = "Nom concessionnaire:",
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold, letterSpacing = 1.sp
+                    ),
+                    fontSize = 22.sp
+                )
+
+                Spacer(modifier = Modifier.padding(2.dp))
+
+                OutlinedTextField(
+                    value = concessionName.value.ifEmpty { nomConcession.uppercase() },
+                    onValueChange = { nomConcession = it },
+                    singleLine = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 150.dp),
+                    textStyle = TextStyle.Default.copy(fontSize = 28.sp),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 )
 
                 Spacer(modifier = Modifier.padding(8.dp))
@@ -341,20 +462,31 @@ fun TabletMotorcycleForm() {
                 Spacer(modifier = Modifier.padding(2.dp))
 
                 OutlinedTextField(
-                    value = position,
+                    value = position.uppercase(),
                     onValueChange = { position = it },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 150.dp),
-                    textStyle = TextStyle.Default.copy(fontSize = 28.sp)
+                    textStyle = TextStyle.Default.copy(fontSize = 28.sp),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 )
 
                 Spacer(modifier = Modifier.padding(8.dp))
 
                 Button(
                     onClick = {
-                        viewModel.onValidateClicked()
+                        viewModel.onValidateClicked(
+                            MotorcycleFormModelUi(
+                                username = savedUsername.value.ifEmpty { username },
+                                codePrep = codePrep,
+                                model = model,
+                                chassis = chassis.value.ifEmpty { numberChassis },
+                                concessionName = concessionName.value.ifEmpty { nomConcession },
+                                concessionCode = codeConcession,
+                                positionNumber = position
+                            )
+                        )
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Green),
                     modifier = Modifier
@@ -376,10 +508,6 @@ fun TabletMotorcycleForm() {
 fun MobileMotorcycleForm() {
     val viewModel = hiltViewModel<MotorcycleFormViewModel>()
 
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
-    val screenHeight = configuration.screenHeightDp.dp
-
     var username by remember {
         mutableStateOf("")
     }
@@ -390,12 +518,16 @@ fun MobileMotorcycleForm() {
     var model by remember {
         mutableStateOf("")
     }
-    var chassis by remember {
+    var numberChassis by remember {
         mutableStateOf("")
     }
+    val chassis = viewModel.barcodeLiveData.observeAsState("")
+
     var nomConcession by remember {
         mutableStateOf("")
     }
+    val concessionName = viewModel.concessionState.collectAsState()
+
     var codeConcession by remember {
         mutableStateOf("")
     }
@@ -526,8 +658,8 @@ fun MobileMotorcycleForm() {
         Spacer(modifier = Modifier.padding(4.dp))
 
         OutlinedTextField(
-            value = chassis,
-            onValueChange = { chassis = it },
+            value = chassis.value.ifEmpty { numberChassis },
+            onValueChange = { numberChassis = it },
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
@@ -535,11 +667,11 @@ fun MobileMotorcycleForm() {
             textStyle = TextStyle.Default.copy(fontSize = 16.sp)
         )
 
-        Spacer (modifier = Modifier.padding(4.dp))
+        Spacer(modifier = Modifier.padding(4.dp))
 
         Button(
             onClick = {
-                // TODO("SCAN")
+                viewModel.onScanClicked()
             },
             colors = ButtonDefaults.buttonColors(containerColor = RedDark),
             modifier = Modifier
@@ -633,7 +765,17 @@ fun MobileMotorcycleForm() {
 
         Button(
             onClick = {
-                viewModel.onValidateClicked()
+                viewModel.onValidateClicked(
+                    MotorcycleFormModelUi(
+                        username = username,
+                        codePrep = codePrep,
+                        model = model,
+                        chassis = chassis.value.ifEmpty { numberChassis },
+                        concessionName = concessionName.value.ifEmpty { nomConcession },
+                        concessionCode = codeConcession,
+                        positionNumber = position
+                    )
+                )
             },
             colors = ButtonDefaults.buttonColors(containerColor = Green),
             modifier = Modifier

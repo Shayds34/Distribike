@@ -6,9 +6,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
-import com.distribike.features.subfeatures.form.main.FormActivity
+import com.distribike.features.subfeatures.form.main.forms.generalform.GeneralFormActivity
+import com.distribike.features.subfeatures.form.main.forms.wheelsform.WheelsFormActivity
+import com.distribike.features.subfeatures.form.scanner.main.CameraActivity
 import com.distribike.features.subfeatures.motorcycleform.viewmodel.MotorcycleFormViewModel
+import com.distribike.features.subfeatures.pdf.PDFActivity
 import com.distribike.ui.theme.DistribikeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,9 +31,15 @@ class MotorcycleFormActivity : ComponentActivity() {
             }
         }
 
+        viewModel.scanState.observe(this) { isClicked ->
+            if (isClicked) {
+                startActivity(CameraActivity.newInstance(this))
+            }
+        }
+
         viewModel.validateState.observe(this) { isClicked ->
             if (isClicked) {
-                startActivity(FormActivity.newInstance(this))
+                startActivity(GeneralFormActivity.newInstance(this))
             }
         }
     }
