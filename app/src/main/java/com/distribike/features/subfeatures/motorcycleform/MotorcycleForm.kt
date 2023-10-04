@@ -96,11 +96,13 @@ fun TabletMotorcycleForm() {
         "AGUENI Antoine",
         "ALBALADEJO Michel",
         "BARRON Paco",
+        "BEUSSE Nans",
         "BROUILLARD Alain",
         "BRUEL Louis",
         "CORSI Alexandre",
         "CROISSIAU Steven",
         "DELUCHE Eric",
+        "Degermenci Rochdy",
         "FAVEDE Laurent",
         "FROTTIER Ryad",
         "FRUNZA Thomas",
@@ -109,11 +111,13 @@ fun TabletMotorcycleForm() {
         "LOPEZ Arnaud",
         "LOPES Luca",
         "MASVIDAL Christian",
+        "MERTENS Yoann",
         "MAHFOUD Youness",
         "PERE Bastien",
         "RASSE Laurent",
         "ROULET Julien",
         "VIGNERON Alexandre",
+        "YASSIN Omar",
         "ZAHI Lyes"
     )
     /// var selectedText2 by remember { mutableStateOf("") }
