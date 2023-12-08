@@ -184,6 +184,11 @@ class PDFActivity : ComponentActivity() {
                         sections = sections.value,
                         motorcycleForm = motorcycleForm
                     )
+                    GenerateTXT(
+                        context = context,
+                        sections = sections.value,
+                        motorcycleForm = motorcycleForm
+                    )
                     Gdrive(
                         context = context,
                         sections = sections.value,
@@ -821,7 +826,30 @@ class PDFActivity : ComponentActivity() {
         //     setDataAndType(uri, "application/pdf")
         // }
         //context.startActivity(Intent.createChooser(intent, "Selectionner l'application"))
+
     }
+
+    private fun GenerateTXT(
+        context: Context,
+        sections: PDFModelUi,
+        motorcycleForm: State<MotorcycleFormModelUi>
+    ) {
+        val dataFormat2 = SimpleDateFormat("dd/MM/yyyyhh:mm:ss", Locale.FRANCE)
+        val currentDate = dataFormat2.format(Date())
+        val chassis = motorcycleForm.value.chassis
+        val position = motorcycleForm.value.positionNumber
+        val path = context.getExternalFilesDir(null)
+        val letDirectory = File(path, "TXTPDI")
+        letDirectory.mkdirs()
+        val file = File(letDirectory, "$chassis $position.txt")
+        file.appendText("HFTP START PDIINFO" + "\n$chassis $position   $currentDate" + "\nHFTP END PDIINFO")
+
+        }
+
+
+
+
+
 
     private fun checkPermissions(context: Context): Boolean {
         val writeStoragePermission = ContextCompat.checkSelfPermission(
