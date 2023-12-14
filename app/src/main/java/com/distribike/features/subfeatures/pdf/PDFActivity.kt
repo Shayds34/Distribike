@@ -43,6 +43,9 @@ import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
+import org.apache.commons.net.ftp.FTP
+import org.apache.commons.net.ftp.FTPClient
+import java.io.FileInputStream
 
 @AndroidEntryPoint
 class PDFActivity : ComponentActivity() {
@@ -194,6 +197,19 @@ class PDFActivity : ComponentActivity() {
                         sections = sections.value,
                         motorcycleForm = motorcycleForm
                     )
+
+                    uploadFileToFtp(
+                        file = String,
+                        ftpServer = String,
+                        ftpUsername = String,
+                        ftpPassword = String,
+                        ftpDirectory = String,
+                        context = context,
+                        sections = sections.value,
+                        motorcycleForm = motorcycleForm
+                  )
+
+
                 }) {
 
                 Text(
@@ -845,6 +861,36 @@ class PDFActivity : ComponentActivity() {
         file.appendText("HFTP START PDIINFO" + "\n$chassis $position   $currentDate" + "\nHFTP END PDIINFO")
 
         }
+
+    fun uploadFileToFtp(
+        file: File,
+        ftpServer: String,
+        ftpUsername: String,
+        ftpPassword: String,
+        ftpDirectory: String,
+        context: Context,
+        sections: PDFModelUi,
+        motorcycleForm: State<MotorcycleFormModelUi>
+    ) {
+        val ftpClient = FTPClient()
+        ftpClient.connect("ftp-t.honda-eu.com")
+        ftpClient.login("900-TMORY-FTPUSER", "75k58DWP")
+        ftpClient.enterLocalPassiveMode()
+        ftpClient.setFileType(FTP.BINARY_FILE_TYPE)
+        ftpClient.changeWorkingDirectory("testupload")
+
+        val inputStream = FileInputStream(file)
+        val chassis = motorcycleForm.value.chassis
+        val position = motorcycleForm.value.positionNumber
+        val path = context.getExternalFilesDir(null)
+        val letDirectory = File(path, "TXTPDI")
+        val fileName = File(letDirectory, "$chassis $position.txt")
+        ftpClient.storeFile(fileName.toString(), inputStream)
+        inputStream.close()
+
+        ftpClient.logout()
+        ftpClient.disconnect()
+    }
 
 
 
