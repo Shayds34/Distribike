@@ -199,11 +199,6 @@ class PDFActivity : ComponentActivity() {
                     )
 
                     uploadFileToFtp(
-                        file = String,
-                        ftpServer = String,
-                        ftpUsername = String,
-                        ftpPassword = String,
-                        ftpDirectory = String,
                         context = context,
                         sections = sections.value,
                         motorcycleForm = motorcycleForm
@@ -863,11 +858,7 @@ class PDFActivity : ComponentActivity() {
         }
 
     fun uploadFileToFtp(
-        file: File,
-        ftpServer: String,
-        ftpUsername: String,
-        ftpPassword: String,
-        ftpDirectory: String,
+
         context: Context,
         sections: PDFModelUi,
         motorcycleForm: State<MotorcycleFormModelUi>
@@ -879,11 +870,13 @@ class PDFActivity : ComponentActivity() {
         ftpClient.setFileType(FTP.BINARY_FILE_TYPE)
         ftpClient.changeWorkingDirectory("testupload")
 
-        val inputStream = FileInputStream(file)
-        val chassis = motorcycleForm.value.chassis
-        val position = motorcycleForm.value.positionNumber
         val path = context.getExternalFilesDir(null)
         val letDirectory = File(path, "TXTPDI")
+        val chassis = motorcycleForm.value.chassis
+        val position = motorcycleForm.value.positionNumber
+        val file = File(letDirectory, "$chassis $position.txt")
+        val inputStream = FileInputStream(file)
+
         val fileName = File(letDirectory, "$chassis $position.txt")
         ftpClient.storeFile(fileName.toString(), inputStream)
         inputStream.close()
