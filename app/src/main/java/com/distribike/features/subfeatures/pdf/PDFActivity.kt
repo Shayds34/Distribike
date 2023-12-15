@@ -871,6 +871,8 @@ class PDFActivity : ComponentActivity() {
             //Do some Network Request
             val ftpClient = FTPClient()
             ftpClient.connect("ftp-t.honda-eu.com")
+            val isLogged = ftpClient.login("900-TMORY-FTPUSER","75k58DWP")
+            Log.e("PDF Activity", "FTP is logged: $isLogged")
             ftpClient.login("900-TMORY-FTPUSER", "75k58DWP")
             ftpClient.enterLocalPassiveMode()
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE)
