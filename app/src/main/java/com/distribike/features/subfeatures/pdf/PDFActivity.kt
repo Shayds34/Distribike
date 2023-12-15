@@ -10,6 +10,7 @@ import android.graphics.*
 import android.graphics.pdf.PdfDocument
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -39,13 +40,13 @@ import com.distribike.features.subfeatures.pdf.model.PDFModelUi
 import com.distribike.features.subfeatures.pdf.viewmodel.PDFViewModel
 import com.distribike.ui.theme.*
 import dagger.hilt.android.AndroidEntryPoint
+import org.apache.commons.net.ftp.FTP
+import org.apache.commons.net.ftp.FTPClient
 import java.io.File
+import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
-import org.apache.commons.net.ftp.FTP
-import org.apache.commons.net.ftp.FTPClient
-import java.io.FileInputStream
 
 @AndroidEntryPoint
 class PDFActivity : ComponentActivity() {
@@ -111,7 +112,7 @@ class PDFActivity : ComponentActivity() {
                     Toast.makeText(this, PERMISSION_GRANTED, Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, PERMISSION_DENIED, Toast.LENGTH_SHORT).show()
-                    finish()
+                    // finish()
                 }
             }
         }
@@ -181,6 +182,7 @@ class PDFActivity : ComponentActivity() {
                 onClick = {
                     viewModel.setNextStep(step = PDFViewModel.StepState.Step2)
 
+                    Log.e("PDF Activity", "before pdf MotorCycleForm $motorcycleForm")
 
                     generatePDF(
                         context = context,
@@ -189,7 +191,6 @@ class PDFActivity : ComponentActivity() {
                     )
                     GenerateTXT(
                         context = context,
-                        sections = sections.value,
                         motorcycleForm = motorcycleForm
                     )
                     Gdrive(
@@ -202,8 +203,7 @@ class PDFActivity : ComponentActivity() {
                         context = context,
                         sections = sections.value,
                         motorcycleForm = motorcycleForm
-                  )
-
+                    )
 
                 }) {
 
@@ -293,6 +293,8 @@ class PDFActivity : ComponentActivity() {
         val articulation = "5"
         val markLeft = "2"
         val markRight = "5"
+
+        Log.e("PDF Activity", "generatePDF MotorCycleForm $motorcycleForm")
 
         lateinit var scaledBitmap2: Bitmap
 
@@ -842,9 +844,10 @@ class PDFActivity : ComponentActivity() {
 
     private fun GenerateTXT(
         context: Context,
-        sections: PDFModelUi,
         motorcycleForm: State<MotorcycleFormModelUi>
     ) {
+        Log.e("PDF Activity", "GenerateTXT MotorCycleForm $motorcycleForm")
+
         val dataFormat2 = SimpleDateFormat("dd/MM/yyyyhh:mm:ss", Locale.FRANCE)
         val currentDate = dataFormat2.format(Date())
         val chassis = motorcycleForm.value.chassis
@@ -852,23 +855,26 @@ class PDFActivity : ComponentActivity() {
         val path = context.getExternalFilesDir(null)
         val letDirectory = File(path, "TXTPDI")
         letDirectory.mkdirs()
-        val file = File(letDirectory, "$chassis $position.txt")
+        val fileName = "$chassis $position.txt"
+        val file = File(letDirectory, fileName)
         file.appendText("HFTP START PDIINFO" + "\n$chassis $position   $currentDate" + "\nHFTP END PDIINFO")
-
-        }
+    }
 
     fun uploadFileToFtp(
-
         context: Context,
         sections: PDFModelUi,
         motorcycleForm: State<MotorcycleFormModelUi>
     ) {
-        val ftpClient = FTPClient()
-        ftpClient.connect("ftp-t.honda-eu.com")
-        ftpClient.login("900-TMORY-FTPUSER", "75k58DWP")
-        ftpClient.enterLocalPassiveMode()
-        ftpClient.setFileType(FTP.BINARY_FILE_TYPE)
-        ftpClient.changeWorkingDirectory("testupload")
+        Thread {
+            Log.e("PDF Activity", "uploadFileToFtp MotorCycleForm $motorcycleForm")
+
+            //Do some Network Request
+            val ftpClient = FTPClient()
+            ftpClient.connect("ftp-t.honda-eu.com")
+            ftpClient.login("900-TMORY-FTPUSER", "75k58DWP")
+            ftpClient.enterLocalPassiveMode()
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE)
+            ftpClient.changeWorkingDirectory("testupload")
 
         val path = context.getExternalFilesDir(null)
         val letDirectory = File(path, "TXTPDI")
@@ -881,14 +887,14 @@ class PDFActivity : ComponentActivity() {
         ftpClient.storeFile(fileName.toString(), inputStream)
         inputStream.close()
 
-        ftpClient.logout()
-        ftpClient.disconnect()
+            ftpClient.logout()
+            ftpClient.disconnect()
+
+            runOnUiThread {
+                //Update UI
+            }
+        }.start()
     }
-
-
-
-
-
 
     private fun checkPermissions(context: Context): Boolean {
         val writeStoragePermission = ContextCompat.checkSelfPermission(

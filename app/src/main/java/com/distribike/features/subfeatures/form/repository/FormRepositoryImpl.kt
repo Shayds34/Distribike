@@ -1,7 +1,6 @@
 package com.distribike.features.subfeatures.form.repository
 
 import android.content.Context
-import android.util.Log
 import com.distribike.features.subfeatures.form.repository.model.Section
 import com.distribike.features.subfeatures.form.repository.model.SectionsRepositoryModel
 import com.distribike.features.subfeatures.form.repository.model.Task
@@ -47,7 +46,6 @@ class FormRepositoryImpl @Inject constructor(
                         )
                     )
                 }
-                Log.e("SEBCHA", "Tasks $tasks")
                 sections.add(
                     Section(
                         title = sectionJson.getString("title"),
