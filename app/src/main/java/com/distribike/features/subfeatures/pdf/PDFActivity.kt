@@ -184,20 +184,20 @@ class PDFActivity : ComponentActivity() {
 
                     Log.e("PDF Activity", "before pdf MotorCycleForm $motorcycleForm")
 
-                    generatePDF(
-                        context = context,
-                        sections = sections.value,
-                        motorcycleForm = motorcycleForm
-                    )
+                //    generatePDF(
+                //        context = context,
+                //        sections = sections.value,
+                //        motorcycleForm = motorcycleForm
+                //    )
                     GenerateTXT(
                         context = context,
                         motorcycleForm = motorcycleForm
                     )
-                    Gdrive(
-                        context = context,
-                        sections = sections.value,
-                        motorcycleForm = motorcycleForm
-                    )
+                //    Gdrive(
+                //        context = context,
+                //        sections = sections.value,
+                //        motorcycleForm = motorcycleForm
+                //    )
 
                     uploadFileToFtp(
                         context = context,
@@ -848,6 +848,13 @@ class PDFActivity : ComponentActivity() {
     ) {
         Log.e("PDF Activity", "GenerateTXT MotorCycleForm $motorcycleForm")
 
+
+        val tab = "10"
+        val quantieme = "001"
+        val anneeFormat2 = SimpleDateFormat ("y",Locale.FRANCE)
+        val currentannee = anneeFormat2.format(Date())
+        val dataFormat3 = SimpleDateFormat("hh:mm", Locale.FRANCE)
+        val currentDate2 = dataFormat3.format(Date())
         val dataFormat2 = SimpleDateFormat("dd/MM/yyyyhh:mm:ss", Locale.FRANCE)
         val currentDate = dataFormat2.format(Date())
         val chassis = motorcycleForm.value.chassis
@@ -857,7 +864,8 @@ class PDFActivity : ComponentActivity() {
         letDirectory.mkdirs()
         val fileName = "$chassis $position.txt"
         val file = File(letDirectory, fileName)
-        file.appendText("HFTP START PDIINFO" + "\n$chassis $position   $currentDate" + "\nHFTP END PDIINFO")
+       file.appendText("HFTP START PDIINFO" + "\n$tab$currentannee$quantieme$currentDate2$currentDate$chassis $position   $currentDate+207" + "\nHFTP END PDIINFO")
+
     }
 
     fun uploadFileToFtp(
