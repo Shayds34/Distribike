@@ -7,5 +7,6 @@ data class MotorcycleEntityModel(
     val chassis: String? = null,
     val concessionName: String? = null,
     val concessionCode: String? = null,
-    val positionNumber: String? = null
+    val positionNumber: String? = null,
+    val startDate: String? = null
 )

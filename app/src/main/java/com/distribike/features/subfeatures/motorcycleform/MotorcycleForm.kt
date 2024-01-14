@@ -1,15 +1,42 @@
 package com.distribike.features.subfeatures.motorcycleform
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,12 +54,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.airbnb.lottie.compose.*
 import com.distribike.R
 import com.distribike.features.subfeatures.motorcycleform.model.MotorcycleFormModelUi
 import com.distribike.features.subfeatures.motorcycleform.viewmodel.MotorcycleFormViewModel
 import com.distribike.ui.theme.Green
 import com.distribike.ui.theme.RedDark
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Preview
 @Composable
@@ -488,7 +517,8 @@ fun TabletMotorcycleForm() {
                                 chassis = chassis.value.ifEmpty { numberChassis },
                                 concessionName = concessionName.value.ifEmpty { nomConcession },
                                 concessionCode = codeConcession,
-                                positionNumber = position
+                                positionNumber = position,
+                                startDate = Date().toCurrentDate()
                             )
                         )
                     },
@@ -505,6 +535,11 @@ fun TabletMotorcycleForm() {
             }
         }
     }
+}
+
+fun Date.toCurrentDate(): String {
+    val dataFormat2 = SimpleDateFormat("dd/MM/yyyyhh:mm:ss", Locale.FRANCE)
+    return dataFormat2.format(this)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -777,7 +812,8 @@ fun MobileMotorcycleForm() {
                         chassis = chassis.value.ifEmpty { numberChassis },
                         concessionName = concessionName.value.ifEmpty { nomConcession },
                         concessionCode = codeConcession,
-                        positionNumber = position
+                        positionNumber = position,
+                        startDate = Date().toCurrentDate()
                     )
                 )
             },

@@ -32,7 +32,8 @@ class MotorcycleFormUseCaseMapper @Inject constructor() {
             chassis = model.chassis,
             concessionName = model.concessionName,
             concessionCode = model.concessionCode,
-            positionNumber = model.positionNumber
+            positionNumber = model.positionNumber,
+            startDate = model.startDate
         )
     }
 
@@ -44,7 +45,8 @@ class MotorcycleFormUseCaseMapper @Inject constructor() {
             chassis = modelUi.chassis,
             concessionName = modelUi.concessionName,
             concessionCode = modelUi.concessionCode,
-            positionNumber = modelUi.positionNumber
+            positionNumber = modelUi.positionNumber,
+            startDate = modelUi.startDate
         )
     }
 }

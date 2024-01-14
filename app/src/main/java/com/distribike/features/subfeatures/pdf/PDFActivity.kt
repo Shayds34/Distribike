@@ -134,7 +134,8 @@ class PDFActivity : ComponentActivity() {
                 chassis = "",
                 concessionName = "",
                 concessionCode = "",
-                positionNumber = ""
+                positionNumber = "",
+                startDate = ""
             )
         )
 
@@ -184,20 +185,20 @@ class PDFActivity : ComponentActivity() {
 
                     Log.e("PDF Activity", "before pdf MotorCycleForm $motorcycleForm")
 
-                //    generatePDF(
-                //        context = context,
-                //        sections = sections.value,
-                //        motorcycleForm = motorcycleForm
-                //    )
+                    //    generatePDF(
+                    //        context = context,
+                    //        sections = sections.value,
+                    //        motorcycleForm = motorcycleForm
+                    //    )
                     GenerateTXT(
                         context = context,
                         motorcycleForm = motorcycleForm
                     )
-                //    Gdrive(
-                //        context = context,
-                //        sections = sections.value,
-                //        motorcycleForm = motorcycleForm
-                //    )
+                    //    Gdrive(
+                    //        context = context,
+                    //        sections = sections.value,
+                    //        motorcycleForm = motorcycleForm
+                    //    )
 
                     uploadFileToFtp(
                         context = context,
@@ -411,6 +412,7 @@ class PDFActivity : ComponentActivity() {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
+
                 PDFModelUi.State.COMPLETE -> {
                     canvas5.drawBitmap(
                         scaledBitmap5,
@@ -420,6 +422,7 @@ class PDFActivity : ComponentActivity() {
                     )
                     generalOriginPositionY += 30f
                 }
+
                 PDFModelUi.State.PASS -> {
                     canvas6.drawBitmap(
                         scaledBitmap6,
@@ -437,6 +440,7 @@ class PDFActivity : ComponentActivity() {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
+
                 PDFModelUi.State.COMPLETE -> {
                     canvas5.drawBitmap(
                         scaledBitmap5,
@@ -446,6 +450,7 @@ class PDFActivity : ComponentActivity() {
                     )
                     batteryOriginPositionY += 30f
                 }
+
                 PDFModelUi.State.PASS -> {
                     canvas6.drawBitmap(
                         scaledBitmap6,
@@ -463,16 +468,19 @@ class PDFActivity : ComponentActivity() {
             when (it.additionalInfo) {
                 null -> { /* do nothing */
                 }
+
                 else -> canvas1.drawText(it.additionalInfo, 782F, 955F, textPaint)
             }
             when (it.additionalInfo2) {
                 null -> { /* do nothing */
                 }
+
                 else -> canvas1.drawText(it.additionalInfo2, 925F, 955F, textPaint)
             }
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
+
                 PDFModelUi.State.COMPLETE -> {
                     canvas5.drawBitmap(
                         scaledBitmap5,
@@ -482,6 +490,7 @@ class PDFActivity : ComponentActivity() {
                     )
                     wheelsOriginPositionY += 30f
                 }
+
                 PDFModelUi.State.PASS -> {
                     canvas6.drawBitmap(
                         scaledBitmap6,
@@ -499,6 +508,7 @@ class PDFActivity : ComponentActivity() {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
+
                 PDFModelUi.State.COMPLETE -> {
                     canvas5.drawBitmap(
                         scaledBitmap5,
@@ -508,6 +518,7 @@ class PDFActivity : ComponentActivity() {
                     )
                     breaksOriginPositionY += 30f
                 }
+
                 PDFModelUi.State.PASS -> {
                     canvas6.drawBitmap(
                         scaledBitmap6,
@@ -525,6 +536,7 @@ class PDFActivity : ComponentActivity() {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
+
                 PDFModelUi.State.COMPLETE -> {
                     canvas5.drawBitmap(
                         scaledBitmap5,
@@ -534,6 +546,7 @@ class PDFActivity : ComponentActivity() {
                     )
                     suspensionsOriginPositionY += 30f
                 }
+
                 PDFModelUi.State.PASS -> {
                     canvas6.drawBitmap(
                         scaledBitmap6,
@@ -551,6 +564,7 @@ class PDFActivity : ComponentActivity() {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
+
                 PDFModelUi.State.COMPLETE -> {
                     canvas5.drawBitmap(
                         scaledBitmap5,
@@ -560,6 +574,7 @@ class PDFActivity : ComponentActivity() {
                     )
                     transmissionOriginPositionY += 30f
                 }
+
                 PDFModelUi.State.PASS -> {
                     canvas6.drawBitmap(
                         scaledBitmap6,
@@ -577,6 +592,7 @@ class PDFActivity : ComponentActivity() {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
+
                 PDFModelUi.State.COMPLETE -> {
                     canvas5.drawBitmap(
                         scaledBitmap5,
@@ -586,6 +602,7 @@ class PDFActivity : ComponentActivity() {
                     )
                     coolingOriginPositionY += 30f
                 }
+
                 PDFModelUi.State.PASS -> {
                     canvas6.drawBitmap(
                         scaledBitmap6,
@@ -621,6 +638,7 @@ class PDFActivity : ComponentActivity() {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
+
                 PDFModelUi.State.COMPLETE -> {
                     canvas7.drawBitmap(
                         scaledBitmap7,
@@ -630,6 +648,7 @@ class PDFActivity : ComponentActivity() {
                     )
                     engineOriginPositionY += 30f
                 }
+
                 PDFModelUi.State.PASS -> {
                     canvas8.drawBitmap(
                         scaledBitmap8,
@@ -647,6 +666,7 @@ class PDFActivity : ComponentActivity() {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
+
                 PDFModelUi.State.COMPLETE -> {
                     canvas7.drawBitmap(
                         scaledBitmap7,
@@ -656,6 +676,7 @@ class PDFActivity : ComponentActivity() {
                     )
                     poweringOriginPositionY += 30f
                 }
+
                 PDFModelUi.State.PASS -> {
                     canvas8.drawBitmap(
                         scaledBitmap8,
@@ -673,6 +694,7 @@ class PDFActivity : ComponentActivity() {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
+
                 PDFModelUi.State.COMPLETE -> {
                     canvas7.drawBitmap(
                         scaledBitmap7,
@@ -682,6 +704,7 @@ class PDFActivity : ComponentActivity() {
                     )
                     clutchOriginPositionY += 30f
                 }
+
                 PDFModelUi.State.PASS -> {
                     canvas8.drawBitmap(
                         scaledBitmap8,
@@ -699,6 +722,7 @@ class PDFActivity : ComponentActivity() {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
+
                 PDFModelUi.State.COMPLETE -> {
                     canvas7.drawBitmap(
                         scaledBitmap7,
@@ -708,6 +732,7 @@ class PDFActivity : ComponentActivity() {
                     )
                     othersOriginPositionY += 30f
                 }
+
                 PDFModelUi.State.PASS -> {
                     canvas8.drawBitmap(
                         scaledBitmap8,
@@ -725,6 +750,7 @@ class PDFActivity : ComponentActivity() {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
+
                 PDFModelUi.State.COMPLETE -> {
                     canvas7.drawBitmap(
                         scaledBitmap7,
@@ -734,6 +760,7 @@ class PDFActivity : ComponentActivity() {
                     )
                     electricOriginPositionY += 31f
                 }
+
                 PDFModelUi.State.PASS -> {
                     canvas8.drawBitmap(
                         scaledBitmap8,
@@ -751,6 +778,7 @@ class PDFActivity : ComponentActivity() {
             when (it.stepStateUseCaseModel) {
                 PDFModelUi.State.NONE -> { /* nothing to do */
                 }
+
                 PDFModelUi.State.COMPLETE -> {
                     canvas7.drawBitmap(
                         scaledBitmap7,
@@ -760,6 +788,7 @@ class PDFActivity : ComponentActivity() {
                     )
                     steeringOriginPositionY += 30f
                 }
+
                 PDFModelUi.State.PASS -> {
                     canvas8.drawBitmap(
                         scaledBitmap8,
@@ -851,12 +880,12 @@ class PDFActivity : ComponentActivity() {
 
         val tab = "10"
         val quantieme = "001"
-        val anneeFormat2 = SimpleDateFormat ("y",Locale.FRANCE)
+        val anneeFormat2 = SimpleDateFormat("y", Locale.FRANCE)
         val currentannee = anneeFormat2.format(Date())
         val dataFormat3 = SimpleDateFormat("hh:mm", Locale.FRANCE)
         val currentDate2 = dataFormat3.format(Date())
         val dataFormat2 = SimpleDateFormat("dd/MM/yyyyhh:mm:ss", Locale.FRANCE)
-        val currentDate = dataFormat2.format(Date())
+        val currentDate = motorcycleForm.value.startDate
         val chassis = motorcycleForm.value.chassis
         val position = motorcycleForm.value.positionNumber
         val path = context.getExternalFilesDir(null)
@@ -864,8 +893,11 @@ class PDFActivity : ComponentActivity() {
         letDirectory.mkdirs()
         val fileName = "$chassis $position.txt"
         val file = File(letDirectory, fileName)
-       file.appendText("HFTP START PDIINFO" + "\n$tab$currentannee$quantieme$currentDate2$currentDate$chassis $position   $currentDate+207" + "\nHFTP END PDIINFO")
-
+        file.appendText(
+            "HFTP START PDIINFO" +
+                    "\n$tab$currentannee$quantieme$currentDate2$currentDate$chassis $position   $currentDate+207" +
+                    "\nHFTP END PDIINFO"
+        )
     }
 
     fun uploadFileToFtp(
@@ -879,23 +911,23 @@ class PDFActivity : ComponentActivity() {
             //Do some Network Request
             val ftpClient = FTPClient()
             ftpClient.connect("ftp-t.honda-eu.com")
-            val isLogged = ftpClient.login("900-TMORY-FTPUSER","75k58DWP")
+            val isLogged = ftpClient.login("900-TMORY-FTPUSER", "75k58DWP")
             Log.e("PDF Activity", "FTP is logged: $isLogged")
             ftpClient.login("900-TMORY-FTPUSER", "75k58DWP")
             ftpClient.enterLocalPassiveMode()
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE)
             ftpClient.changeWorkingDirectory("testupload")
 
-        val path = context.getExternalFilesDir(null)
-        val letDirectory = File(path, "TXTPDI")
-        val chassis = motorcycleForm.value.chassis
-        val position = motorcycleForm.value.positionNumber
-        val file = File(letDirectory, "$chassis $position.txt")
-        val inputStream = FileInputStream(file)
+            val path = context.getExternalFilesDir(null)
+            val letDirectory = File(path, "TXTPDI")
+            val chassis = motorcycleForm.value.chassis
+            val position = motorcycleForm.value.positionNumber
+            val file = File(letDirectory, "$chassis $position.txt")
+            val inputStream = FileInputStream(file)
 
-        val fileName = File(letDirectory, "$chassis $position.txt")
-        ftpClient.storeFile(fileName.toString(), inputStream)
-        inputStream.close()
+            val fileName = File(letDirectory, "$chassis $position.txt")
+            ftpClient.storeFile(fileName.toString(), inputStream)
+            inputStream.close()
 
             ftpClient.logout()
             ftpClient.disconnect()

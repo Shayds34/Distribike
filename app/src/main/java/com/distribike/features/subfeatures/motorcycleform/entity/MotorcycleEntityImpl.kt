@@ -20,7 +20,8 @@ class MotorcycleEntityImpl @Inject constructor() : MotorcycleEntity {
             chassis = model.chassis,
             concessionName = model.concessionName,
             concessionCode = model.concessionCode,
-            positionNumber = model.positionNumber
+            positionNumber = model.positionNumber,
+            startDate = model.startDate
         )
     }
 
@@ -31,7 +32,8 @@ class MotorcycleEntityImpl @Inject constructor() : MotorcycleEntity {
             chassis = null,
             concessionName = null,
             concessionCode = null,
-            positionNumber = null
+            positionNumber = null,
+            startDate = null
         )
     }
 

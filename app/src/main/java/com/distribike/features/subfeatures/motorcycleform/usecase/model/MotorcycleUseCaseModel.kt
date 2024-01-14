@@ -7,5 +7,6 @@ data class MotorcycleUseCaseModel(
     val chassis: String,
     val concessionName: String,
     val concessionCode: String,
-    val positionNumber: String
+    val positionNumber: String,
+    val startDate: String
 )
