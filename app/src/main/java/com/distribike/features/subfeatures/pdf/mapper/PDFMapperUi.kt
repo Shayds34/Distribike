@@ -149,7 +149,8 @@ class PDFMapperUi @Inject constructor() {
             chassis = model.chassis,
             concessionName = model.concessionName,
             concessionCode = model.concessionCode,
-            positionNumber = model.positionNumber
+            positionNumber = model.positionNumber,
+            startDate = model.startDate
         )
     }
 }

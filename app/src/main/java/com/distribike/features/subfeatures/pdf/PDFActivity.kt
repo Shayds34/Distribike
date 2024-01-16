@@ -8,12 +8,14 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.graphics.pdf.PdfDocument
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -46,6 +48,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 
 @AndroidEntryPoint
@@ -871,6 +874,19 @@ class PDFActivity : ComponentActivity() {
 
     }
 
+    private fun  mapDayOfYear(dayOfYear: Int):
+            String {
+        return if (dayOfYear < 10) {
+            "00$dayOfYear"
+        } else if (dayOfYear < 100) {
+            "0$dayOfYear"
+        } else {
+            dayOfYear.toString()
+        }
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun GenerateTXT(
         context: Context,
         motorcycleForm: State<MotorcycleFormModelUi>
@@ -878,14 +894,22 @@ class PDFActivity : ComponentActivity() {
         Log.e("PDF Activity", "GenerateTXT MotorCycleForm $motorcycleForm")
 
 
-        val tab = "10"
-        val quantieme = "001"
-        val anneeFormat2 = SimpleDateFormat("y", Locale.FRANCE)
-        val currentannee = anneeFormat2.format(Date())
-        val dataFormat3 = SimpleDateFormat("hh:mm", Locale.FRANCE)
-        val currentDate2 = dataFormat3.format(Date())
+        val tab = Build.DEVICE.takeLast(2)
+
+        val today = LocalDate.now()
+        val dayOfYear = mapDayOfYear(today.dayOfYear)
+
+        val anneeFormat2 = SimpleDateFormat("yyyy", Locale.FRANCE)
+        val currentannee = anneeFormat2.format(Date()).takeLast(1)
+
+        val dataFormat3 = SimpleDateFormat("hhmm", Locale.FRANCE)
+        val currenthhmm = dataFormat3.format(Date())
+
         val dataFormat2 = SimpleDateFormat("dd/MM/yyyyhh:mm:ss", Locale.FRANCE)
-        val currentDate = motorcycleForm.value.startDate
+        val currentDatefin = dataFormat2.format(Date())
+
+        val currentDatedeb = motorcycleForm.value.startDate
+
         val chassis = motorcycleForm.value.chassis
         val position = motorcycleForm.value.positionNumber
         val path = context.getExternalFilesDir(null)
@@ -895,7 +919,7 @@ class PDFActivity : ComponentActivity() {
         val file = File(letDirectory, fileName)
         file.appendText(
             "HFTP START PDIINFO" +
-                    "\n$tab$currentannee$quantieme$currentDate2$currentDate$chassis $position   $currentDate+207" +
+                    "\n$tab$currentannee$dayOfYear$currenthhmm$currentDatedeb$chassis"+"207 "+ "$position   $currentDatefin" +
                     "\nHFTP END PDIINFO"
         )
     }

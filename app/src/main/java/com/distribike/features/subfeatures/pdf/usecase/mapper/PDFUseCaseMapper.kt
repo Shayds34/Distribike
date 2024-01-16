@@ -148,7 +148,8 @@ class PDFUseCaseMapper @Inject constructor() {
             chassis = result.chassis ?: "",
             concessionName = result.concessionName ?: "",
             concessionCode = result.concessionCode ?: "",
-            positionNumber = result.positionNumber ?: ""
+            positionNumber = result.positionNumber ?: "",
+            startDate = result.startDate ?:""
         )
     }
 }
