@@ -915,7 +915,7 @@ class PDFActivity : ComponentActivity() {
         val path = context.getExternalFilesDir(null)
         val letDirectory = File(path, "TXTPDI")
         letDirectory.mkdirs()
-        val fileName = "$chassis $position.txt"
+        val fileName = "$chassis$position.txt"
         val file = File(letDirectory, fileName)
         file.appendText(
             "HFTP START PDIINFO" +
@@ -946,11 +946,11 @@ class PDFActivity : ComponentActivity() {
             val letDirectory = File(path, "TXTPDI")
             val chassis = motorcycleForm.value.chassis
             val position = motorcycleForm.value.positionNumber
-            val file = File(letDirectory, "$chassis $position.txt")
+            val file = File(letDirectory, "$chassis$position.txt")
             val inputStream = FileInputStream(file)
 
-            val fileName = File(letDirectory, "$chassis $position.txt")
-            ftpClient.storeFile(fileName.toString(), inputStream)
+            val fileName = File(letDirectory, "$chassis$position.txt")
+            ftpClient.storeFile(fileName.name, inputStream)
             inputStream.close()
 
             ftpClient.logout()
